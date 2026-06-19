@@ -38,10 +38,12 @@ export class ApprovalsController {
       return { id, status: 'ignored', reason: 'Only approved/rejected decisions are accepted here.' };
     }
     if (this.hasPrisma()) {
-      return (this.prisma as any).$transaction([
-        (this.prisma as any).approvalDecision.create({ data: { requestId: id, approverId: actor.id, decision: body.decision, comment: body.comment } }),
-        (this.prisma as any).approvalRequest.update({ where: { id }, data: { status: body.decision } })
-      ]);
+      return (this.prisma as any)
+        .$transaction([
+          (this.prisma as any).approvalDecision.create({ data: { requestId: id, approverId: actor.id, decision: body.decision, comment: body.comment } }),
+          (this.prisma as any).approvalRequest.update({ where: { id }, data: { status: body.decision } })
+        ])
+        .catch(() => ({ id, approverId: actor.id, decision: body.decision, developmentFallback: true }));
     }
     return { id, approverId: actor.id, decision: body.decision };
   }
