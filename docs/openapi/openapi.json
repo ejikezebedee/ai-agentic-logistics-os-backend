@@ -1,0 +1,1637 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/auth/refresh": {
+      "post": {
+        "operationId": "AuthController_refresh",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/auth/password-reset/request": {
+      "post": {
+        "operationId": "AuthController_requestPasswordReset",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/auth/password-reset/complete": {
+      "post": {
+        "operationId": "AuthController_completePasswordReset",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/auth/sessions": {
+      "get": {
+        "operationId": "AuthController_sessions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/auth/sessions/{id}": {
+      "delete": {
+        "operationId": "AuthController_invalidateSession",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/auth/2fa/setup": {
+      "post": {
+        "operationId": "AuthController_beginTwoFactorSetup",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/auth/2fa/verify": {
+      "post": {
+        "operationId": "AuthController_verifyTwoFactor",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/users": {
+      "get": {
+        "operationId": "UsersController_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/roles": {
+      "get": {
+        "operationId": "RolesController_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "roles"
+        ]
+      }
+    },
+    "/audit": {
+      "get": {
+        "operationId": "AuditController_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "audit"
+        ]
+      }
+    },
+    "/audit/{id}": {
+      "delete": {
+        "operationId": "AuditController_delete",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "audit"
+        ]
+      }
+    },
+    "/ledger": {
+      "get": {
+        "operationId": "LedgerController_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ledger"
+        ]
+      }
+    },
+    "/ledger/entries": {
+      "post": {
+        "operationId": "LedgerController_append",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ledger"
+        ]
+      }
+    },
+    "/ledger/entries/{id}": {
+      "patch": {
+        "operationId": "LedgerController_update",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ledger"
+        ]
+      },
+      "delete": {
+        "operationId": "LedgerController_delete",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ledger"
+        ]
+      }
+    },
+    "/orders": {
+      "post": {
+        "operationId": "OrdersController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/orders/{id}": {
+      "get": {
+        "operationId": "OrdersController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "orders"
+        ]
+      }
+    },
+    "/shipments": {
+      "post": {
+        "operationId": "ShipmentsController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "shipments"
+        ]
+      }
+    },
+    "/shipments/{id}/next-states": {
+      "get": {
+        "operationId": "ShipmentsController_nextStates",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "shipments"
+        ]
+      }
+    },
+    "/shipments/{id}": {
+      "get": {
+        "operationId": "ShipmentsController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "shipments"
+        ]
+      }
+    },
+    "/warehouse/packages/{id}": {
+      "get": {
+        "operationId": "WarehouseController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "warehouse"
+        ]
+      }
+    },
+    "/warehouse/pick/start": {
+      "post": {
+        "operationId": "WarehouseController_startPick",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "warehouse"
+        ]
+      }
+    },
+    "/warehouse/scan": {
+      "post": {
+        "operationId": "WarehouseController_scan",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "warehouse"
+        ]
+      }
+    },
+    "/warehouse/pack": {
+      "post": {
+        "operationId": "WarehouseController_pack",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "warehouse"
+        ]
+      }
+    },
+    "/warehouse/label": {
+      "post": {
+        "operationId": "WarehouseController_label",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "warehouse"
+        ]
+      }
+    },
+    "/warehouse/stage": {
+      "post": {
+        "operationId": "WarehouseController_stage",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "warehouse"
+        ]
+      }
+    },
+    "/warehouse/ready-for-dispatch": {
+      "post": {
+        "operationId": "WarehouseController_ready",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "warehouse"
+        ]
+      }
+    },
+    "/disponent/queue": {
+      "get": {
+        "operationId": "DisponentController_queue",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "disponent"
+        ]
+      }
+    },
+    "/disponent/live-map": {
+      "get": {
+        "operationId": "DisponentController_liveMap",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "disponent"
+        ]
+      }
+    },
+    "/disponent/exceptions": {
+      "get": {
+        "operationId": "DisponentController_exceptions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "disponent"
+        ]
+      }
+    },
+    "/disponent/tour-plans": {
+      "post": {
+        "operationId": "DisponentController_createTourPlan",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "disponent"
+        ]
+      }
+    },
+    "/disponent/tour-plans/{id}/approve": {
+      "post": {
+        "operationId": "DisponentController_approveTourPlan",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "disponent"
+        ]
+      }
+    },
+    "/disponent/tour-plans/{id}/reject": {
+      "post": {
+        "operationId": "DisponentController_rejectTourPlan",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "disponent"
+        ]
+      }
+    },
+    "/disponent/assign-driver": {
+      "post": {
+        "operationId": "DisponentController_assignDriver",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "disponent"
+        ]
+      }
+    },
+    "/disponent/reassign-driver": {
+      "post": {
+        "operationId": "DisponentController_reassignDriver",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "disponent"
+        ]
+      }
+    },
+    "/disponent/assign-carrier": {
+      "post": {
+        "operationId": "DisponentController_assignCarrier",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "disponent"
+        ]
+      }
+    },
+    "/disponent/exceptions/{id}/resolve": {
+      "post": {
+        "operationId": "DisponentController_resolveException",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "disponent"
+        ]
+      }
+    },
+    "/driver/jobs": {
+      "get": {
+        "operationId": "DriverController_jobs",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "drivers"
+        ]
+      }
+    },
+    "/driver/jobs/{id}/accept": {
+      "post": {
+        "operationId": "DriverController_accept",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "drivers"
+        ]
+      }
+    },
+    "/driver/jobs/{id}/reject": {
+      "post": {
+        "operationId": "DriverController_reject",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "drivers"
+        ]
+      }
+    },
+    "/driver/pickup/{shipmentId}/complete": {
+      "post": {
+        "operationId": "DriverController_pickup",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "drivers"
+        ]
+      }
+    },
+    "/driver/delivery/{shipmentId}/attempt": {
+      "post": {
+        "operationId": "DriverController_attempt",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "drivers"
+        ]
+      }
+    },
+    "/driver/delivery/{shipmentId}/complete": {
+      "post": {
+        "operationId": "DriverController_complete",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "drivers"
+        ]
+      }
+    },
+    "/driver/location": {
+      "post": {
+        "operationId": "DriverController_location",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "drivers"
+        ]
+      }
+    },
+    "/driver/earnings": {
+      "get": {
+        "operationId": "DriverController_earnings",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "drivers"
+        ]
+      }
+    },
+    "/payments/refunds": {
+      "post": {
+        "operationId": "PaymentsController_refund",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "payments"
+        ]
+      }
+    },
+    "/escrow/release": {
+      "post": {
+        "operationId": "EscrowController_release",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "escrow"
+        ]
+      }
+    },
+    "/disputes/evidence": {
+      "post": {
+        "operationId": "DisputesController_addEvidence",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "disputes"
+        ]
+      }
+    },
+    "/disputes/{id}/resolve": {
+      "post": {
+        "operationId": "DisputesController_resolve",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "disputes"
+        ]
+      }
+    },
+    "/tracking/{shipmentId}": {
+      "get": {
+        "operationId": "TrackingController_timeline",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "tracking"
+        ]
+      }
+    },
+    "/tracking/events": {
+      "post": {
+        "operationId": "TrackingController_append",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "tracking"
+        ]
+      }
+    },
+    "/tracking/{shipmentId}/events/{id}": {
+      "delete": {
+        "operationId": "TrackingController_delete",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "tracking"
+        ]
+      }
+    },
+    "/ai/agents": {
+      "get": {
+        "operationId": "AiController_agents",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ai"
+        ]
+      }
+    },
+    "/ai/actions/authorize": {
+      "post": {
+        "operationId": "AiController_authorize",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ai"
+        ]
+      }
+    },
+    "/ai/providers": {
+      "post": {
+        "operationId": "AiController_createProvider",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ai"
+        ]
+      }
+    },
+    "/ai/order/validate": {
+      "post": {
+        "operationId": "AiController_validateOrder",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ai"
+        ]
+      }
+    },
+    "/ai/warehouse/readiness-check": {
+      "post": {
+        "operationId": "AiController_readiness",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ai"
+        ]
+      }
+    },
+    "/ai/disponent/tour-recommendations": {
+      "post": {
+        "operationId": "AiController_tourRecommendation",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ai"
+        ]
+      }
+    },
+    "/ai/route/eta": {
+      "post": {
+        "operationId": "AiController_eta",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ai"
+        ]
+      }
+    },
+    "/ai/route/reassignment": {
+      "post": {
+        "operationId": "AiController_reassignment",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ai"
+        ]
+      }
+    },
+    "/ai/exceptions/failed-pickup": {
+      "post": {
+        "operationId": "AiController_failedPickup",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ai"
+        ]
+      }
+    },
+    "/ai/exceptions/failed-delivery": {
+      "post": {
+        "operationId": "AiController_failedDelivery",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ai"
+        ]
+      }
+    },
+    "/ai/finance/escrow-release-recommendation": {
+      "post": {
+        "operationId": "AiController_escrowRecommendation",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ai"
+        ]
+      }
+    },
+    "/ai/finance/refund-recommendation": {
+      "post": {
+        "operationId": "AiController_refundRecommendation",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ai"
+        ]
+      }
+    },
+    "/ai/disputes/evidence-summary": {
+      "post": {
+        "operationId": "AiController_evidenceSummary",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ai"
+        ]
+      }
+    },
+    "/documents/upload-reference": {
+      "post": {
+        "operationId": "DocumentsController_createReference",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "documents"
+        ]
+      }
+    },
+    "/documents": {
+      "get": {
+        "operationId": "DocumentsController_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "documents"
+        ]
+      }
+    },
+    "/notifications": {
+      "post": {
+        "operationId": "NotificationsController_enqueue",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "notifications"
+        ]
+      },
+      "get": {
+        "operationId": "NotificationsController_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "notifications"
+        ]
+      }
+    },
+    "/returns": {
+      "post": {
+        "operationId": "ReturnsController_request",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "returns"
+        ]
+      }
+    },
+    "/returns/{id}/status": {
+      "post": {
+        "operationId": "ReturnsController_updateStatus",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "returns"
+        ]
+      }
+    },
+    "/returns/{id}": {
+      "get": {
+        "operationId": "ReturnsController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "returns"
+        ]
+      }
+    },
+    "/approvals": {
+      "post": {
+        "operationId": "ApprovalsController_request",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "approvals"
+        ]
+      },
+      "get": {
+        "operationId": "ApprovalsController_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "approvals"
+        ]
+      }
+    },
+    "/approvals/{id}/decision": {
+      "post": {
+        "operationId": "ApprovalsController_decide",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "approvals"
+        ]
+      }
+    },
+    "/packages": {
+      "post": {
+        "operationId": "PackagesController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "packages"
+        ]
+      }
+    },
+    "/packages/{id}": {
+      "get": {
+        "operationId": "PackagesController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "packages"
+        ]
+      }
+    },
+    "/dispatch/assignments": {
+      "post": {
+        "operationId": "DispatchController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "dispatch"
+        ]
+      }
+    },
+    "/dispatch/assignments/{id}": {
+      "get": {
+        "operationId": "DispatchController_get",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "dispatch"
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "ObservabilityController_health",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "observability"
+        ]
+      }
+    },
+    "/readiness": {
+      "get": {
+        "operationId": "ObservabilityController_readiness",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "observability"
+        ]
+      }
+    },
+    "/metrics": {
+      "get": {
+        "operationId": "ObservabilityController_metrics",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "observability"
+        ]
+      }
+    },
+    "/queues/contracts": {
+      "get": {
+        "operationId": "QueuesController_contracts",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "queues"
+        ]
+      }
+    },
+    "/queues/enqueue": {
+      "post": {
+        "operationId": "QueuesController_enqueue",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "queues"
+        ]
+      }
+    },
+    "/queues/jobs": {
+      "get": {
+        "operationId": "QueuesController_jobs",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "queues"
+        ]
+      }
+    },
+    "/provider-adapters/health": {
+      "get": {
+        "operationId": "ProviderAdaptersController_health",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "provider-adapters"
+        ]
+      }
+    },
+    "/provider-adapters/catalog": {
+      "get": {
+        "operationId": "ProviderAdaptersController_catalog",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "provider-adapters"
+        ]
+      }
+    },
+    "/provider-adapters/storage/upload-reference": {
+      "post": {
+        "operationId": "ProviderAdaptersController_storage",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "provider-adapters"
+        ]
+      }
+    },
+    "/provider-adapters/payments/authorize": {
+      "post": {
+        "operationId": "ProviderAdaptersController_payment",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "provider-adapters"
+        ]
+      }
+    },
+    "/provider-adapters/maps/eta": {
+      "post": {
+        "operationId": "ProviderAdaptersController_eta",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "provider-adapters"
+        ]
+      }
+    },
+    "/provider-adapters/messaging/send": {
+      "post": {
+        "operationId": "ProviderAdaptersController_messaging",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "provider-adapters"
+        ]
+      }
+    },
+    "/provider-adapters/kyc/verify": {
+      "post": {
+        "operationId": "ProviderAdaptersController_kyc",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "provider-adapters"
+        ]
+      }
+    },
+    "/provider-adapters/carrier/shipments": {
+      "post": {
+        "operationId": "ProviderAdaptersController_carrier",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "provider-adapters"
+        ]
+      }
+    },
+    "/provider-adapters/erp/ledger-events": {
+      "post": {
+        "operationId": "ProviderAdaptersController_erp",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "provider-adapters"
+        ]
+      }
+    },
+    "/provider-adapters/webhooks/verify-signature": {
+      "post": {
+        "operationId": "ProviderAdaptersController_verifyWebhook",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "provider-adapters"
+        ]
+      }
+    },
+    "/meta/version": {
+      "get": {
+        "operationId": "MetaController_version",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "meta"
+        ]
+      }
+    },
+    "/meta/contract": {
+      "get": {
+        "operationId": "MetaController_contract",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "meta"
+        ]
+      }
+    },
+    "/merchants": {
+      "get": {
+        "operationId": "GenericResourceController_list[0]",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "modular-resource-contracts"
+        ]
+      },
+      "post": {
+        "operationId": "GenericResourceController_create[0]",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "modular-resource-contracts"
+        ]
+      }
+    },
+    "/customers": {
+      "get": {
+        "operationId": "GenericResourceController_list[1]",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "modular-resource-contracts"
+        ]
+      },
+      "post": {
+        "operationId": "GenericResourceController_create[1]",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "modular-resource-contracts"
+        ]
+      }
+    },
+    "/inventory": {
+      "get": {
+        "operationId": "GenericResourceController_list[2]",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "modular-resource-contracts"
+        ]
+      },
+      "post": {
+        "operationId": "GenericResourceController_create[2]",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "modular-resource-contracts"
+        ]
+      }
+    },
+    "/routes": {
+      "get": {
+        "operationId": "GenericResourceController_list[3]",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "modular-resource-contracts"
+        ]
+      },
+      "post": {
+        "operationId": "GenericResourceController_create[3]",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "modular-resource-contracts"
+        ]
+      }
+    },
+    "/fleet": {
+      "get": {
+        "operationId": "GenericResourceController_list[4]",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "modular-resource-contracts"
+        ]
+      },
+      "post": {
+        "operationId": "GenericResourceController_create[4]",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "modular-resource-contracts"
+        ]
+      }
+    },
+    "/carriers": {
+      "get": {
+        "operationId": "GenericResourceController_list[5]",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "modular-resource-contracts"
+        ]
+      },
+      "post": {
+        "operationId": "GenericResourceController_create[5]",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "modular-resource-contracts"
+        ]
+      }
+    },
+    "/analytics": {
+      "get": {
+        "operationId": "GenericResourceController_list[6]",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "modular-resource-contracts"
+        ]
+      },
+      "post": {
+        "operationId": "GenericResourceController_create[6]",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "modular-resource-contracts"
+        ]
+      }
+    },
+    "/admin": {
+      "get": {
+        "operationId": "GenericResourceController_list[7]",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "modular-resource-contracts"
+        ]
+      },
+      "post": {
+        "operationId": "GenericResourceController_create[7]",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "modular-resource-contracts"
+        ]
+      }
+    },
+    "/compliance": {
+      "get": {
+        "operationId": "GenericResourceController_list[8]",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "modular-resource-contracts"
+        ]
+      },
+      "post": {
+        "operationId": "GenericResourceController_create[8]",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "modular-resource-contracts"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "AI-Agentic Smart Logistics Operating System API",
+    "description": "Industrial modular monolith API contract.",
+    "version": "0.1.0-rc.1",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {}
+  }
+}

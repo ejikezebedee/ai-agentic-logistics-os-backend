@@ -1,0 +1,1176 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RoleCode {
+  customer
+  merchant
+  shipper
+  warehouse_staff
+  warehouse_manager
+  driver
+  fleet_manager
+  carrier
+  freight_forwarder
+  logistic_disponent
+  support_agent
+  finance_admin
+  compliance_admin
+  super_admin
+  ai_agent
+}
+
+enum UserStatus {
+  invited
+  active
+  suspended
+  anonymized
+  deleted
+}
+
+enum OrderStatus {
+  draft
+  quoted
+  booked
+  payment_pending
+  payment_authorized
+  inventory_reserved
+  warehouse_processing
+  ready_for_dispatch
+  transport_planned
+  driver_assigned
+  picked_up
+  in_transit
+  out_for_delivery
+  delivery_attempted
+  delivered
+  proof_accepted
+  settlement_pending
+  completed
+  cancelled
+}
+
+enum ShipmentStatus {
+  created
+  awaiting_dispatch
+  planned
+  assigned
+  pickup_scheduled
+  picked_up
+  in_transit
+  at_hub
+  sorted
+  out_for_delivery
+  delivered
+  failed
+  returned
+  lost
+  damaged
+}
+
+enum PackageStatus {
+  created
+  reserved
+  picking
+  scanned
+  packed
+  label_generated
+  staged
+  ready_for_dispatch
+  dispatched
+  delivered
+  returned
+  quarantined
+  damaged
+  lost
+}
+
+enum PaymentStatus {
+  not_required
+  pending
+  authorized
+  captured
+  held_in_escrow
+  partially_released
+  released
+  refunded
+  partially_refunded
+  chargeback
+  failed
+}
+
+enum DisputeStatus {
+  none
+  opened
+  evidence_collecting
+  under_review
+  decision_pending
+  resolved_customer
+  resolved_merchant
+  resolved_driver
+  resolved_platform
+  closed
+}
+
+enum ReturnStatus {
+  return_requested
+  return_approved
+  return_rejected
+  return_pickup_planned
+  return_picked_up
+  return_received
+  inspection_pending
+  refund_pending
+  refund_completed
+  restocked
+  discarded
+  closed
+}
+
+enum AiRiskLevel {
+  L1_LOW
+  L2_MEDIUM
+  L3_HIGH
+  L4_CRITICAL
+  L5_PROHIBITED
+}
+
+enum ApprovalStatus {
+  pending
+  approved
+  rejected
+  expired
+  cancelled
+}
+
+enum LedgerEntryType {
+  debit
+  credit
+  reversal
+  correction
+  escrow_hold
+  escrow_release
+  refund
+  payout
+  commission
+}
+
+enum CustodyType {
+  customer
+  merchant
+  warehouse
+  driver
+  carrier
+  platform
+  unknown
+}
+
+enum InventoryState {
+  available
+  reserved
+  picked
+  packed
+  shipped
+  returned
+  damaged
+  quarantined
+  discarded
+}
+
+model User {
+  id                 String              @id @default(cuid())
+  email              String              @unique
+  passwordHash       String
+  displayName        String?
+  phone              String?
+  status             UserStatus          @default(active)
+  twoFactorEnabled   Boolean             @default(false)
+  lastLoginAt        DateTime?
+  anonymizedAt       DateTime?
+  deletedAt          DateTime?
+  createdAt          DateTime            @default(now())
+  updatedAt          DateTime            @updatedAt
+  roles              UserRole[]
+  sessions           Session[]
+  passwordResetTokens PasswordResetToken[]
+  twoFactorChallenges TwoFactorChallenge[]
+  customer           Customer?
+  merchant           Merchant?
+  driver             Driver?
+  disponent          Disponent?
+  warehouseStaff     WarehouseStaff?
+  fleetManager       FleetManager?
+  auditLogs          AuditLog[]          @relation("AuditActor")
+  securityEvents     SecurityEvent[]
+  approvalDecisions  ApprovalDecision[]
+  proofAccessLogs    ProofAccessLog[]
+
+  @@map("users")
+}
+
+model Session {
+  id               String    @id @default(cuid())
+  userId           String
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refreshTokenHash String
+  revokedAt        DateTime?
+  expiresAt        DateTime
+  createdAt        DateTime  @default(now())
+  rotatedAt        DateTime?
+
+  @@index([userId])
+  @@map("sessions")
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String   @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId, expiresAt])
+  @@map("password_reset_tokens")
+}
+
+model TwoFactorChallenge {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  method    String
+  status    String   @default("pending")
+  expiresAt DateTime
+  verifiedAt DateTime?
+  createdAt DateTime @default(now())
+
+  @@index([userId, status])
+  @@map("two_factor_challenges")
+}
+
+model Role {
+  id          String           @id @default(cuid())
+  code        RoleCode         @unique
+  name        String
+  description String?
+  createdAt   DateTime         @default(now())
+  users       UserRole[]
+  permissions RolePermission[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id          String           @id @default(cuid())
+  code        String           @unique
+  description String?
+  roles       RolePermission[]
+
+  @@map("permissions")
+}
+
+model UserRole {
+  userId    String
+  roleId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role      Role     @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@id([userId, roleId])
+  @@map("user_roles")
+}
+
+model RolePermission {
+  roleId       String
+  permissionId String
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  kycStatus String   @default("not_started")
+  metadata  Json?
+  orders    Order[]
+  returns   Return[]
+  disputes  Dispute[]
+  createdAt DateTime @default(now())
+
+  @@map("customers")
+}
+
+model Merchant {
+  id          String    @id @default(cuid())
+  userId      String    @unique
+  user        User      @relation(fields: [userId], references: [id])
+  businessName String
+  kycStatus   String    @default("not_started")
+  products    Product[]
+  orders      Order[]
+  createdAt   DateTime  @default(now())
+
+  @@map("merchants")
+}
+
+model Driver {
+  id            String    @id @default(cuid())
+  userId        String    @unique
+  user          User      @relation(fields: [userId], references: [id])
+  status        String    @default("offline")
+  licenseNumber String?
+  vehicleId     String?
+  vehicle       Vehicle?  @relation(fields: [vehicleId], references: [id])
+  assignments   DispatchAssignment[]
+  createdAt     DateTime  @default(now())
+
+  @@map("drivers")
+}
+
+model Disponent {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  region    String?
+  createdAt DateTime @default(now())
+
+  @@map("disponents")
+}
+
+model WarehouseStaff {
+  id          String     @id @default(cuid())
+  userId      String     @unique
+  user        User       @relation(fields: [userId], references: [id])
+  warehouseId String?
+  warehouse   Warehouse? @relation(fields: [warehouseId], references: [id])
+  createdAt   DateTime   @default(now())
+
+  @@map("warehouse_staff")
+}
+
+model FleetManager {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@map("fleet_managers")
+}
+
+model Carrier {
+  id          String     @id @default(cuid())
+  name        String
+  apiCode     String?
+  status      String     @default("active")
+  vehicles    Vehicle[]
+  assignments DispatchAssignment[]
+  createdAt   DateTime   @default(now())
+
+  @@map("carriers")
+}
+
+model Vehicle {
+  id             String    @id @default(cuid())
+  carrierId      String?
+  carrier        Carrier?  @relation(fields: [carrierId], references: [id])
+  plateNumber    String    @unique
+  vehicleType    String
+  capacityKg     Decimal?  @db.Decimal(12, 2)
+  capacityVolume Decimal?  @db.Decimal(12, 4)
+  status         String    @default("available")
+  drivers        Driver[]
+  assignments    DispatchAssignment[]
+
+  @@map("vehicles")
+}
+
+model Warehouse {
+  id        String           @id @default(cuid())
+  name      String
+  code      String           @unique
+  address   Json
+  zones     WarehouseZone[]
+  staff     WarehouseStaff[]
+  bins      Bin[]
+  createdAt DateTime         @default(now())
+
+  @@map("warehouses")
+}
+
+model WarehouseZone {
+  id          String    @id @default(cuid())
+  warehouseId String
+  warehouse   Warehouse @relation(fields: [warehouseId], references: [id])
+  name        String
+  code        String
+  bins        Bin[]
+
+  @@unique([warehouseId, code])
+  @@map("warehouse_zones")
+}
+
+model Bin {
+  id          String        @id @default(cuid())
+  warehouseId String
+  warehouse   Warehouse     @relation(fields: [warehouseId], references: [id])
+  zoneId      String?
+  zone        WarehouseZone? @relation(fields: [zoneId], references: [id])
+  code        String
+  inventory   InventoryItem[]
+
+  @@unique([warehouseId, code])
+  @@map("bins")
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  merchantId  String
+  merchant    Merchant @relation(fields: [merchantId], references: [id])
+  name        String
+  description String?
+  skus        Sku[]
+  createdAt   DateTime @default(now())
+
+  @@map("products")
+}
+
+model Sku {
+  id             String          @id @default(cuid())
+  productId      String
+  product        Product         @relation(fields: [productId], references: [id])
+  code           String          @unique
+  barcode        String?
+  weightKg       Decimal?        @db.Decimal(12, 3)
+  dimensions     Json?
+  inventoryItems InventoryItem[]
+  orderItems     OrderItem[]
+
+  @@map("skus")
+}
+
+model InventoryItem {
+  id          String          @id @default(cuid())
+  skuId       String
+  sku         Sku             @relation(fields: [skuId], references: [id])
+  warehouseId String
+  binId       String?
+  bin         Bin?            @relation(fields: [binId], references: [id])
+  state       InventoryState  @default(available)
+  quantity    Int             @default(1)
+  lotCode     String?
+  movements   StockMovement[]
+  createdAt   DateTime        @default(now())
+
+  @@index([skuId, warehouseId, state])
+  @@map("inventory_items")
+}
+
+model StockMovement {
+  id              String        @id @default(cuid())
+  inventoryItemId String
+  inventoryItem   InventoryItem @relation(fields: [inventoryItemId], references: [id])
+  movementType    String
+  quantity        Int
+  fromState       InventoryState?
+  toState         InventoryState
+  referenceType   String
+  referenceId     String
+  actorId         String?
+  createdAt       DateTime      @default(now())
+
+  @@map("stock_movements")
+}
+
+model Order {
+  id             String          @id @default(cuid())
+  customerId     String
+  customer       Customer        @relation(fields: [customerId], references: [id])
+  merchantId     String
+  merchant       Merchant        @relation(fields: [merchantId], references: [id])
+  status         OrderStatus     @default(draft)
+  totalAmount    Decimal         @db.Decimal(12, 2)
+  currency       String          @default("EUR")
+  items          OrderItem[]
+  shipments      Shipment[]
+  payments       Payment[]
+  returns        Return[]
+  disputes       Dispute[]
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@index([status])
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  skuId     String
+  sku       Sku      @relation(fields: [skuId], references: [id])
+  quantity  Int
+  unitPrice Decimal  @db.Decimal(12, 2)
+
+  @@map("order_items")
+}
+
+model Shipment {
+  id              String               @id @default(cuid())
+  orderId         String
+  order           Order                @relation(fields: [orderId], references: [id])
+  status          ShipmentStatus       @default(created)
+  custodyType     CustodyType          @default(merchant)
+  custodyActorId  String?
+  responsibility  String?
+  currentLocation Json?
+  packages        Package[]
+  trackingEvents  TrackingEvent[]
+  packageEvents   PackageEvent[]
+  dispatches      DispatchAssignment[]
+  pickupAttempts  PickupAttempt[]
+  deliveryAttempts DeliveryAttempt[]
+  proofOfDelivery ProofOfDelivery?
+  exceptions      TransportException[]
+  routePlans      RoutePlan[]
+  returns         Return[]
+  disputes        Dispute[]
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @updatedAt
+
+  @@index([status])
+  @@map("shipments")
+}
+
+model Package {
+  id           String         @id @default(cuid())
+  shipmentId   String
+  shipment     Shipment       @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+  status       PackageStatus  @default(created)
+  barcode      String?        @unique
+  weightKg     Decimal?       @db.Decimal(12, 3)
+  dimensions   Json?
+  scannedAt    DateTime?
+  packedAt     DateTime?
+  stagedAt     DateTime?
+  events       PackageEvent[]
+  createdAt    DateTime       @default(now())
+
+  @@index([shipmentId, status])
+  @@map("packages")
+}
+
+model PackageEvent {
+  id          String    @id @default(cuid())
+  packageId   String
+  package     Package   @relation(fields: [packageId], references: [id])
+  shipmentId  String?
+  shipment    Shipment? @relation(fields: [shipmentId], references: [id])
+  eventCode   String
+  location    Json?
+  proofRef    String?
+  actorType   String
+  actorId     String?
+  metadata    Json?
+  createdAt   DateTime  @default(now())
+
+  @@index([packageId, createdAt])
+  @@map("package_events")
+}
+
+model TrackingEvent {
+  id                String    @id @default(cuid())
+  shipmentId        String
+  shipment          Shipment  @relation(fields: [shipmentId], references: [id])
+  packageId         String?
+  eventCode         String
+  occurredAt        DateTime  @default(now())
+  location          Json?
+  actorType         String
+  actorId           String?
+  proofRef          String?
+  nextAllowedStates Json?
+  metadata          Json?
+
+  @@index([shipmentId, occurredAt])
+  @@map("tracking_events")
+}
+
+model TourPlan {
+  id            String      @id @default(cuid())
+  disponentId   String?
+  status        String      @default("draft")
+  routeSummary  Json
+  aiRecommendationId String?
+  assignments   DispatchAssignment[]
+  routePlans    RoutePlan[]
+  createdAt     DateTime    @default(now())
+  approvedAt    DateTime?
+
+  @@map("tour_plans")
+}
+
+model RoutePlan {
+  id          String    @id @default(cuid())
+  shipmentId  String
+  shipment    Shipment  @relation(fields: [shipmentId], references: [id])
+  tourPlanId  String?
+  tourPlan    TourPlan?  @relation(fields: [tourPlanId], references: [id])
+  origin      Json
+  destination Json
+  waypoints   Json?
+  distanceKm  Decimal?  @db.Decimal(12, 3)
+  eta         DateTime?
+  source      String    @default("manual")
+  createdAt   DateTime  @default(now())
+
+  @@map("route_plans")
+}
+
+model DispatchAssignment {
+  id          String    @id @default(cuid())
+  shipmentId  String
+  shipment    Shipment  @relation(fields: [shipmentId], references: [id])
+  driverId    String?
+  driver      Driver?   @relation(fields: [driverId], references: [id])
+  vehicleId   String?
+  vehicle     Vehicle?  @relation(fields: [vehicleId], references: [id])
+  carrierId   String?
+  carrier     Carrier?  @relation(fields: [carrierId], references: [id])
+  tourPlanId  String?
+  tourPlan    TourPlan? @relation(fields: [tourPlanId], references: [id])
+  status      String    @default("assigned")
+  assignedBy  String
+  createdAt   DateTime  @default(now())
+
+  @@map("dispatch_assignments")
+}
+
+model PickupAttempt {
+  id          String    @id @default(cuid())
+  shipmentId  String
+  shipment    Shipment  @relation(fields: [shipmentId], references: [id])
+  driverId    String?
+  status      String
+  proof       Json?
+  reason      String?
+  attemptedAt DateTime  @default(now())
+
+  @@map("pickup_attempts")
+}
+
+model DeliveryAttempt {
+  id          String    @id @default(cuid())
+  shipmentId  String
+  shipment    Shipment  @relation(fields: [shipmentId], references: [id])
+  driverId    String?
+  status      String
+  proof       Json?
+  reason      String?
+  attemptedAt DateTime  @default(now())
+
+  @@map("delivery_attempts")
+}
+
+model ProofOfDelivery {
+  id              String    @id @default(cuid())
+  shipmentId      String    @unique
+  shipment        Shipment  @relation(fields: [shipmentId], references: [id])
+  driverId        String
+  gps             Json
+  customerOtpHash String?
+  photoObjectKey  String?
+  signatureObjectKey String?
+  packageScanCode String?
+  deliveryNote    String?
+  deviceMetadata  Json?
+  idCheckReference String?
+  acceptedAt      DateTime?
+  lockedAt        DateTime?
+  createdAt       DateTime  @default(now())
+  accessLogs      ProofAccessLog[]
+
+  @@map("proof_of_delivery")
+}
+
+model TransportException {
+  id          String    @id @default(cuid())
+  shipmentId  String
+  shipment    Shipment  @relation(fields: [shipmentId], references: [id])
+  type        String
+  severity    String
+  status      String    @default("open")
+  raisedByType String
+  raisedById   String?
+  resolvedBy   String?
+  resolution   Json?
+  createdAt    DateTime @default(now())
+  resolvedAt   DateTime?
+
+  @@map("transport_exceptions")
+}
+
+model Return {
+  id          String       @id @default(cuid())
+  orderId     String
+  order       Order        @relation(fields: [orderId], references: [id])
+  shipmentId  String?
+  shipment    Shipment?    @relation(fields: [shipmentId], references: [id])
+  customerId  String
+  customer    Customer     @relation(fields: [customerId], references: [id])
+  status      ReturnStatus @default(return_requested)
+  reason      String
+  inspection  Json?
+  refundId    String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@map("returns")
+}
+
+model Dispute {
+  id          String        @id @default(cuid())
+  orderId     String
+  order       Order         @relation(fields: [orderId], references: [id])
+  shipmentId  String?
+  shipment    Shipment?     @relation(fields: [shipmentId], references: [id])
+  customerId  String?
+  customer    Customer?     @relation(fields: [customerId], references: [id])
+  status      DisputeStatus @default(opened)
+  reason      String
+  evidence    DisputeEvidence[]
+  createdAt   DateTime      @default(now())
+  resolvedAt  DateTime?
+
+  @@map("disputes")
+}
+
+model DisputeEvidence {
+  id          String   @id @default(cuid())
+  disputeId   String
+  dispute     Dispute  @relation(fields: [disputeId], references: [id], onDelete: Cascade)
+  evidenceType String
+  objectKey   String?
+  metadata    Json?
+  submittedBy String?
+  lockedAt    DateTime?
+  createdAt   DateTime @default(now())
+
+  @@map("dispute_evidence")
+}
+
+model Payment {
+  id            String        @id @default(cuid())
+  orderId       String
+  order         Order         @relation(fields: [orderId], references: [id])
+  provider      String
+  providerRef   String?
+  status        PaymentStatus @default(pending)
+  amount        Decimal       @db.Decimal(12, 2)
+  currency      String        @default("EUR")
+  escrowAccount EscrowAccount?
+  refunds       Refund[]
+  createdAt     DateTime      @default(now())
+
+  @@map("payments")
+}
+
+model EscrowAccount {
+  id          String        @id @default(cuid())
+  paymentId   String        @unique
+  payment     Payment       @relation(fields: [paymentId], references: [id])
+  status      PaymentStatus @default(held_in_escrow)
+  balance     Decimal       @db.Decimal(12, 2)
+  currency    String        @default("EUR")
+  ledgerEntries LedgerEntry[]
+  createdAt   DateTime      @default(now())
+
+  @@map("escrow_accounts")
+}
+
+model LedgerEntry {
+  id              String          @id @default(cuid())
+  escrowAccountId String?
+  escrowAccount   EscrowAccount?  @relation(fields: [escrowAccountId], references: [id])
+  type            LedgerEntryType
+  accountId       String
+  amount          Decimal         @db.Decimal(12, 2)
+  currency        String
+  referenceType   String
+  referenceId     String
+  createdBy       String
+  metadata        Json?
+  createdAt       DateTime        @default(now())
+
+  @@index([accountId, createdAt])
+  @@map("ledger_entries")
+}
+
+model Payout {
+  id          String   @id @default(cuid())
+  recipientType String
+  recipientId String
+  amount      Decimal  @db.Decimal(12, 2)
+  currency    String
+  status      String   @default("pending")
+  approvedBy  String?
+  createdAt   DateTime @default(now())
+
+  @@map("payouts")
+}
+
+model Refund {
+  id          String   @id @default(cuid())
+  paymentId   String
+  payment     Payment  @relation(fields: [paymentId], references: [id])
+  amount      Decimal  @db.Decimal(12, 2)
+  currency    String
+  status      String   @default("pending")
+  ledgerEntryId String?
+  approvedBy  String?
+  createdAt   DateTime @default(now())
+
+  @@map("refunds")
+}
+
+model Commission {
+  id            String   @id @default(cuid())
+  referenceType String
+  referenceId   String
+  rateBasisPoints Int
+  amount        Decimal  @db.Decimal(12, 2)
+  currency      String
+  createdAt     DateTime @default(now())
+
+  @@map("commissions")
+}
+
+model Invoice {
+  id          String   @id @default(cuid())
+  accountType String
+  accountId   String
+  amount      Decimal  @db.Decimal(12, 2)
+  currency    String
+  status      String   @default("issued")
+  documentKey String?
+  createdAt   DateTime @default(now())
+
+  @@map("invoices")
+}
+
+model Notification {
+  id          String   @id @default(cuid())
+  channel     String
+  recipientType String
+  recipientId String
+  templateCode String
+  payload     Json
+  status      String   @default("queued")
+  sentAt      DateTime?
+  createdAt   DateTime @default(now())
+
+  @@map("notifications")
+}
+
+model Document {
+  id          String   @id @default(cuid())
+  ownerType   String
+  ownerId     String
+  objectKey   String
+  contentType String
+  checksum    String?
+  accessLevel String   @default("private")
+  createdAt   DateTime @default(now())
+
+  @@map("documents")
+}
+
+model WebhookEvent {
+  id          String   @id @default(cuid())
+  provider    String
+  eventType   String
+  externalId  String?
+  signatureValid Boolean @default(false)
+  payload     Json
+  processedAt DateTime?
+  createdAt   DateTime @default(now())
+
+  @@map("webhook_events")
+}
+
+model AiProvider {
+  id              String    @id @default(cuid())
+  ownerType       String
+  ownerId         String
+  providerName    String
+  baseUrl         String?
+  model           String
+  encryptedApiKey String
+  allowedAgents   Json
+  monthlyBudget   Decimal?  @db.Decimal(12, 2)
+  rateLimit       Json?
+  status          String    @default("active")
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  tasks           AiTask[]
+  toolCalls       AiToolCall[]
+
+  @@map("ai_providers")
+}
+
+model AiAgent {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  name        String
+  description String?
+  status      String   @default("active")
+  capabilities AiAgentCapability[]
+  tasks       AiTask[]
+  recommendations AiRecommendation[]
+
+  @@map("ai_agents")
+}
+
+model AiAgentCapability {
+  id        String  @id @default(cuid())
+  agentId   String
+  agent     AiAgent @relation(fields: [agentId], references: [id], onDelete: Cascade)
+  capabilityCode String
+  riskLevel AiRiskLevel
+  requiresApproval Boolean @default(false)
+
+  @@unique([agentId, capabilityCode])
+  @@map("ai_agent_capabilities")
+}
+
+model AiTask {
+  id          String     @id @default(cuid())
+  agentId     String
+  agent       AiAgent    @relation(fields: [agentId], references: [id])
+  providerId  String?
+  provider    AiProvider? @relation(fields: [providerId], references: [id])
+  taskType    String
+  status      String      @default("queued")
+  input       Json
+  result      Json?
+  contextSnapshots AiContextSnapshot[]
+  recommendations AiRecommendation[]
+  actionRequests AiActionRequest[]
+  toolCalls   AiToolCall[]
+  executionResults AiExecutionResult[]
+  feedback    AiFeedback[]
+  riskAssessments AiRiskAssessment[]
+  createdAt   DateTime    @default(now())
+
+  @@map("ai_tasks")
+}
+
+model AiContextSnapshot {
+  id        String  @id @default(cuid())
+  taskId    String
+  task      AiTask  @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  snapshot  Json
+  createdAt DateTime @default(now())
+
+  @@map("ai_context_snapshots")
+}
+
+model AiRecommendation {
+  id        String  @id @default(cuid())
+  taskId    String
+  task      AiTask  @relation(fields: [taskId], references: [id])
+  agentId   String
+  agent     AiAgent @relation(fields: [agentId], references: [id])
+  recommendation Json
+  riskLevel AiRiskLevel
+  createdAt DateTime @default(now())
+
+  @@map("ai_recommendations")
+}
+
+model AiActionRequest {
+  id          String      @id @default(cuid())
+  taskId      String
+  task        AiTask      @relation(fields: [taskId], references: [id])
+  actionCode  String
+  riskLevel   AiRiskLevel
+  status      ApprovalStatus @default(pending)
+  approvalGate AiApprovalGate?
+  createdAt   DateTime    @default(now())
+
+  @@map("ai_action_requests")
+}
+
+model AiToolCall {
+  id          String      @id @default(cuid())
+  taskId      String
+  task        AiTask      @relation(fields: [taskId], references: [id])
+  providerId  String?
+  provider    AiProvider? @relation(fields: [providerId], references: [id])
+  toolName    String
+  input       Json
+  output      Json?
+  costEstimate Decimal?   @db.Decimal(12, 6)
+  latencyMs   Int?
+  status      String      @default("pending")
+  createdAt   DateTime    @default(now())
+
+  @@map("ai_tool_calls")
+}
+
+model AiApprovalGate {
+  id              String          @id @default(cuid())
+  actionRequestId String          @unique
+  actionRequest   AiActionRequest @relation(fields: [actionRequestId], references: [id])
+  requiredRoles   Json
+  requiredApprovalCount Int
+  status          ApprovalStatus  @default(pending)
+  createdAt       DateTime        @default(now())
+
+  @@map("ai_approval_gates")
+}
+
+model AiExecutionResult {
+  id        String  @id @default(cuid())
+  taskId    String
+  task      AiTask  @relation(fields: [taskId], references: [id])
+  status    String
+  result    Json
+  createdAt DateTime @default(now())
+
+  @@map("ai_execution_results")
+}
+
+model AiFeedback {
+  id        String  @id @default(cuid())
+  taskId    String
+  task      AiTask  @relation(fields: [taskId], references: [id])
+  rating    Int?
+  notes     String?
+  createdAt DateTime @default(now())
+
+  @@map("ai_feedback")
+}
+
+model AiRiskAssessment {
+  id        String      @id @default(cuid())
+  taskId    String
+  task      AiTask      @relation(fields: [taskId], references: [id])
+  riskLevel AiRiskLevel
+  reasons   Json
+  createdAt DateTime    @default(now())
+
+  @@map("ai_risk_assessments")
+}
+
+model ApprovalRequest {
+  id          String          @id @default(cuid())
+  requesterType String
+  requesterId String
+  actionCode  String
+  riskLevel   AiRiskLevel?
+  status      ApprovalStatus  @default(pending)
+  context     Json
+  decisions   ApprovalDecision[]
+  createdAt   DateTime        @default(now())
+
+  @@map("approval_requests")
+}
+
+model ApprovalDecision {
+  id          String          @id @default(cuid())
+  requestId   String
+  request     ApprovalRequest @relation(fields: [requestId], references: [id], onDelete: Cascade)
+  approverId  String
+  approver    User            @relation(fields: [approverId], references: [id])
+  decision    ApprovalStatus
+  comment     String?
+  createdAt   DateTime        @default(now())
+
+  @@map("approval_decisions")
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  actorId     String?
+  actor       User?    @relation("AuditActor", fields: [actorId], references: [id])
+  actorType   String
+  action      String
+  targetType  String
+  targetId    String?
+  riskLevel   AiRiskLevel?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  @@index([targetType, targetId])
+  @@index([createdAt])
+  @@map("audit_logs")
+}
+
+model SecurityEvent {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  eventType String
+  severity  String
+  ipHash    String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@map("security_events")
+}
+
+model ManualOverride {
+  id        String   @id @default(cuid())
+  actorId   String
+  action    String
+  reason    String
+  approvalRequestId String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@map("manual_overrides")
+}
+
+model LedgerAuditEvent {
+  id        String   @id @default(cuid())
+  ledgerEntryId String?
+  eventType String
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@map("ledger_audit_events")
+}
+
+model ProofAccessLog {
+  id        String   @id @default(cuid())
+  proofId   String
+  proof     ProofOfDelivery @relation(fields: [proofId], references: [id])
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  purpose   String
+  createdAt DateTime @default(now())
+
+  @@map("proof_access_logs")
+}
+
+model RiskScore {
+  id          String   @id @default(cuid())
+  entityType  String
+  entityId    String
+  score       Int
+  reasons     Json
+  createdAt   DateTime @default(now())
+
+  @@index([entityType, entityId])
+  @@map("risk_scores")
+}
