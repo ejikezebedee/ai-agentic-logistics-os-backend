@@ -1,5 +1,5 @@
 import { Controller, Get, Optional, Param, Post, Body } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { DeliveryProofDto } from '../../common/dto';
 import { ProofTier, RoleCode, ShipmentStatus } from '../../common/domain.enums';
 import { Actor, RequestActor, Roles } from '../../common/auth.decorators';
@@ -49,6 +49,7 @@ export class ShipmentsController {
 
   @Post(':id/deliver')
   @Roles(RoleCode.DRIVER, RoleCode.LOGISTIC_DISPONENT, RoleCode.SUPER_ADMIN)
+  @ApiBody({ type: DeliveryProofDto })
   deliver(@Actor() actor: RequestActor, @Param('id') id: string, @Body() dto: DeliveryProofDto) {
     return this.operations.completeDelivery(actor.id, id, dto.tier ?? ProofTier.LOW_VALUE, dto);
   }

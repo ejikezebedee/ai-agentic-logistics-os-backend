@@ -13,7 +13,11 @@ async function bootstrap() {
   app.use(helmet());
   app.enableCors({
     origin: config.get<string>('CORS_ORIGIN')?.split(',') ?? true,
-    credentials: true
+    credentials: true,
+    methods: ['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Authorization', 'Content-Type', 'x-actor-id', 'x-actor-roles', 'x-actor-permissions', 'x-correlation-id'],
+    exposedHeaders: ['x-correlation-id'],
+    optionsSuccessStatus: 204
   });
   app.useGlobalPipes(
     new ValidationPipe({

@@ -16,6 +16,19 @@ Development auth accepts actor headers for integration testing:
 
 - `x-actor-id`
 - `x-actor-roles`
+- optional `x-actor-permissions`
+
+Integration tests may use either Bearer JWT auth from `POST /auth/login` or dev actor headers. Dev actor headers are accepted only as a development/mock integration mechanism and must not be enabled as a production identity boundary without a separate gateway control.
+
+## CORS For Frontend Dev
+
+The safe dev/mock API allows browser preflight for frontend development origins configured through `CORS_ORIGIN`.
+
+Required preflight support:
+
+- Methods: `GET`, `HEAD`, `POST`, `PUT`, `PATCH`, `DELETE`, `OPTIONS`
+- Headers: `Authorization`, `Content-Type`, `x-actor-id`, `x-actor-roles`, `x-actor-permissions`, `x-correlation-id`
+- Confirmed endpoint: `POST /ai/providers/:id/test`
 
 Production auth contract:
 
@@ -191,6 +204,14 @@ Regenerate:
 npm run openapi:export
 ```
 
+## Integration 7C Contract Repair Notes
+
+- Request schemas were tightened for auth, orders, dispatch assignment, returns, approvals, AI provider creation/test, and 2FA verification.
+- Known invalid request bodies now return the standard error envelope with `400` or `403`; backend crashes are not expected for the documented workflow contracts.
+- Prisma reference mismatches on order, return, dispatch assignment, and driver job mutation are converted to clean `400 ContractMismatch` responses instead of leaking database exceptions.
+- CORS preflight is explicit for the frontend dev headers listed above.
+- Endpoint intentionally unavailable: none in the 7C workflow scope. Live external provider calls, live payments, live logistics bookings, production queue workers, and production deployment remain unavailable by mock/dev policy.
+
 ## Milestone 6 Frontend Support Docs
 
 - `docs/FRONTEND_INTEGRATION_GUIDE.md`
@@ -205,7 +226,7 @@ npm run openapi:export
 - Auth now uses credential verification: `POST /auth/login`, `POST /auth/refresh`, `POST /auth/logout`, `POST /auth/password-reset/request`, `POST /auth/password-reset/complete`, `POST /auth/2fa/setup`.
 - Database-backed workflow groups now include orders, shipments, packages, warehouse package flow, dispatch assignments, Disponent tour plans, driver jobs, tracking events, disputes, returns, notifications, AI recommendations, and approval requests.
 - Mock provider adapters are available for safe frontend testing under `/provider-adapters/*`.
-- OpenAPI export contains 92 paths in `docs/openapi/openapi.json`.
+- OpenAPI export contains 126 operations in `docs/openapi/openapi.json`.
 - Production deployment remains blocked; frontend integration should use development credentials, mock provider modes, and test actor headers only in non-production environments.
 
 ## Milestone 6 Contract Additions

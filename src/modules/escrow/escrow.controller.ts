@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Actor, Roles } from '../../common/auth.decorators';
 import { EscrowReleaseDto } from '../../common/dto';
 import { RoleCode } from '../../common/domain.enums';
@@ -13,6 +13,7 @@ export class EscrowController {
 
   @Post('release')
   @Roles(RoleCode.FINANCE_ADMIN, RoleCode.SUPER_ADMIN)
+  @ApiBody({ type: EscrowReleaseDto })
   release(@Actor() actor: RequestActor, @Body() dto: EscrowReleaseDto) {
     return this.operations.releaseEscrow(actor.id, dto);
   }

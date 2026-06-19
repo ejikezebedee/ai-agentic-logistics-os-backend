@@ -22,6 +22,29 @@ Status: Milestone 6 frontend reference.
 | `super_admin` | Full platform administration | Development smoke tests use this role where needed. |
 | `ai_agent` | AI recommendations and approval requests | Cannot bypass approval gates or mutate finance/audit history directly. |
 
+## 7C Endpoint Role Matrix
+
+| Endpoint | Allowed roles |
+| --- | --- |
+| `POST /orders/:id/confirm` | `customer`, `merchant`, `super_admin` |
+| `POST /returns` | `customer`, `support_agent`, `super_admin` |
+| `POST /returns/:id/status` | `support_agent`, `warehouse_manager`, `finance_admin`, `super_admin` |
+| `POST /warehouse/pick/start` | `warehouse_staff`, `warehouse_manager`, `super_admin` |
+| `POST /warehouse/scan` | `warehouse_staff`, `warehouse_manager`, `super_admin` |
+| `POST /warehouse/pack` | `warehouse_staff`, `warehouse_manager`, `super_admin` |
+| `POST /warehouse/ready-for-dispatch` | `warehouse_staff`, `warehouse_manager`, `super_admin` |
+| `POST /dispatch/assign-driver` | `logistic_disponent`, `super_admin` |
+| `POST /drivers/pickup/:shipmentId/complete` | `driver`, `super_admin` |
+| `POST /shipments/:id/deliver` | `driver`, `logistic_disponent`, `super_admin` |
+| `POST /escrow/release` | `finance_admin`, `super_admin` |
+| `POST /approvals/refunds/:id/approve` | `finance_admin`, `compliance_admin`, `super_admin` |
+| `POST /ai/approvals/:id/approve` | `compliance_admin`, `finance_admin`, `super_admin` |
+| `POST /ai/providers/:id/test` | `compliance_admin`, `super_admin` |
+| `POST /auth/2fa/setup` | Any authenticated user |
+| `POST /auth/2fa/verify` | Any authenticated user |
+
+For Codex integration, either send a Bearer JWT from `POST /auth/login` or send development actor headers with a role listed above. Missing or mismatched roles intentionally return `403`.
+
 ## Status Enums
 
 Frontend should treat these values as closed enums for Milestone 6:

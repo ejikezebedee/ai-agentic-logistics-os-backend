@@ -1,7 +1,8 @@
 import { Body, Controller, Get, Optional, Param, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Actor, RequestActor, Roles } from '../../common/auth.decorators';
-import { AiRiskLevel, ApprovalStatus, RoleCode } from '../../common/domain.enums';
+import { ApprovalStatus, RoleCode } from '../../common/domain.enums';
+import { ApprovalDecisionDto, ApprovalRequestDto, CommentDto } from '../../common/dto';
 import { PrismaService } from '../../prisma/prisma.service';
 
 @ApiTags('approvals')
@@ -13,7 +14,8 @@ export class ApprovalsController {
 
   @Post()
   @Roles(RoleCode.AI_AGENT, RoleCode.LOGISTIC_DISPONENT, RoleCode.FINANCE_ADMIN, RoleCode.COMPLIANCE_ADMIN, RoleCode.SUPER_ADMIN)
-  async request(@Actor() actor: RequestActor, @Body() body: { actionCode: string; riskLevel?: AiRiskLevel; context: Record<string, unknown> }) {
+  @ApiBody({ type: ApprovalRequestDto })
+  async request(@Actor() actor: RequestActor, @Body() body: ApprovalRequestDto) {
     if (this.hasPrisma()) {
       return (this.prisma as any).approvalRequest.create({
         data: { requesterType: actor.roles.includes(RoleCode.AI_AGENT) ? 'ai_agent' : 'user', requesterId: actor.id, actionCode: body.actionCode, riskLevel: body.riskLevel, context: body.context }
@@ -33,8 +35,9 @@ export class ApprovalsController {
 
   @Post(':id/decision')
   @Roles(RoleCode.COMPLIANCE_ADMIN, RoleCode.FINANCE_ADMIN, RoleCode.SUPER_ADMIN)
-  async decide(@Actor() actor: RequestActor, @Param('id') id: string, @Body() body: { decision: ApprovalStatus; comment?: string }) {
-    if (![ApprovalStatus.APPROVED, ApprovalStatus.REJECTED].includes(body.decision)) {
+  @ApiBody({ type: ApprovalDecisionDto })
+  async decide(@Actor() actor: RequestActor, @Param('id') id: string, @Body() body: ApprovalDecisionDto) {
+    if (![ApprovalStatus.APPROVED, ApprovalStatus.REJECTED].includes(body.decision as ApprovalStatus)) {
       return { id, status: 'ignored', reason: 'Only approved/rejected decisions are accepted here.' };
     }
     if (this.hasPrisma()) {
@@ -50,7 +53,8 @@ export class ApprovalsController {
 
   @Post('refunds/:id/approve')
   @Roles(RoleCode.FINANCE_ADMIN, RoleCode.COMPLIANCE_ADMIN, RoleCode.SUPER_ADMIN)
-  async approveRefund(@Actor() actor: RequestActor, @Param('id') id: string, @Body() body: { comment?: string }) {
+  @ApiBody({ type: CommentDto })
+  async approveRefund(@Actor() actor: RequestActor, @Param('id') id: string, @Body() body: CommentDto) {
     return this.decide(actor, id, { decision: ApprovalStatus.APPROVED, comment: body?.comment ?? 'Refund approved through industrial MVP approval endpoint.' });
   }
 

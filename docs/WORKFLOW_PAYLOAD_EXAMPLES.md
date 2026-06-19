@@ -64,6 +64,7 @@ Assign driver:
 ```
 
 Use `POST /dispatch/assign-driver` for the industrial MVP dispatch path. `POST /disponent/assign-driver` remains available for existing Disponent console flows.
+`packageStatus` may be omitted by the frontend; the backend defaults it to `ready_for_dispatch` and still rejects non-ready status values.
 
 ## Driver Proof
 
@@ -130,6 +131,33 @@ Expected result: `400` because disputed escrow cannot be released.
 }
 ```
 
+Approve refund request with `POST /approvals/refunds/:id/approve`:
+
+```json
+{ "comment": "Approved for mock/dev integration." }
+```
+
+## Return Request
+
+```json
+{
+  "orderId": "order_id",
+  "shipmentId": "optional_shipment_id",
+  "customerId": "customer_id",
+  "reason": "damaged item"
+}
+```
+
+Update return status with `POST /returns/:id/status`:
+
+```json
+{
+  "status": "return_approved",
+  "inspection": { "condition": "accepted" },
+  "refundId": "optional_refund_id"
+}
+```
+
 ## AI Approval Examples
 
 High-risk recommendation:
@@ -153,3 +181,17 @@ Prohibited action:
   "approvalCount": 99
 }
 ```
+
+Approve AI action with `POST /ai/approvals/:id/approve`:
+
+```json
+{ "comment": "Approved for mock/dev integration; no live action executed." }
+```
+
+Test AI provider with `POST /ai/providers/:id/test`:
+
+```json
+{ "model": "mock-model", "prompt": "ping" }
+```
+
+Expected result: `liveConnection` is `false`; no external AI provider call is made.

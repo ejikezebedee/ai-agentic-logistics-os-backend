@@ -1,52 +1,71 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsArray, IsBoolean, IsEnum, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
+import { IsArray, IsBoolean, IsEnum, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { AiRiskLevel, DisputeStatus, PackageStatus, PaymentStatus, ProofTier, RoleCode } from './domain.enums';
 
 export class IdParamDto {
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsString()
   id!: string;
 }
 
+export class OrderItemDto {
+  @ApiProperty({ type: String })
+  @IsString()
+  skuId!: string;
+
+  @ApiPropertyOptional({ type: Number, default: 1 })
+  @IsOptional()
+  @IsNumber()
+  quantity?: number;
+
+  @ApiPropertyOptional({ type: Number, default: 0 })
+  @IsOptional()
+  @IsNumber()
+  unitPrice?: number;
+}
+
 export class CreateOrderDto {
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsString()
   merchantId!: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsString()
   customerId!: string;
 
-  @ApiProperty({ type: [Object] })
+  @ApiProperty({ type: [OrderItemDto] })
   @IsArray()
-  items!: Array<Record<string, unknown>>;
+  @ValidateNested({ each: true })
+  @Type(() => OrderItemDto)
+  items!: OrderItemDto[];
 }
 
 export class AssignDriverDto {
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsString()
   shipmentId!: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsString()
   driverId!: string;
 
-  @ApiProperty({ enum: PackageStatus })
+  @ApiPropertyOptional({ enum: PackageStatus, default: PackageStatus.READY_FOR_DISPATCH })
+  @IsOptional()
   @IsEnum(PackageStatus)
-  packageStatus!: PackageStatus;
+  packageStatus?: PackageStatus;
 }
 
 export class GpsDto {
-  @ApiProperty()
+  @ApiProperty({ type: Number })
   @IsNumber()
   latitude!: number;
 
-  @ApiProperty()
+  @ApiProperty({ type: Number })
   @IsNumber()
   longitude!: number;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: Boolean })
   @IsOptional()
   @IsBoolean()
   withinTolerance?: boolean;
@@ -62,72 +81,72 @@ export class DeliveryProofDto {
   @Type(() => GpsDto)
   gps!: GpsDto;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: String })
   @IsOptional()
   @IsString()
   otp?: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: String })
   @IsOptional()
   @IsString()
   photoObjectKey?: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: String })
   @IsOptional()
   @IsString()
   signatureObjectKey?: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: String })
   @IsOptional()
   @IsString()
   idCheckReference?: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: String })
   @IsOptional()
   @IsString()
   packageScanCode?: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: String })
   @IsOptional()
   @IsString()
   disponentOverrideApprovalId?: string;
 }
 
 export class PickupProofDto {
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: String })
   @IsOptional()
   @IsString()
   packageScanCode?: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: String })
   @IsOptional()
   @IsString()
   otp?: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: String })
   @IsOptional()
   @IsString()
   photoObjectKey?: string;
 }
 
 export class EscrowReleaseDto {
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsString()
   accountId!: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsString()
   shipmentId!: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: Number })
   @IsNumber()
   amount!: number;
 
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsString()
   currency!: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: Boolean })
   @IsBoolean()
   proofAccepted!: boolean;
 
@@ -135,7 +154,7 @@ export class EscrowReleaseDto {
   @IsEnum(DisputeStatus)
   disputeStatus!: DisputeStatus;
 
-  @ApiProperty()
+  @ApiProperty({ type: Boolean })
   @IsBoolean()
   settlementWindowPassed!: boolean;
 
@@ -149,11 +168,11 @@ export class EscrowReleaseDto {
 }
 
 export class AiActionDto {
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsString()
   agentCode!: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsString()
   requestedAction!: string;
 
@@ -166,101 +185,240 @@ export class AiActionDto {
   @IsArray()
   actorRoles!: RoleCode[];
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: Number })
   @IsOptional()
   @IsNumber()
   approvalCount?: number;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: Boolean })
   @IsOptional()
   @IsBoolean()
   l2AutoPolicyEnabled?: boolean;
 }
 
 export class GenericCreateDto {
-  @ApiProperty()
+  @ApiProperty({ type: Object })
   @IsObject()
   data!: Record<string, unknown>;
 }
 
 export class WarehousePackageDto {
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsString()
   packageId!: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: String })
   @IsOptional()
   @IsString()
   barcode?: string;
 }
 
 export class RefundDto {
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsString()
   paymentId!: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsString()
   accountId!: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: Number })
   @IsNumber()
   amount!: number;
 
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsString()
   currency!: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsString()
   reason!: string;
 }
 
 export class DisputeEvidenceDto {
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsString()
   disputeId!: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsString()
   evidenceType!: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: String })
   @IsOptional()
   @IsString()
   objectKey?: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: Object })
   @IsOptional()
   @IsObject()
   metadata?: Record<string, unknown>;
 }
 
 export class TrackingEventDto {
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsString()
   shipmentId!: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsString()
   eventCode!: string;
 
-  @ApiProperty()
+  @ApiProperty({ type: String })
   @IsString()
   actorType!: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: String })
   @IsOptional()
   @IsString()
   actorId?: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: Object })
   @IsOptional()
   @IsObject()
   location?: Record<string, unknown>;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: Object })
   @IsOptional()
   @IsObject()
   metadata?: Record<string, unknown>;
+}
+
+export class CreateReturnDto {
+  @ApiProperty({ type: String })
+  @IsString()
+  orderId!: string;
+
+  @ApiPropertyOptional({ type: String })
+  @IsOptional()
+  @IsString()
+  shipmentId?: string;
+
+  @ApiProperty({ type: String })
+  @IsString()
+  customerId!: string;
+
+  @ApiProperty({ type: String })
+  @IsString()
+  reason!: string;
+}
+
+export class UpdateReturnStatusDto {
+  @ApiProperty({
+    enum: ['return_requested', 'return_approved', 'return_rejected', 'return_pickup_planned', 'return_picked_up', 'return_received', 'inspection_pending', 'refund_pending', 'refund_completed', 'restocked', 'discarded', 'closed']
+  })
+  @IsString()
+  status!: string;
+
+  @ApiPropertyOptional({ type: Object })
+  @IsOptional()
+  @IsObject()
+  inspection?: Record<string, unknown>;
+
+  @ApiPropertyOptional({ type: String })
+  @IsOptional()
+  @IsString()
+  refundId?: string;
+}
+
+export class ApprovalRequestDto {
+  @ApiProperty({ type: String })
+  @IsString()
+  actionCode!: string;
+
+  @ApiPropertyOptional({ enum: AiRiskLevel })
+  @IsOptional()
+  @IsEnum(AiRiskLevel)
+  riskLevel?: AiRiskLevel;
+
+  @ApiProperty({ type: Object })
+  @IsObject()
+  context!: Record<string, unknown>;
+}
+
+export class ApprovalDecisionDto {
+  @ApiProperty({ enum: ['approved', 'rejected'] })
+  @IsString()
+  decision!: string;
+
+  @ApiPropertyOptional({ type: String })
+  @IsOptional()
+  @IsString()
+  comment?: string;
+}
+
+export class CommentDto {
+  @ApiPropertyOptional({ type: String })
+  @IsOptional()
+  @IsString()
+  comment?: string;
+}
+
+export class AiProviderCreateDto {
+  @ApiProperty({ type: String })
+  @IsString()
+  apiKey!: string;
+
+  @ApiProperty({ type: String })
+  @IsString()
+  providerName!: string;
+}
+
+export class AiProviderTestDto {
+  @ApiPropertyOptional({ type: String })
+  @IsOptional()
+  @IsString()
+  model?: string;
+
+  @ApiPropertyOptional({ type: String })
+  @IsOptional()
+  @IsString()
+  prompt?: string;
+}
+
+export class LoginDto {
+  @ApiProperty({ type: String })
+  @IsString()
+  email!: string;
+
+  @ApiProperty({ type: String })
+  @IsString()
+  password!: string;
+
+  @ApiPropertyOptional({ type: String })
+  @IsOptional()
+  @IsString()
+  twoFactorCode?: string;
+}
+
+export class RefreshTokenDto {
+  @ApiProperty({ type: String })
+  @IsString()
+  refreshToken!: string;
+}
+
+export class PasswordResetRequestDto {
+  @ApiProperty({ type: String })
+  @IsString()
+  email!: string;
+}
+
+export class PasswordResetCompleteDto {
+  @ApiProperty({ type: String })
+  @IsString()
+  token!: string;
+
+  @ApiProperty({ type: String })
+  @IsString()
+  newPassword!: string;
+}
+
+export class TwoFactorVerifyDto {
+  @ApiProperty({ type: String })
+  @IsString()
+  challengeId!: string;
+
+  @ApiProperty({ type: String })
+  @IsString()
+  code!: string;
 }

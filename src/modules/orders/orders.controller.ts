@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Optional, Param, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { BadRequestException, Body, Controller, Get, Optional, Param, Post } from '@nestjs/common';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Actor, Roles } from '../../common/auth.decorators';
 import { CreateOrderDto } from '../../common/dto';
 import { OrderStatus, RoleCode, TrackingEventCode } from '../../common/domain.enums';
@@ -17,6 +17,7 @@ export class OrdersController {
 
   @Post()
   @Roles(RoleCode.CUSTOMER, RoleCode.MERCHANT, RoleCode.SUPER_ADMIN)
+  @ApiBody({ type: CreateOrderDto })
   async create(@Actor() actor: RequestActor, @Body() dto: CreateOrderDto) {
     const order = this.hasPrisma()
       ? await (this.prisma as any).order.create({
@@ -35,6 +36,12 @@ export class OrdersController {
             }
           },
           include: { items: true }
+        }).catch((error: unknown) => {
+          throw new BadRequestException({
+            message: 'Order could not be created from the supplied customer, merchant, or item references.',
+            error: 'ContractMismatch',
+            details: this.errorMessage(error)
+          });
         })
       : { id: 'ord_development', ...dto, status: OrderStatus.DRAFT };
     this.audit.create({ actorId: actor.id, actorType: 'user', action: TrackingEventCode.ORDER_CREATED, targetType: 'order', targetId: order.id });
@@ -61,8 +68,12 @@ export class OrdersController {
     return order;
   }
 
-  private total(items: Array<Record<string, unknown>>) {
+  private total(items: CreateOrderDto['items']) {
     return items.reduce((sum, item) => sum + Number(item.unitPrice ?? 0) * Number(item.quantity ?? 1), 0);
+  }
+
+  private errorMessage(error: unknown) {
+    return error instanceof Error ? error.message : String(error);
   }
 
   private hasPrisma() {

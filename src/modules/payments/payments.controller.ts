@@ -1,5 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Actor, Roles } from '../../common/auth.decorators';
 import { RefundDto } from '../../common/dto';
 import { RoleCode } from '../../common/domain.enums';
@@ -13,6 +13,7 @@ export class PaymentsController {
 
   @Post('refunds')
   @Roles(RoleCode.FINANCE_ADMIN, RoleCode.SUPER_ADMIN)
+  @ApiBody({ type: RefundDto })
   refund(@Actor() actor: RequestActor, @Body() dto: RefundDto) {
     return this.operations.refund(actor.id, dto);
   }

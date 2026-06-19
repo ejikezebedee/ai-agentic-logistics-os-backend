@@ -1,5 +1,5 @@
-import { Body, Controller, Get, Optional, Param, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { BadRequestException, Body, Controller, Get, Optional, Param, Post } from '@nestjs/common';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Actor, Roles } from '../../common/auth.decorators';
 import { DeliveryProofDto, PickupProofDto } from '../../common/dto';
 import { RoleCode } from '../../common/domain.enums';
@@ -28,17 +28,18 @@ export class DriverController {
 
   @Post('jobs/:id/accept')
   async accept(@Param('id') id: string) {
-    if (this.hasPrisma()) return (this.prisma as any).dispatchAssignment.update({ where: { id }, data: { status: 'accepted' } });
+    if (this.hasPrisma()) return (this.prisma as any).dispatchAssignment.update({ where: { id }, data: { status: 'accepted' } }).catch((error: unknown) => this.assignmentError(id, error));
     return { jobId: id, status: 'accepted' };
   }
 
   @Post('jobs/:id/reject')
   async reject(@Param('id') id: string) {
-    if (this.hasPrisma()) return (this.prisma as any).dispatchAssignment.update({ where: { id }, data: { status: 'rejected' } });
+    if (this.hasPrisma()) return (this.prisma as any).dispatchAssignment.update({ where: { id }, data: { status: 'rejected' } }).catch((error: unknown) => this.assignmentError(id, error));
     return { jobId: id, status: 'rejected' };
   }
 
   @Post('pickup/:shipmentId/complete')
+  @ApiBody({ type: PickupProofDto })
   pickup(@Actor() actor: RequestActor, @Param('shipmentId') shipmentId: string, @Body() dto: PickupProofDto) {
     return this.operations.completePickup(actor.id, shipmentId, dto);
   }
@@ -49,6 +50,7 @@ export class DriverController {
   }
 
   @Post('delivery/:shipmentId/complete')
+  @ApiBody({ type: DeliveryProofDto })
   complete(@Actor() actor: RequestActor, @Param('shipmentId') shipmentId: string, @Body() dto: DeliveryProofDto) {
     return this.operations.completeDelivery(actor.id, shipmentId, dto.tier, dto);
   }
@@ -66,6 +68,14 @@ export class DriverController {
   private hasPrisma() {
     return Boolean(this.prisma && typeof (this.prisma as any).dispatchAssignment?.findMany === 'function');
   }
+
+  private assignmentError(id: string, error: unknown): never {
+    throw new BadRequestException({
+      message: 'Driver job could not be updated for the supplied assignment id.',
+      error: 'ContractMismatch',
+      details: { id, cause: error instanceof Error ? error.message : String(error) }
+    });
+  }
 }
 
 @ApiTags('drivers')
@@ -75,11 +85,13 @@ export class DriversController {
   constructor(private readonly operations: OperationsService) {}
 
   @Post('pickup/:shipmentId/complete')
+  @ApiBody({ type: PickupProofDto })
   pickup(@Actor() actor: RequestActor, @Param('shipmentId') shipmentId: string, @Body() dto: PickupProofDto) {
     return this.operations.completePickup(actor.id, shipmentId, dto);
   }
 
   @Post('delivery/:shipmentId/complete')
+  @ApiBody({ type: DeliveryProofDto })
   complete(@Actor() actor: RequestActor, @Param('shipmentId') shipmentId: string, @Body() dto: DeliveryProofDto) {
     return this.operations.completeDelivery(actor.id, shipmentId, dto.tier, dto);
   }

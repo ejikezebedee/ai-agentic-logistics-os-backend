@@ -1,8 +1,8 @@
-import { Body, Controller, Get, Optional, Param, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { BadRequestException, Body, Controller, Get, Optional, Param, Post } from '@nestjs/common';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Actor, RequestActor, Roles } from '../../common/auth.decorators';
 import { AssignDriverDto } from '../../common/dto';
-import { RoleCode } from '../../common/domain.enums';
+import { PackageStatus, RoleCode } from '../../common/domain.enums';
 import { PrismaService } from '../../prisma/prisma.service';
 import { OperationsService } from '../shipments/operations.service';
 
@@ -17,13 +17,22 @@ export class DispatchController {
 
   @Post('assignments')
   async create(@Actor() actor: RequestActor, @Body() body: { shipmentId: string; driverId?: string; vehicleId?: string; carrierId?: string; tourPlanId?: string }) {
-    if (this.hasPrisma()) return (this.prisma as any).dispatchAssignment.create({ data: { ...body, assignedBy: actor.id, status: 'assigned' } });
+    if (this.hasPrisma()) {
+      return (this.prisma as any).dispatchAssignment.create({ data: { ...body, assignedBy: actor.id, status: 'assigned' } }).catch((error: unknown) => {
+        throw new BadRequestException({
+          message: 'Dispatch assignment could not be created from the supplied shipment, driver, vehicle, carrier, or tour references.',
+          error: 'ContractMismatch',
+          details: error instanceof Error ? error.message : String(error)
+        });
+      });
+    }
     return { id: 'dsp_development', assignedBy: actor.id, status: 'assigned', ...body };
   }
 
   @Post('assign-driver')
+  @ApiBody({ type: AssignDriverDto })
   assignDriver(@Actor() actor: RequestActor, @Body() dto: AssignDriverDto) {
-    return this.operations.assignDriver(actor.id, dto.packageStatus, dto.shipmentId, dto.driverId);
+    return this.operations.assignDriver(actor.id, dto.packageStatus ?? PackageStatus.READY_FOR_DISPATCH, dto.shipmentId, dto.driverId);
   }
 
   @Get('assignments/:id')

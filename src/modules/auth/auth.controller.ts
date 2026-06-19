@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Actor, Public, RequestActor } from '../../common/auth.decorators';
+import { LoginDto, PasswordResetCompleteDto, PasswordResetRequestDto, RefreshTokenDto, TwoFactorVerifyDto } from '../../common/dto';
 import { RateLimit } from '../../common/rate-limit.decorator';
 import { AuthService } from './auth.service';
 
@@ -12,33 +13,38 @@ export class AuthController {
   @Public()
   @Post('login')
   @RateLimit({ limit: 5, windowMs: 60_000, keyPrefix: 'auth-login' })
-  login(@Body() body: { email: string; password: string; twoFactorCode?: string }) {
+  @ApiBody({ type: LoginDto })
+  login(@Body() body: LoginDto) {
     return this.auth.login(body.email, body.password, body.twoFactorCode);
   }
 
   @Public()
   @Post('refresh')
   @RateLimit({ limit: 10, windowMs: 60_000, keyPrefix: 'auth-refresh' })
-  refresh(@Body() body: { refreshToken: string }) {
+  @ApiBody({ type: RefreshTokenDto })
+  refresh(@Body() body: RefreshTokenDto) {
     return this.auth.refresh(body.refreshToken);
   }
 
   @Post('logout')
-  logout(@Body() body: { refreshToken: string }) {
+  @ApiBody({ type: RefreshTokenDto })
+  logout(@Body() body: RefreshTokenDto) {
     return this.auth.logout(body.refreshToken);
   }
 
   @Public()
   @Post('password-reset/request')
   @RateLimit({ limit: 3, windowMs: 15 * 60_000, keyPrefix: 'password-reset-request' })
-  requestPasswordReset(@Body() body: { email: string }) {
+  @ApiBody({ type: PasswordResetRequestDto })
+  requestPasswordReset(@Body() body: PasswordResetRequestDto) {
     return this.auth.requestPasswordReset(body.email);
   }
 
   @Public()
   @Post('password-reset/complete')
   @RateLimit({ limit: 5, windowMs: 15 * 60_000, keyPrefix: 'password-reset-complete' })
-  completePasswordReset(@Body() body: { token: string; newPassword: string }) {
+  @ApiBody({ type: PasswordResetCompleteDto })
+  completePasswordReset(@Body() body: PasswordResetCompleteDto) {
     return this.auth.completePasswordReset(body.token, body.newPassword);
   }
 
@@ -58,7 +64,8 @@ export class AuthController {
   }
 
   @Post('2fa/verify')
-  verifyTwoFactor(@Actor() actor: RequestActor, @Body() body: { challengeId: string; code: string }) {
+  @ApiBody({ type: TwoFactorVerifyDto })
+  verifyTwoFactor(@Actor() actor: RequestActor, @Body() body: TwoFactorVerifyDto) {
     return this.auth.verifyTwoFactor(actor.id, body.challengeId, body.code);
   }
 }

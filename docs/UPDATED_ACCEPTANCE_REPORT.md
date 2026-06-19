@@ -1,5 +1,24 @@
 # Updated Acceptance Report
 
+## Integration 7C Backend Contract Repair
+
+Status: backend contract repair implemented for real frontend-to-backend rerun.
+
+### Repaired
+
+- Explicit CORS configuration added for frontend dev origins, `OPTIONS`, and headers `Authorization`, `Content-Type`, `x-actor-id`, `x-actor-roles`, `x-actor-permissions`, and `x-correlation-id`.
+- DTO-backed validation added or tightened for auth/session/2FA, order items, dispatch assignment, returns, approval decisions, refund approval comments, and AI provider test payloads.
+- Dispatch driver assignment now defaults missing `packageStatus` to `ready_for_dispatch` while preserving the policy block for non-ready packages.
+- Prisma reference failures in order creation, return creation/status update, dispatch assignment creation, and driver job updates now return clean `400 ContractMismatch` envelopes.
+- Regression coverage added in `test/integration-7c-contract-repair.spec.ts` for order confirm, warehouse scan/pack/ready, dispatch assignment, pickup complete, shipment deliver, escrow release, refund approval, AI approval, AI provider test, auth/session/2FA, and CORS preflight.
+
+### Still Mock/Dev Only
+
+- AI provider testing does not perform a live provider call.
+- Payments, escrow, carrier/logistics, messaging, KYC, ERP, and queues remain mock/dev only.
+- RBAC and approval gates remain enabled.
+- Production deployment remains blocked.
+
 Milestone 5 status: production-readiness hardening and E2E verification completed for controlled development use.
 
 ## Completed

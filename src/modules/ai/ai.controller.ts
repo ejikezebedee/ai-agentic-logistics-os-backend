@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Roles } from '../../common/auth.decorators';
-import { AiActionDto } from '../../common/dto';
+import { AiActionDto, AiProviderCreateDto, AiProviderTestDto } from '../../common/dto';
 import { RoleCode } from '../../common/domain.enums';
 import { AiGovernanceService } from './ai-governance.service';
 import { AiWorkflowService } from './ai-workflow.service';
@@ -38,6 +38,7 @@ export class AiController {
 
   @Post('actions/authorize')
   @Roles(RoleCode.AI_AGENT, RoleCode.SUPER_ADMIN)
+  @ApiBody({ type: AiActionDto })
   authorize(@Body() dto: AiActionDto) {
     const riskLevel = dto.riskLevel ?? this.governance.classifyRisk(dto.requestedAction);
     return { riskLevel, ...this.governance.authorizeAction({ ...dto, riskLevel }) };
@@ -45,14 +46,22 @@ export class AiController {
 
   @Post('providers')
   @Roles(RoleCode.SUPER_ADMIN, RoleCode.COMPLIANCE_ADMIN)
-  createProvider(@Body() body: { apiKey: string; providerName: string }) {
+  @ApiBody({ type: AiProviderCreateDto })
+  createProvider(@Body() body: AiProviderCreateDto) {
     return { providerName: body.providerName, encryptedApiKey: this.governance.encryptProviderKey(body.apiKey), frontendApiKey: this.governance.maskProviderKey() };
   }
 
   @Post('providers/:id/test')
   @Roles(RoleCode.SUPER_ADMIN, RoleCode.COMPLIANCE_ADMIN)
-  testProvider(@Param('id') id: string) {
-    return { providerId: id, status: 'mock_ready', liveConnection: false, reason: 'Safe dev/mock provider test only; no external provider call was made.' };
+  @ApiBody({ type: AiProviderTestDto })
+  testProvider(@Param('id') id: string, @Body() body: AiProviderTestDto) {
+    return {
+      providerId: id,
+      model: body?.model ?? 'mock-model',
+      status: 'mock_ready',
+      liveConnection: false,
+      reason: 'Safe dev/mock provider test only; no external provider call was made.'
+    };
   }
 
   @Post('approvals/:id/approve')

@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Optional, Param, Post } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import { BadRequestException, Body, Controller, Get, Optional, Param, Post } from '@nestjs/common';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Actor, RequestActor, Roles } from '../../common/auth.decorators';
 import { ReturnStatus, RoleCode } from '../../common/domain.enums';
+import { CreateReturnDto, UpdateReturnStatusDto } from '../../common/dto';
 import { PrismaService } from '../../prisma/prisma.service';
 
 @ApiTags('returns')
@@ -11,7 +12,8 @@ export class ReturnsController {
 
   @Post()
   @Roles(RoleCode.CUSTOMER, RoleCode.SUPPORT_AGENT, RoleCode.SUPER_ADMIN)
-  async request(@Actor() actor: RequestActor, @Body() body: { orderId: string; shipmentId?: string; customerId: string; reason: string }) {
+  @ApiBody({ type: CreateReturnDto })
+  async request(@Actor() actor: RequestActor, @Body() body: CreateReturnDto) {
     if (this.hasPrisma()) {
       return (this.prisma as any).return.create({
         data: {
@@ -21,6 +23,12 @@ export class ReturnsController {
           reason: body.reason,
           status: ReturnStatus.RETURN_REQUESTED
         }
+      }).catch((error: unknown) => {
+        throw new BadRequestException({
+          message: 'Return request could not be created from the supplied order, shipment, or customer references.',
+          error: 'ContractMismatch',
+          details: this.errorMessage(error)
+        });
       });
     }
     return { id: 'ret_development', requestedBy: actor.id, status: ReturnStatus.RETURN_REQUESTED, ...body };
@@ -28,8 +36,24 @@ export class ReturnsController {
 
   @Post(':id/status')
   @Roles(RoleCode.SUPPORT_AGENT, RoleCode.WAREHOUSE_MANAGER, RoleCode.FINANCE_ADMIN, RoleCode.SUPER_ADMIN)
-  async updateStatus(@Param('id') id: string, @Body() body: { status: ReturnStatus; inspection?: Record<string, unknown>; refundId?: string }) {
-    if (this.hasPrisma()) return (this.prisma as any).return.update({ where: { id }, data: body });
+  @ApiBody({ type: UpdateReturnStatusDto })
+  async updateStatus(@Param('id') id: string, @Body() body: UpdateReturnStatusDto) {
+    if (!Object.values(ReturnStatus).includes(body.status as ReturnStatus)) {
+      throw new BadRequestException({
+        message: 'Return status is not valid.',
+        error: 'ContractMismatch',
+        details: { allowed: Object.values(ReturnStatus) }
+      });
+    }
+    if (this.hasPrisma()) {
+      return (this.prisma as any).return.update({ where: { id }, data: body }).catch((error: unknown) => {
+        throw new BadRequestException({
+          message: 'Return status could not be updated for the supplied return id.',
+          error: 'ContractMismatch',
+          details: this.errorMessage(error)
+        });
+      });
+    }
     return { id, ...body };
   }
 
@@ -42,5 +66,9 @@ export class ReturnsController {
 
   private hasPrisma() {
     return Boolean(this.prisma && typeof (this.prisma as any).return?.create === 'function');
+  }
+
+  private errorMessage(error: unknown) {
+    return error instanceof Error ? error.message : String(error);
   }
 }

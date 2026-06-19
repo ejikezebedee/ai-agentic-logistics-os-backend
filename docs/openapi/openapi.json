@@ -5,6 +5,16 @@
       "post": {
         "operationId": "AuthController_login",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -19,6 +29,16 @@
       "post": {
         "operationId": "AuthController_refresh",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -33,6 +53,16 @@
       "post": {
         "operationId": "AuthController_logout",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshTokenDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -47,6 +77,16 @@
       "post": {
         "operationId": "AuthController_requestPasswordReset",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordResetRequestDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -61,6 +101,16 @@
       "post": {
         "operationId": "AuthController_completePasswordReset",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PasswordResetCompleteDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -117,6 +167,16 @@
       "post": {
         "operationId": "AuthController_verifyTwoFactor",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TwoFactorVerifyDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -241,6 +301,16 @@
       "post": {
         "operationId": "OrdersController_create",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -325,6 +395,16 @@
       "post": {
         "operationId": "ShipmentsController_deliver",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeliveryProofDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -353,6 +433,16 @@
       "post": {
         "operationId": "WarehouseController_startPick",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WarehousePackageDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -367,6 +457,16 @@
       "post": {
         "operationId": "WarehouseController_scan",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WarehousePackageDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -381,6 +481,16 @@
       "post": {
         "operationId": "WarehouseController_pack",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WarehousePackageDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -395,6 +505,16 @@
       "post": {
         "operationId": "WarehouseController_label",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WarehousePackageDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -409,6 +529,16 @@
       "post": {
         "operationId": "WarehouseController_stage",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WarehousePackageDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -423,6 +553,16 @@
       "post": {
         "operationId": "WarehouseController_ready",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WarehousePackageDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -535,6 +675,16 @@
       "post": {
         "operationId": "DisponentController_assignDriver",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignDriverDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -549,6 +699,16 @@
       "post": {
         "operationId": "DisponentController_reassignDriver",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignDriverDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -633,6 +793,16 @@
       "post": {
         "operationId": "DriverController_pickup",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PickupProofDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -661,6 +831,16 @@
       "post": {
         "operationId": "DriverController_complete",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeliveryProofDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -703,6 +883,16 @@
       "post": {
         "operationId": "DriversController_pickup",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PickupProofDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -717,6 +907,16 @@
       "post": {
         "operationId": "DriversController_complete",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeliveryProofDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -731,6 +931,16 @@
       "post": {
         "operationId": "PaymentsController_refund",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefundDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -745,6 +955,16 @@
       "post": {
         "operationId": "EscrowController_release",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EscrowReleaseDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -843,6 +1063,16 @@
       "post": {
         "operationId": "AiController_authorize",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AiActionDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -857,6 +1087,16 @@
       "post": {
         "operationId": "AiController_createProvider",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AiProviderCreateDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -871,6 +1111,16 @@
       "post": {
         "operationId": "AiController_testProvider",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AiProviderTestDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -1093,6 +1343,16 @@
       "post": {
         "operationId": "ReturnsController_request",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateReturnDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -1107,6 +1367,16 @@
       "post": {
         "operationId": "ReturnsController_updateStatus",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateReturnStatusDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -1135,6 +1405,16 @@
       "post": {
         "operationId": "ApprovalsController_request",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApprovalRequestDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -1161,6 +1441,16 @@
       "post": {
         "operationId": "ApprovalsController_decide",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApprovalDecisionDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -1175,6 +1465,16 @@
       "post": {
         "operationId": "ApprovalsController_approveRefund",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommentDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -1231,6 +1531,16 @@
       "post": {
         "operationId": "DispatchController_assignDriver",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssignDriverDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -1758,6 +2068,538 @@
         "type": "http"
       }
     },
-    "schemas": {}
+    "schemas": {
+      "LoginDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "twoFactorCode": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "RefreshTokenDto": {
+        "type": "object",
+        "properties": {
+          "refreshToken": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "refreshToken"
+        ]
+      },
+      "PasswordResetRequestDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "PasswordResetCompleteDto": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "newPassword": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "token",
+          "newPassword"
+        ]
+      },
+      "TwoFactorVerifyDto": {
+        "type": "object",
+        "properties": {
+          "challengeId": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "challengeId",
+          "code"
+        ]
+      },
+      "OrderItemDto": {
+        "type": "object",
+        "properties": {
+          "skuId": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "number",
+            "default": 1
+          },
+          "unitPrice": {
+            "type": "number",
+            "default": 0
+          }
+        },
+        "required": [
+          "skuId"
+        ]
+      },
+      "CreateOrderDto": {
+        "type": "object",
+        "properties": {
+          "merchantId": {
+            "type": "string"
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItemDto"
+            }
+          }
+        },
+        "required": [
+          "merchantId",
+          "customerId",
+          "items"
+        ]
+      },
+      "GpsDto": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number"
+          },
+          "longitude": {
+            "type": "number"
+          },
+          "withinTolerance": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "latitude",
+          "longitude"
+        ]
+      },
+      "DeliveryProofDto": {
+        "type": "object",
+        "properties": {
+          "tier": {
+            "type": "string",
+            "enum": [
+              "low_value",
+              "medium_value",
+              "high_value",
+              "disputed"
+            ]
+          },
+          "gps": {
+            "$ref": "#/components/schemas/GpsDto"
+          },
+          "otp": {
+            "type": "string"
+          },
+          "photoObjectKey": {
+            "type": "string"
+          },
+          "signatureObjectKey": {
+            "type": "string"
+          },
+          "idCheckReference": {
+            "type": "string"
+          },
+          "packageScanCode": {
+            "type": "string"
+          },
+          "disponentOverrideApprovalId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "tier",
+          "gps"
+        ]
+      },
+      "WarehousePackageDto": {
+        "type": "object",
+        "properties": {
+          "packageId": {
+            "type": "string"
+          },
+          "barcode": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "packageId"
+        ]
+      },
+      "AssignDriverDto": {
+        "type": "object",
+        "properties": {
+          "shipmentId": {
+            "type": "string"
+          },
+          "driverId": {
+            "type": "string"
+          },
+          "packageStatus": {
+            "type": "string",
+            "enum": [
+              "created",
+              "reserved",
+              "picking",
+              "scanned",
+              "packed",
+              "label_generated",
+              "staged",
+              "ready_for_dispatch",
+              "dispatched",
+              "delivered",
+              "returned",
+              "quarantined",
+              "damaged",
+              "lost"
+            ],
+            "default": "ready_for_dispatch"
+          }
+        },
+        "required": [
+          "shipmentId",
+          "driverId"
+        ]
+      },
+      "PickupProofDto": {
+        "type": "object",
+        "properties": {
+          "packageScanCode": {
+            "type": "string"
+          },
+          "otp": {
+            "type": "string"
+          },
+          "photoObjectKey": {
+            "type": "string"
+          }
+        }
+      },
+      "RefundDto": {
+        "type": "object",
+        "properties": {
+          "paymentId": {
+            "type": "string"
+          },
+          "accountId": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "paymentId",
+          "accountId",
+          "amount",
+          "currency",
+          "reason"
+        ]
+      },
+      "EscrowReleaseDto": {
+        "type": "object",
+        "properties": {
+          "accountId": {
+            "type": "string"
+          },
+          "shipmentId": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "currency": {
+            "type": "string"
+          },
+          "proofAccepted": {
+            "type": "boolean"
+          },
+          "disputeStatus": {
+            "type": "string",
+            "enum": [
+              "none",
+              "opened",
+              "evidence_collecting",
+              "under_review",
+              "decision_pending",
+              "resolved_customer",
+              "resolved_merchant",
+              "resolved_driver",
+              "resolved_platform",
+              "closed"
+            ]
+          },
+          "settlementWindowPassed": {
+            "type": "boolean"
+          },
+          "paymentStatus": {
+            "type": "string",
+            "enum": [
+              "not_required",
+              "pending",
+              "authorized",
+              "captured",
+              "held_in_escrow",
+              "partially_released",
+              "released",
+              "refunded",
+              "partially_refunded",
+              "chargeback",
+              "failed"
+            ]
+          },
+          "actorRoles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "customer",
+                "merchant",
+                "shipper",
+                "warehouse_staff",
+                "warehouse_manager",
+                "driver",
+                "fleet_manager",
+                "carrier",
+                "freight_forwarder",
+                "logistic_disponent",
+                "support_agent",
+                "finance_admin",
+                "compliance_admin",
+                "super_admin",
+                "ai_agent"
+              ]
+            }
+          }
+        },
+        "required": [
+          "accountId",
+          "shipmentId",
+          "amount",
+          "currency",
+          "proofAccepted",
+          "disputeStatus",
+          "settlementWindowPassed",
+          "paymentStatus",
+          "actorRoles"
+        ]
+      },
+      "AiActionDto": {
+        "type": "object",
+        "properties": {
+          "agentCode": {
+            "type": "string"
+          },
+          "requestedAction": {
+            "type": "string"
+          },
+          "riskLevel": {
+            "type": "string",
+            "enum": [
+              "L1_LOW",
+              "L2_MEDIUM",
+              "L3_HIGH",
+              "L4_CRITICAL",
+              "L5_PROHIBITED"
+            ]
+          },
+          "actorRoles": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "customer",
+                "merchant",
+                "shipper",
+                "warehouse_staff",
+                "warehouse_manager",
+                "driver",
+                "fleet_manager",
+                "carrier",
+                "freight_forwarder",
+                "logistic_disponent",
+                "support_agent",
+                "finance_admin",
+                "compliance_admin",
+                "super_admin",
+                "ai_agent"
+              ]
+            }
+          },
+          "approvalCount": {
+            "type": "number"
+          },
+          "l2AutoPolicyEnabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "agentCode",
+          "requestedAction",
+          "actorRoles"
+        ]
+      },
+      "AiProviderCreateDto": {
+        "type": "object",
+        "properties": {
+          "apiKey": {
+            "type": "string"
+          },
+          "providerName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "apiKey",
+          "providerName"
+        ]
+      },
+      "AiProviderTestDto": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string"
+          },
+          "prompt": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateReturnDto": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string"
+          },
+          "shipmentId": {
+            "type": "string"
+          },
+          "customerId": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "orderId",
+          "customerId",
+          "reason"
+        ]
+      },
+      "UpdateReturnStatusDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "return_requested",
+              "return_approved",
+              "return_rejected",
+              "return_pickup_planned",
+              "return_picked_up",
+              "return_received",
+              "inspection_pending",
+              "refund_pending",
+              "refund_completed",
+              "restocked",
+              "discarded",
+              "closed"
+            ]
+          },
+          "inspection": {
+            "type": "object"
+          },
+          "refundId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ]
+      },
+      "ApprovalRequestDto": {
+        "type": "object",
+        "properties": {
+          "actionCode": {
+            "type": "string"
+          },
+          "riskLevel": {
+            "type": "string",
+            "enum": [
+              "L1_LOW",
+              "L2_MEDIUM",
+              "L3_HIGH",
+              "L4_CRITICAL",
+              "L5_PROHIBITED"
+            ]
+          },
+          "context": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "actionCode",
+          "context"
+        ]
+      },
+      "ApprovalDecisionDto": {
+        "type": "object",
+        "properties": {
+          "decision": {
+            "type": "string",
+            "enum": [
+              "approved",
+              "rejected"
+            ]
+          },
+          "comment": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "decision"
+        ]
+      },
+      "CommentDto": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "type": "string"
+          }
+        }
+      }
+    }
   }
 }
