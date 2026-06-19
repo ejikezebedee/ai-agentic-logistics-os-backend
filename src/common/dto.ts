@@ -10,42 +10,67 @@ export class IdParamDto {
 }
 
 export class FrontendWorkflowPayloadDto {
+  @ApiPropertyOptional({ type: Object, description: 'Frontend workflow trace field accepted by dev/mock contracts.' })
   @Allow()
   workflow?: unknown;
 
+  @ApiPropertyOptional({ type: String, description: 'Frontend workflow trace field accepted by dev/mock contracts.' })
   @Allow()
   workflowId?: unknown;
 
+  @ApiPropertyOptional({ type: String, description: 'Frontend operation trace field accepted by dev/mock contracts.' })
   @Allow()
   operationId?: unknown;
 
+  @ApiPropertyOptional({ type: String, description: 'Frontend action trace field accepted by dev/mock contracts.' })
   @Allow()
   frontendAction?: unknown;
 
+  @ApiPropertyOptional({ type: String, description: 'Frontend action trace field accepted by dev/mock contracts.' })
   @Allow()
   action?: unknown;
 
+  @ApiPropertyOptional({ type: String, description: 'Frontend action trace field accepted by dev/mock contracts.' })
   @Allow()
   actionId?: unknown;
 
+  @ApiPropertyOptional({ type: String, description: 'Frontend request trace field accepted by dev/mock contracts.' })
   @Allow()
   requestId?: unknown;
 
+  @ApiPropertyOptional({ type: String, description: 'Frontend correlation trace field accepted by dev/mock contracts.' })
   @Allow()
   correlationId?: unknown;
 
+  @ApiPropertyOptional({ type: String, description: 'Frontend request trace field accepted by dev/mock contracts.' })
+  @Allow()
+  clientRequestId?: unknown;
+
+  @ApiPropertyOptional({ type: String, description: 'Frontend source trace field accepted by dev/mock contracts.' })
+  @Allow()
+  source?: unknown;
+
+  @ApiPropertyOptional({ type: String, description: 'Frontend timestamp trace field accepted by dev/mock contracts.' })
+  @Allow()
+  timestamp?: unknown;
+
+  @ApiPropertyOptional({ type: String, description: 'Frontend actor trace field accepted by dev/mock contracts.' })
   @Allow()
   actorId?: unknown;
 
+  @ApiPropertyOptional({ type: String, description: 'Frontend actor trace field accepted by dev/mock contracts.' })
   @Allow()
   userId?: unknown;
 
+  @ApiPropertyOptional({ type: String, description: 'Frontend actor trace field accepted by dev/mock contracts.' })
   @Allow()
   role?: unknown;
 
+  @ApiPropertyOptional({ type: String, description: 'Frontend note field accepted by dev/mock contracts.' })
   @Allow()
   notes?: unknown;
 
+  @ApiPropertyOptional({ type: String, description: 'Frontend note field accepted by dev/mock contracts.' })
   @Allow()
   note?: unknown;
 

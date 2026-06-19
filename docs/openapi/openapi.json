@@ -2082,6 +2082,70 @@
       "LoginDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "email": {
             "type": "string"
           },
@@ -2100,6 +2164,70 @@
       "RefreshTokenDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "refreshToken": {
             "type": "string"
           }
@@ -2111,6 +2239,70 @@
       "PasswordResetRequestDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "email": {
             "type": "string"
           }
@@ -2122,6 +2314,70 @@
       "PasswordResetCompleteDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "token": {
             "type": "string"
           },
@@ -2137,6 +2393,70 @@
       "TwoFactorVerifyDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "challengeId": {
             "type": "string"
           },
@@ -2152,6 +2472,70 @@
       "OrderItemDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "skuId": {
             "type": "string"
           },
@@ -2191,6 +2575,70 @@
       "CreateOrderDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "merchantId": {
             "type": "string"
           },
@@ -2216,6 +2664,70 @@
       "CreateShipmentDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "orderId": {
             "type": "string",
             "description": "Existing order id returned by POST /orders or seeded dev order id."
@@ -2274,6 +2786,70 @@
       "DeliveryProofDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "tier": {
             "type": "string",
             "enum": [
@@ -2345,6 +2921,70 @@
       "WarehousePackageDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "packageId": {
             "type": "string"
           },
@@ -2360,6 +3000,70 @@
       "AssignDriverDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "shipmentId": {
             "type": "string"
           },
@@ -2403,6 +3107,70 @@
       "PickupProofDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "packageScanCode": {
             "type": "string"
           },
@@ -2429,6 +3197,70 @@
       "RefundDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "paymentId": {
             "type": "string"
           },
@@ -2456,6 +3288,70 @@
       "EscrowReleaseDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "accountId": {
             "type": "string"
           },
@@ -2544,6 +3440,70 @@
       "AiActionDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "agentCode": {
             "type": "string"
           },
@@ -2599,6 +3559,70 @@
       "AiProviderCreateDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "apiKey": {
             "type": "string"
           },
@@ -2622,6 +3646,70 @@
       "AiProviderTestDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "model": {
             "type": "string"
           },
@@ -2633,6 +3721,70 @@
       "CreateReturnDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "orderId": {
             "type": "string"
           },
@@ -2655,6 +3807,70 @@
       "UpdateReturnStatusDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "status": {
             "type": "string",
             "enum": [
@@ -2689,6 +3905,70 @@
       "ApprovalRequestDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "actionCode": {
             "type": "string"
           },
@@ -2718,6 +3998,70 @@
       "ApprovalDecisionDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "decision": {
             "type": "string",
             "enum": [
@@ -2736,6 +4080,70 @@
       "CommentDto": {
         "type": "object",
         "properties": {
+          "workflow": {
+            "type": "object",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "workflowId": {
+            "type": "string",
+            "description": "Frontend workflow trace field accepted by dev/mock contracts."
+          },
+          "operationId": {
+            "type": "string",
+            "description": "Frontend operation trace field accepted by dev/mock contracts."
+          },
+          "frontendAction": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "action": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "actionId": {
+            "type": "string",
+            "description": "Frontend action trace field accepted by dev/mock contracts."
+          },
+          "requestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "Frontend correlation trace field accepted by dev/mock contracts."
+          },
+          "clientRequestId": {
+            "type": "string",
+            "description": "Frontend request trace field accepted by dev/mock contracts."
+          },
+          "source": {
+            "type": "string",
+            "description": "Frontend source trace field accepted by dev/mock contracts."
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "Frontend timestamp trace field accepted by dev/mock contracts."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "role": {
+            "type": "string",
+            "description": "Frontend actor trace field accepted by dev/mock contracts."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
+          "note": {
+            "type": "string",
+            "description": "Frontend note field accepted by dev/mock contracts."
+          },
           "comment": {
             "type": "string"
           }

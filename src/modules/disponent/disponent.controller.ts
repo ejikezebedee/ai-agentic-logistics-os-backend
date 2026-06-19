@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Optional, Param, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Optional, Param, Post } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Actor, Roles } from '../../common/auth.decorators';
 import { AssignDriverDto } from '../../common/dto';
@@ -70,13 +70,13 @@ export class DisponentController {
   @Post('assign-driver')
   @ApiBody({ type: AssignDriverDto })
   assignDriver(@Actor() actor: RequestActor, @Body() dto: AssignDriverDto) {
-    return this.operations.assignDriver(actor.id, dto.packageStatus ?? PackageStatus.READY_FOR_DISPATCH, dto.shipmentId, dto.driverId);
+    return this.operations.assignDriver(actor.id, dto.packageStatus ?? PackageStatus.READY_FOR_DISPATCH, this.shipmentId(dto), this.driverId(dto));
   }
 
   @Post('reassign-driver')
   @ApiBody({ type: AssignDriverDto })
   reassignDriver(@Actor() actor: RequestActor, @Body() dto: AssignDriverDto) {
-    return this.operations.assignDriver(actor.id, dto.packageStatus ?? PackageStatus.READY_FOR_DISPATCH, dto.shipmentId, dto.driverId);
+    return this.operations.assignDriver(actor.id, dto.packageStatus ?? PackageStatus.READY_FOR_DISPATCH, this.shipmentId(dto), this.driverId(dto));
   }
 
   @Post('assign-carrier')
@@ -91,5 +91,17 @@ export class DisponentController {
 
   private hasPrisma() {
     return Boolean(this.prisma && typeof (this.prisma as any).tourPlan?.create === 'function');
+  }
+
+  private shipmentId(dto: AssignDriverDto) {
+    const shipmentId = dto.shipmentId ?? dto.packageId;
+    if (!shipmentId) throw new BadRequestException('Dispatch assignment requires shipmentId or packageId.');
+    return shipmentId;
+  }
+
+  private driverId(dto: AssignDriverDto) {
+    const driverId = dto.driverId ?? dto.assignedDriverId ?? (typeof dto.userId === 'string' ? dto.userId : undefined);
+    if (!driverId) throw new BadRequestException('Dispatch assignment requires driverId or assignedDriverId.');
+    return driverId;
   }
 }

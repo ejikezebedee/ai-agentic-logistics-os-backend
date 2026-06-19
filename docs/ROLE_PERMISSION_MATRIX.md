@@ -57,6 +57,8 @@ Documented development aliases normalize as follows: `admin`, `super`, `superadm
 
 Integration 7E note: permission-based dev access does not bypass RBAC. It only maps explicit permissions from `ROLE_PERMISSIONS` to the same allowed role matrix above. A customer actor still receives `403` for dispatch assignment, refund approval, AI provider testing, and finance/compliance routes.
 
+Integration 7F replay note: `test/fixtures/integration-7e-failed-calls.json` is the backend replay fixture for the reported 28 DTO/body and 5 RBAC/dev-actor failures. The exact Codex files `outputs/integration-7e-failed-calls.json` and `outputs/integration-7e-failed-calls.md` were not present in this backend checkout or local workspace search when 7F was executed, so the fixture is explicitly marked as reconstructed from the reported classes and counts. The replay test asserts that each DTO payload key is represented in the current Swagger/OpenAPI request schema before replaying the call. Development trace fields accepted across DTO-backed workflow bodies are `workflow`, `workflowId`, `operationId`, `frontendAction`, `action`, `actionId`, `requestId`, `correlationId`, `clientRequestId`, `source`, `timestamp`, `actorId`, `userId`, `role`, `notes`, and `note`.
+
 ## Status Enums
 
 Frontend should treat these values as closed enums for Milestone 6:
