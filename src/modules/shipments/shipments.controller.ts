@@ -20,12 +20,19 @@ export class ShipmentsController {
   @Roles(RoleCode.MERCHANT, RoleCode.LOGISTIC_DISPONENT, RoleCode.SUPER_ADMIN)
   @ApiBody({ type: CreateShipmentDto })
   async create(@Body() body: CreateShipmentDto) {
+    const orderId = body.orderId ?? body.referenceId ?? body.id;
+    if (!orderId) {
+      throw new BadRequestException({
+        message: 'Shipment creation requires orderId, referenceId, or id.',
+        error: 'ContractMismatch'
+      });
+    }
     const packageBarcode = body.packageBarcode ?? body.barcode;
     if (this.hasPrisma()) {
       return (this.prisma as any).shipment
         .create({
           data: {
-            orderId: body.orderId,
+            orderId,
             status: ShipmentStatus.AWAITING_DISPATCH,
             custodyType: 'warehouse',
             responsibility: 'warehouse_staff',
@@ -42,7 +49,7 @@ export class ShipmentsController {
           });
         });
     }
-    return { id: 'ship_development', orderId: body.orderId, packageBarcode, status: ShipmentStatus.AWAITING_DISPATCH };
+    return { id: 'ship_development', orderId, packageBarcode, status: ShipmentStatus.AWAITING_DISPATCH };
   }
 
   @Get(':id/next-states')
@@ -70,10 +77,14 @@ export class ShipmentsController {
   }
 
   private normalizedProof(dto: DeliveryProofDto): DeliveryProofDto {
+    dto.gps = dto.gps ?? dto.location ?? ({ latitude: dto.latitude, longitude: dto.longitude } as any);
     if (dto.gps && (dto.gps.latitude === undefined || dto.gps.longitude === undefined)) {
       dto.gps.latitude = dto.gps.latitude ?? dto.gps.lat;
       dto.gps.longitude = dto.gps.longitude ?? dto.gps.lng;
     }
+    dto.packageScanCode = dto.packageScanCode ?? dto.barcode ?? dto.scanCode;
+    dto.photoObjectKey = dto.photoObjectKey ?? dto.photoUrl;
+    dto.signatureObjectKey = dto.signatureObjectKey ?? dto.signatureUrl;
     if (dto.gps && (dto.gps.latitude === undefined || dto.gps.longitude === undefined)) {
       throw new BadRequestException({
         message: 'Delivery GPS requires latitude/longitude or lat/lng.',

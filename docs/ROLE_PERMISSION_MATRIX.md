@@ -51,9 +51,11 @@ Development actor header behavior:
 | --- | --- | --- |
 | `x-actor-id` | string | Required with dev actor headers. |
 | `x-actor-roles` | comma string or JSON array string | Examples: `merchant`, `warehouse_staff,warehouse_manager`, `["driver"]`. |
-| `x-actor-permissions` | comma string or JSON array string | Parsed and exposed to request context; route access still requires the role matrix above. |
+| `x-actor-permissions` | comma string or JSON array string | May satisfy a route only when the permission is explicitly mapped to one of that route's allowed roles, or when `*` is supplied by a trusted dev actor. |
 
-Documented development aliases normalize as follows: `admin` and `superadmin` to `super_admin`; `disponent` and `logistics_disponent` to `logistic_disponent`; `warehouse`, `warehouse_worker`, and `warehouse_operator` to `warehouse_staff`; `finance` to `finance_admin`; `compliance` to `compliance_admin`; `ai` to `ai_agent`.
+Documented development aliases normalize as follows: `admin`, `super`, `superadmin`, `platform_admin`, and `platformadmin` to `super_admin`; `disponent`, `dispatcher`, `logistics_disponent`, `logistics_dispatcher`, `logistics_manager`, and `logistic_dispatcher` to `logistic_disponent`; `warehouse`, `warehouse_worker`, and `warehouse_operator` to `warehouse_staff`; `warehouse_admin`, `warehouse_supervisor`, and `warehouse_lead` to `warehouse_manager`; `support`, `support_admin`, and `customer_support` to `support_agent`; `finance`, `finance_manager`, and `finance_officer` to `finance_admin`; `compliance` and `compliance_officer` to `compliance_admin`; `ai` to `ai_agent`.
+
+Integration 7E note: permission-based dev access does not bypass RBAC. It only maps explicit permissions from `ROLE_PERMISSIONS` to the same allowed role matrix above. A customer actor still receives `403` for dispatch assignment, refund approval, AI provider testing, and finance/compliance routes.
 
 ## Status Enums
 

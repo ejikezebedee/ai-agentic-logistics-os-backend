@@ -1,5 +1,46 @@
 # Updated Acceptance Report
 
+## Integration 7E DTO + RBAC Failed-Call Elimination
+
+Status: backend 7E repair implemented for the remaining Codex 7D failed classes. Production remains blocked; mock/dev adapters only.
+
+### Report Availability
+
+`outputs/integration-milestone-7d-report.md` and `outputs/integration-milestone-7-report.md` were not present in the backend checkout or local workspace search. The 7E repair therefore targets the exact failed classes reported by Codex: 26 DTO/body mismatches, 5 RBAC/dev actor mismatches, and 3 timeout/mock-status-0 entries.
+
+### Fixes Applied
+
+- DTO/body mismatch class addressed: 26 of 26 reported failures targeted.
+- RBAC/dev actor mismatch class addressed: 5 of 5 reported failures targeted.
+- Timeout/mock-status-0 class addressed: 3 of 3 reported failures documented as non-backend-owned unless a concrete slow backend endpoint is shown by the frontend harness.
+- `CreateOrderDto` item aliases: `sku`, `productId`, `itemId`, `qty`, and `price`.
+- `CreateShipmentDto` aliases: `referenceId`/`id` for `orderId`, and `barcode` for `packageBarcode`.
+- `CreateReturnDto`: development customer actor may omit `customerId`; backend uses `x-actor-id`.
+- Warehouse package DTOs continue to accept `packageId`, `id`, or `barcode`.
+- Dispatch assignment accepts `packageId` for shipment reference and `assignedDriverId`/`userId` for driver reference while preserving ready-package policy.
+- Driver pickup/delivery proof accepts `barcode`, `scanCode`, `photoUrl`, `signatureUrl`, `location`, and top-level coordinates.
+- Workflow DTOs accept frontend trace fields such as `workflowId`, `operationId`, and `frontendAction` without treating them as contract failures.
+- Dev actor role aliases expanded for dispatcher/logistics, warehouse, support, finance, compliance, and platform admin variants.
+- `x-actor-permissions` can satisfy route access only when the permission is mapped to one of that route's existing allowed roles; denied role boundaries remain covered by tests.
+
+### Regression Tests Added
+
+- `test/integration-7e-dto-rbac-elimination.spec.ts`
+- Covers order creation, shipment creation, return request/status, warehouse pick, dispatch assign driver, driver pickup, driver delivery, refund approval, AI provider test, RBAC allowed aliases, permission-based dev access, and denied customer dispatch access.
+
+### Verification
+
+- `npm run typecheck`: passed.
+- `npm run lint`: passed.
+- `npm run build`: passed.
+- `npm test -- --runInBand`: passed, 7 suites, 50 tests, 1 skipped suite.
+- `npm run openapi:export`: passed.
+- OpenAPI operations: 126.
+- Public smoke against `https://late-papayas-change.loca.lt/health`: `408` tunnel availability failure.
+- Public CORS preflight against `https://late-papayas-change.loca.lt/ai/providers/dev-provider-001/test`: `408` tunnel availability failure.
+
+The public URL failures above are not counted as backend contract success. They require the safe dev/mock tunnel to be restarted before Codex can rerun the frontend harness.
+
 ## Integration 7D Failed-Call Elimination Pass
 
 Status: first 7D repair pass implemented and smoke-verified against the public mock/dev API.

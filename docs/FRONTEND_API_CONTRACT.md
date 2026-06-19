@@ -20,7 +20,9 @@ Development auth accepts actor headers for integration testing:
 
 Integration tests may use either Bearer JWT auth from `POST /auth/login` or dev actor headers. Dev actor headers are accepted only as a development/mock integration mechanism and must not be enabled as a production identity boundary without a separate gateway control.
 
-`x-actor-roles` may be sent as a comma-separated string such as `merchant,warehouse_staff` or as a JSON array string such as `["merchant"]`. The backend normalizes documented development aliases including `admin`, `disponent`, `warehouse`, `finance`, `compliance`, and `ai`.
+`x-actor-roles` may be sent as a comma-separated string such as `merchant,warehouse_staff` or as a JSON array string such as `["merchant"]`. The backend normalizes documented development aliases including `admin`, `superadmin`, `dispatcher`, `disponent`, `logistics_dispatcher`, `warehouse`, `warehouse_operator`, `warehouse_supervisor`, `support`, `finance`, `compliance`, and `ai`.
+
+`x-actor-permissions` may be sent without `x-actor-roles` for development harness calls. A route still passes only when the supplied permission is explicitly mapped to one of that route's allowed roles, or when `*` is supplied by a trusted development actor. This does not weaken the endpoint role matrix.
 
 ## CORS For Frontend Dev
 
@@ -122,6 +124,8 @@ Package readiness requires scan, pack, label generation, and staging.
 
 Warehouse package payloads accept any one of `packageId`, `id`, or `barcode`; `packageId` remains the preferred field.
 
+Workflow DTOs also accept non-semantic frontend trace fields including `workflow`, `workflowId`, `operationId`, `frontendAction`, `requestId`, `correlationId`, `actorId`, `userId`, `role`, `notes`, and `note`; these fields are accepted to keep frontend integration telemetry from causing DTO mismatch failures.
+
 ## Shipment Creation
 
 `POST /shipments` requires an existing `orderId`. Valid payload:
@@ -135,7 +139,7 @@ Warehouse package payloads accept any one of `packageId`, `id`, or `barcode`; `p
 }
 ```
 
-`barcode` is accepted as a frontend alias for `packageBarcode`. Unknown order references return the standard `400 ContractMismatch` error; they must not return `500`.
+`barcode` is accepted as a frontend alias for `packageBarcode`. `referenceId` or `id` are accepted as frontend aliases for `orderId`. Unknown order references return the standard `400 ContractMismatch` error; they must not return `500`.
 
 ## Tracking and Proof
 
@@ -152,6 +156,13 @@ Object reference purposes:
 - warehouse_packing_proof
 - dispute_evidence
 - document
+
+Delivery and pickup proof DTO aliases:
+
+- `barcode` or `scanCode` may be sent instead of `packageScanCode`.
+- `photoUrl` may be sent instead of `photoObjectKey`.
+- `signatureUrl` may be sent instead of `signatureObjectKey`.
+- Delivery GPS may be sent as `gps.latitude`/`gps.longitude`, `gps.lat`/`gps.lng`, `location.lat`/`location.lng`, or top-level `latitude`/`longitude`.
 
 ## Payments, Escrow, Ledger
 

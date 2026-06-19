@@ -37,7 +37,7 @@ Confirm with `POST /orders/:id/confirm`.
 }
 ```
 
-`barcode` is also accepted as a frontend alias for `packageBarcode`. Unknown `orderId` values return `400 ContractMismatch`.
+`barcode` is also accepted as a frontend alias for `packageBarcode`. `referenceId` and `id` are accepted as frontend aliases for `orderId`. Unknown order references return `400 ContractMismatch`.
 
 ## Warehouse Flow
 
@@ -82,6 +82,12 @@ Assign driver:
 }
 ```
 
+Frontend aliases are also accepted:
+
+```json
+{ "packageId": "shipment_id", "assignedDriverId": "driver_id" }
+```
+
 Use `POST /dispatch/assign-driver` for the industrial MVP dispatch path. `POST /disponent/assign-driver` remains available for existing Disponent console flows.
 `packageStatus` may be omitted by the frontend; the backend defaults it to `ready_for_dispatch` and still rejects non-ready status values.
 
@@ -91,6 +97,12 @@ Pickup:
 
 ```json
 { "packageScanCode": "PKG-100", "photoObjectKey": "proof/pickup.jpg" }
+```
+
+Frontend aliases are also accepted:
+
+```json
+{ "barcode": "PKG-100", "photoUrl": "mock://pickup.jpg" }
 ```
 
 Use `POST /drivers/pickup/:shipmentId/complete`. The legacy singular path `POST /driver/pickup/:shipmentId/complete` remains available.
@@ -113,6 +125,17 @@ GPS aliases are accepted when browser/device APIs emit shorter keys:
   "tier": "low_value",
   "gps": { "lat": 51.4344, "lng": 6.7623, "withinTolerance": true },
   "otp": "123456"
+}
+```
+
+Device-location payloads may also use `location` or top-level coordinates:
+
+```json
+{
+  "location": { "lat": 51.4344, "lng": 6.7623, "withinTolerance": true },
+  "barcode": "PKG-100",
+  "photoUrl": "mock://delivery.jpg",
+  "signatureUrl": "mock://signature.png"
 }
 ```
 
@@ -177,13 +200,16 @@ Approve refund request with `POST /approvals/refunds/:id/approve`:
 }
 ```
 
+When a development customer actor creates a return, `customerId` may be omitted and the backend uses `x-actor-id`.
+
 Update return status with `POST /returns/:id/status`:
 
 ```json
 {
   "status": "return_approved",
   "inspection": { "condition": "accepted" },
-  "refundId": "optional_refund_id"
+  "refundId": "optional_refund_id",
+  "comment": "approved by support"
 }
 ```
 
@@ -218,6 +244,12 @@ Approve AI action with `POST /ai/approvals/:id/approve`:
 ```
 
 Test AI provider with `POST /ai/providers/:id/test`:
+
+```json
+{ "model": "mock-model", "prompt": "ping", "operationId": "AiController_testProvider" }
+```
+
+Non-semantic frontend trace fields such as `workflow`, `workflowId`, `operationId`, `frontendAction`, `requestId`, `correlationId`, `actorId`, `userId`, `role`, `notes`, and `note` are accepted on workflow DTOs and ignored by backend policy decisions.
 
 ```json
 { "model": "mock-model", "prompt": "ping" }

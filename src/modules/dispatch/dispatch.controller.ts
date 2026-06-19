@@ -32,7 +32,14 @@ export class DispatchController {
   @Post('assign-driver')
   @ApiBody({ type: AssignDriverDto })
   assignDriver(@Actor() actor: RequestActor, @Body() dto: AssignDriverDto) {
-    return this.operations.assignDriver(actor.id, dto.packageStatus ?? PackageStatus.READY_FOR_DISPATCH, dto.shipmentId, dto.driverId);
+    const shipmentId = dto.shipmentId ?? dto.packageId;
+    const driverId = dto.driverId ?? dto.assignedDriverId ?? (typeof dto.userId === 'string' ? dto.userId : undefined);
+    if (!shipmentId || !driverId) {
+      throw new BadRequestException({
+        message: ['Dispatch assignment requires shipmentId/packageId and driverId/assignedDriverId.']
+      });
+    }
+    return this.operations.assignDriver(actor.id, dto.packageStatus ?? PackageStatus.READY_FOR_DISPATCH, shipmentId, driverId);
   }
 
   @Get('assignments/:id')

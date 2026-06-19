@@ -19,16 +19,17 @@ export class OrdersController {
   @Roles(RoleCode.CUSTOMER, RoleCode.MERCHANT, RoleCode.SUPER_ADMIN)
   @ApiBody({ type: CreateOrderDto })
   async create(@Actor() actor: RequestActor, @Body() dto: CreateOrderDto) {
+    const items = this.normalizedItems(dto.items);
     const order = this.hasPrisma()
       ? await (this.prisma as any).order.create({
           data: {
             customerId: dto.customerId,
             merchantId: dto.merchantId,
             status: OrderStatus.DRAFT,
-            totalAmount: this.total(dto.items),
-            currency: 'EUR',
+            totalAmount: this.total(items),
+            currency: dto.currency ?? 'EUR',
             items: {
-              create: dto.items.map((item) => ({
+              create: items.map((item) => ({
                 skuId: String(item.skuId),
                 quantity: Number(item.quantity ?? 1),
                 unitPrice: Number(item.unitPrice ?? 0)
@@ -43,7 +44,7 @@ export class OrdersController {
             details: this.errorMessage(error)
           });
         })
-      : { id: 'ord_development', ...dto, status: OrderStatus.DRAFT };
+      : { id: 'ord_development', ...dto, items, status: OrderStatus.DRAFT };
     this.audit.create({ actorId: actor.id, actorType: 'user', action: TrackingEventCode.ORDER_CREATED, targetType: 'order', targetId: order.id });
     return order;
   }
@@ -66,6 +67,24 @@ export class OrdersController {
     }
     this.audit.create({ actorId: actor.id, actorType: 'user', action: 'order.confirmed', targetType: 'order', targetId: id });
     return order;
+  }
+
+  private normalizedItems(items: CreateOrderDto['items']) {
+    return items.map((item, index) => {
+      const skuId = item.skuId ?? item.sku ?? item.productId ?? item.itemId;
+      if (!skuId) {
+        throw new BadRequestException({
+          message: `items[${index}] requires skuId, sku, productId, or itemId.`,
+          error: 'ContractMismatch'
+        });
+      }
+      return {
+        ...item,
+        skuId,
+        quantity: item.quantity ?? item.qty ?? 1,
+        unitPrice: item.unitPrice ?? item.price ?? 0
+      };
+    });
   }
 
   private total(items: CreateOrderDto['items']) {

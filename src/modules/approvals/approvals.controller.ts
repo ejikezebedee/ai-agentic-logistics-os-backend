@@ -16,12 +16,14 @@ export class ApprovalsController {
   @Roles(RoleCode.AI_AGENT, RoleCode.LOGISTIC_DISPONENT, RoleCode.FINANCE_ADMIN, RoleCode.COMPLIANCE_ADMIN, RoleCode.SUPER_ADMIN)
   @ApiBody({ type: ApprovalRequestDto })
   async request(@Actor() actor: RequestActor, @Body() body: ApprovalRequestDto) {
+    const actionCode = body.actionCode ?? body.requestedAction;
+    const context = body.context ?? {};
     if (this.hasPrisma()) {
       return (this.prisma as any).approvalRequest.create({
-        data: { requesterType: actor.roles.includes(RoleCode.AI_AGENT) ? 'ai_agent' : 'user', requesterId: actor.id, actionCode: body.actionCode, riskLevel: body.riskLevel, context: body.context }
+        data: { requesterType: actor.roles.includes(RoleCode.AI_AGENT) ? 'ai_agent' : 'user', requesterId: actor.id, actionCode, riskLevel: body.riskLevel, context }
       });
     }
-    const request = { id: `apr_${this.memoryRequests.length + 1}`, requesterId: actor.id, status: ApprovalStatus.PENDING, ...body };
+    const request = { id: `apr_${this.memoryRequests.length + 1}`, requesterId: actor.id, status: ApprovalStatus.PENDING, ...body, actionCode, context };
     this.memoryRequests.push(request);
     return request;
   }
@@ -37,6 +39,7 @@ export class ApprovalsController {
   @Roles(RoleCode.COMPLIANCE_ADMIN, RoleCode.FINANCE_ADMIN, RoleCode.SUPER_ADMIN)
   @ApiBody({ type: ApprovalDecisionDto })
   async decide(@Actor() actor: RequestActor, @Param('id') id: string, @Body() body: ApprovalDecisionDto) {
+    body.decision = body.decision ?? ApprovalStatus.APPROVED;
     if (![ApprovalStatus.APPROVED, ApprovalStatus.REJECTED].includes(body.decision as ApprovalStatus)) {
       return { id, status: 'ignored', reason: 'Only approved/rejected decisions are accepted here.' };
     }

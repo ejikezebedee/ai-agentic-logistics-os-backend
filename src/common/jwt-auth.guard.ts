@@ -21,12 +21,13 @@ export class JwtAuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<{ headers: Record<string, string | string[] | undefined>; user?: RequestActor }>();
     const actorId = this.firstHeader(request.headers['x-actor-id']);
     const rolesHeader = request.headers['x-actor-roles'];
+    const permissionsHeader = request.headers['x-actor-permissions'];
 
-    if (actorId && rolesHeader) {
+    if (actorId && (rolesHeader || permissionsHeader)) {
       request.user = {
         id: actorId,
         roles: this.parseRoles(rolesHeader),
-        permissions: this.parseList(request.headers['x-actor-permissions'])
+        permissions: this.parseList(permissionsHeader)
       };
       return true;
     }
@@ -75,13 +76,29 @@ export class JwtAuthGuard implements CanActivate {
     const aliases: Record<string, RoleCode> = {
       admin: RoleCode.SUPER_ADMIN,
       superadmin: RoleCode.SUPER_ADMIN,
+      super: RoleCode.SUPER_ADMIN,
+      platform_admin: RoleCode.SUPER_ADMIN,
+      platformadmin: RoleCode.SUPER_ADMIN,
       logistics_disponent: RoleCode.LOGISTIC_DISPONENT,
+      logistics_dispatcher: RoleCode.LOGISTIC_DISPONENT,
+      logistics_manager: RoleCode.LOGISTIC_DISPONENT,
+      logistic_dispatcher: RoleCode.LOGISTIC_DISPONENT,
       disponent: RoleCode.LOGISTIC_DISPONENT,
+      dispatcher: RoleCode.LOGISTIC_DISPONENT,
       warehouse: RoleCode.WAREHOUSE_STAFF,
       warehouse_worker: RoleCode.WAREHOUSE_STAFF,
       warehouse_operator: RoleCode.WAREHOUSE_STAFF,
+      warehouse_admin: RoleCode.WAREHOUSE_MANAGER,
+      warehouse_supervisor: RoleCode.WAREHOUSE_MANAGER,
+      warehouse_lead: RoleCode.WAREHOUSE_MANAGER,
+      support: RoleCode.SUPPORT_AGENT,
+      support_admin: RoleCode.SUPPORT_AGENT,
+      customer_support: RoleCode.SUPPORT_AGENT,
       compliance: RoleCode.COMPLIANCE_ADMIN,
+      compliance_officer: RoleCode.COMPLIANCE_ADMIN,
       finance: RoleCode.FINANCE_ADMIN,
+      finance_manager: RoleCode.FINANCE_ADMIN,
+      finance_officer: RoleCode.FINANCE_ADMIN,
       ai: RoleCode.AI_AGENT
     };
     if (aliases[normalized]) return aliases[normalized];

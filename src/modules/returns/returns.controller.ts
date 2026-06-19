@@ -14,12 +14,19 @@ export class ReturnsController {
   @Roles(RoleCode.CUSTOMER, RoleCode.SUPPORT_AGENT, RoleCode.SUPER_ADMIN)
   @ApiBody({ type: CreateReturnDto })
   async request(@Actor() actor: RequestActor, @Body() body: CreateReturnDto) {
+    const customerId = body.customerId ?? actor.id;
+    if (!body.orderId || !body.reason) {
+      throw new BadRequestException({
+        message: 'Return request requires orderId and reason.',
+        error: 'ContractMismatch'
+      });
+    }
     if (this.hasPrisma()) {
       return (this.prisma as any).return.create({
         data: {
           orderId: body.orderId,
           shipmentId: body.shipmentId,
-          customerId: body.customerId,
+          customerId,
           reason: body.reason,
           status: ReturnStatus.RETURN_REQUESTED
         }
@@ -31,7 +38,7 @@ export class ReturnsController {
         });
       });
     }
-    return { id: 'ret_development', requestedBy: actor.id, status: ReturnStatus.RETURN_REQUESTED, ...body };
+    return { id: 'ret_development', requestedBy: actor.id, status: ReturnStatus.RETURN_REQUESTED, ...body, customerId };
   }
 
   @Post(':id/status')

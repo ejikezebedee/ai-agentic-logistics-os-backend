@@ -48,7 +48,9 @@ export class AiController {
   @Roles(RoleCode.SUPER_ADMIN, RoleCode.COMPLIANCE_ADMIN)
   @ApiBody({ type: AiProviderCreateDto })
   createProvider(@Body() body: AiProviderCreateDto) {
-    return { providerName: body.providerName, encryptedApiKey: this.governance.encryptProviderKey(body.apiKey), frontendApiKey: this.governance.maskProviderKey() };
+    const providerName = body.providerName ?? body.name ?? 'dev-provider';
+    const apiKey = body.apiKey ?? body.key ?? 'development-mock-key';
+    return { providerName, encryptedApiKey: this.governance.encryptProviderKey(apiKey), frontendApiKey: this.governance.maskProviderKey() };
   }
 
   @Post('providers/:id/test')

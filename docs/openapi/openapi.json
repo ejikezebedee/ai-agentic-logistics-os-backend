@@ -2155,13 +2155,33 @@
           "skuId": {
             "type": "string"
           },
+          "sku": {
+            "type": "string",
+            "description": "Frontend alias for skuId."
+          },
+          "productId": {
+            "type": "string",
+            "description": "Frontend alias for skuId."
+          },
+          "itemId": {
+            "type": "string",
+            "description": "Frontend alias for skuId."
+          },
           "quantity": {
             "type": "number",
             "default": 1
           },
+          "qty": {
+            "type": "number",
+            "description": "Frontend alias for quantity."
+          },
           "unitPrice": {
             "type": "number",
             "default": 0
+          },
+          "price": {
+            "type": "number",
+            "description": "Frontend alias for unitPrice."
           }
         },
         "required": [
@@ -2182,6 +2202,9 @@
             "items": {
               "$ref": "#/components/schemas/OrderItemDto"
             }
+          },
+          "currency": {
+            "type": "string"
           }
         },
         "required": [
@@ -2196,6 +2219,14 @@
           "orderId": {
             "type": "string",
             "description": "Existing order id returned by POST /orders or seeded dev order id."
+          },
+          "id": {
+            "type": "string",
+            "description": "Frontend alias for orderId."
+          },
+          "referenceId": {
+            "type": "string",
+            "description": "Frontend alias for orderId."
           },
           "packageBarcode": {
             "type": "string"
@@ -2256,20 +2287,52 @@
           "gps": {
             "$ref": "#/components/schemas/GpsDto"
           },
+          "location": {
+            "description": "Frontend alias for gps.",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GpsDto"
+              }
+            ]
+          },
+          "latitude": {
+            "type": "number",
+            "description": "Top-level frontend alias for gps.latitude."
+          },
+          "longitude": {
+            "type": "number",
+            "description": "Top-level frontend alias for gps.longitude."
+          },
           "otp": {
             "type": "string"
           },
           "photoObjectKey": {
             "type": "string"
           },
+          "photoUrl": {
+            "type": "string",
+            "description": "Frontend alias for photoObjectKey."
+          },
           "signatureObjectKey": {
             "type": "string"
+          },
+          "signatureUrl": {
+            "type": "string",
+            "description": "Frontend alias for signatureObjectKey."
           },
           "idCheckReference": {
             "type": "string"
           },
           "packageScanCode": {
             "type": "string"
+          },
+          "barcode": {
+            "type": "string",
+            "description": "Frontend alias for packageScanCode."
+          },
+          "scanCode": {
+            "type": "string",
+            "description": "Frontend alias for packageScanCode."
           },
           "disponentOverrideApprovalId": {
             "type": "string"
@@ -2300,8 +2363,16 @@
           "shipmentId": {
             "type": "string"
           },
+          "packageId": {
+            "type": "string",
+            "description": "Frontend alias for shipmentId."
+          },
           "driverId": {
             "type": "string"
+          },
+          "assignedDriverId": {
+            "type": "string",
+            "description": "Frontend alias for driverId."
           },
           "packageStatus": {
             "type": "string",
@@ -2335,11 +2406,23 @@
           "packageScanCode": {
             "type": "string"
           },
+          "barcode": {
+            "type": "string",
+            "description": "Frontend alias for packageScanCode."
+          },
+          "scanCode": {
+            "type": "string",
+            "description": "Frontend alias for packageScanCode."
+          },
           "otp": {
             "type": "string"
           },
           "photoObjectKey": {
             "type": "string"
+          },
+          "photoUrl": {
+            "type": "string",
+            "description": "Frontend alias for photoObjectKey."
           }
         }
       },
@@ -2519,8 +2602,16 @@
           "apiKey": {
             "type": "string"
           },
+          "key": {
+            "type": "string",
+            "description": "Frontend alias for apiKey."
+          },
           "providerName": {
             "type": "string"
+          },
+          "name": {
+            "type": "string",
+            "description": "Frontend alias for providerName."
           }
         },
         "required": [
@@ -2586,6 +2677,9 @@
           },
           "refundId": {
             "type": "string"
+          },
+          "comment": {
+            "type": "string"
           }
         },
         "required": [
@@ -2597,6 +2691,10 @@
         "properties": {
           "actionCode": {
             "type": "string"
+          },
+          "requestedAction": {
+            "type": "string",
+            "description": "Frontend alias for actionCode."
           },
           "riskLevel": {
             "type": "string",

@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer';
-import { IsArray, IsBoolean, IsEnum, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
+import { Allow, IsArray, IsBoolean, IsEnum, IsNumber, IsObject, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { AiRiskLevel, DisputeStatus, PackageStatus, PaymentStatus, ProofTier, RoleCode } from './domain.enums';
 
@@ -9,23 +9,95 @@ export class IdParamDto {
   id!: string;
 }
 
-export class OrderItemDto {
+export class FrontendWorkflowPayloadDto {
+  @Allow()
+  workflow?: unknown;
+
+  @Allow()
+  workflowId?: unknown;
+
+  @Allow()
+  operationId?: unknown;
+
+  @Allow()
+  frontendAction?: unknown;
+
+  @Allow()
+  action?: unknown;
+
+  @Allow()
+  actionId?: unknown;
+
+  @Allow()
+  requestId?: unknown;
+
+  @Allow()
+  correlationId?: unknown;
+
+  @Allow()
+  actorId?: unknown;
+
+  @Allow()
+  userId?: unknown;
+
+  @Allow()
+  role?: unknown;
+
+  @Allow()
+  notes?: unknown;
+
+  @Allow()
+  note?: unknown;
+
+}
+
+export class OrderItemDto extends FrontendWorkflowPayloadDto {
   @ApiProperty({ type: String })
+  @IsOptional()
   @IsString()
   skuId!: string;
 
+  @ApiPropertyOptional({ type: String, description: 'Frontend alias for skuId.' })
+  @IsOptional()
+  @IsString()
+  sku?: string;
+
+  @ApiPropertyOptional({ type: String, description: 'Frontend alias for skuId.' })
+  @IsOptional()
+  @IsString()
+  productId?: string;
+
+  @ApiPropertyOptional({ type: String, description: 'Frontend alias for skuId.' })
+  @IsOptional()
+  @IsString()
+  itemId?: string;
+
   @ApiPropertyOptional({ type: Number, default: 1 })
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   quantity?: number;
 
+  @ApiPropertyOptional({ type: Number, description: 'Frontend alias for quantity.' })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  qty?: number;
+
   @ApiPropertyOptional({ type: Number, default: 0 })
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   unitPrice?: number;
+
+  @ApiPropertyOptional({ type: Number, description: 'Frontend alias for unitPrice.' })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  price?: number;
 }
 
-export class CreateOrderDto {
+export class CreateOrderDto extends FrontendWorkflowPayloadDto {
   @ApiProperty({ type: String })
   @IsString()
   merchantId!: string;
@@ -39,16 +111,33 @@ export class CreateOrderDto {
   @ValidateNested({ each: true })
   @Type(() => OrderItemDto)
   items!: OrderItemDto[];
+
+  @ApiPropertyOptional({ type: String })
+  @IsOptional()
+  @IsString()
+  currency?: string;
 }
 
-export class AssignDriverDto {
+export class AssignDriverDto extends FrontendWorkflowPayloadDto {
   @ApiProperty({ type: String })
+  @IsOptional()
   @IsString()
   shipmentId!: string;
 
+  @ApiPropertyOptional({ type: String, description: 'Frontend alias for shipmentId.' })
+  @IsOptional()
+  @IsString()
+  packageId?: string;
+
   @ApiProperty({ type: String })
+  @IsOptional()
   @IsString()
   driverId!: string;
+
+  @ApiPropertyOptional({ type: String, description: 'Frontend alias for driverId.' })
+  @IsOptional()
+  @IsString()
+  assignedDriverId?: string;
 
   @ApiPropertyOptional({ enum: PackageStatus, default: PackageStatus.READY_FOR_DISPATCH })
   @IsOptional()
@@ -56,10 +145,21 @@ export class AssignDriverDto {
   packageStatus?: PackageStatus;
 }
 
-export class CreateShipmentDto {
+export class CreateShipmentDto extends FrontendWorkflowPayloadDto {
   @ApiProperty({ type: String, description: 'Existing order id returned by POST /orders or seeded dev order id.' })
+  @IsOptional()
   @IsString()
   orderId!: string;
+
+  @ApiPropertyOptional({ type: String, description: 'Frontend alias for orderId.' })
+  @IsOptional()
+  @IsString()
+  id?: string;
+
+  @ApiPropertyOptional({ type: String, description: 'Frontend alias for orderId.' })
+  @IsOptional()
+  @IsString()
+  referenceId?: string;
 
   @ApiPropertyOptional({ type: String })
   @IsOptional()
@@ -90,40 +190,64 @@ export class CreateShipmentDto {
 export class GpsDto {
   @ApiPropertyOptional({ type: Number })
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   latitude!: number;
 
   @ApiPropertyOptional({ type: Number })
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   longitude!: number;
 
   @ApiPropertyOptional({ type: Boolean })
   @IsOptional()
+  @Type(() => Boolean)
   @IsBoolean()
   withinTolerance?: boolean;
 
   @ApiPropertyOptional({ type: Number, description: 'Frontend alias for latitude.' })
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   lat?: number;
 
   @ApiPropertyOptional({ type: Number, description: 'Frontend alias for longitude.' })
   @IsOptional()
+  @Type(() => Number)
   @IsNumber()
   lng?: number;
 }
 
-export class DeliveryProofDto {
+export class DeliveryProofDto extends FrontendWorkflowPayloadDto {
   @ApiPropertyOptional({ enum: ProofTier, default: ProofTier.LOW_VALUE })
   @IsOptional()
   @IsEnum(ProofTier)
   tier!: ProofTier;
 
   @ApiProperty({ type: GpsDto })
+  @IsOptional()
   @ValidateNested()
   @Type(() => GpsDto)
   gps!: GpsDto;
+
+  @ApiPropertyOptional({ type: GpsDto, description: 'Frontend alias for gps.' })
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => GpsDto)
+  location?: GpsDto;
+
+  @ApiPropertyOptional({ type: Number, description: 'Top-level frontend alias for gps.latitude.' })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  latitude?: number;
+
+  @ApiPropertyOptional({ type: Number, description: 'Top-level frontend alias for gps.longitude.' })
+  @IsOptional()
+  @Type(() => Number)
+  @IsNumber()
+  longitude?: number;
 
   @ApiPropertyOptional({ type: String })
   @IsOptional()
@@ -135,10 +259,20 @@ export class DeliveryProofDto {
   @IsString()
   photoObjectKey?: string;
 
+  @ApiPropertyOptional({ type: String, description: 'Frontend alias for photoObjectKey.' })
+  @IsOptional()
+  @IsString()
+  photoUrl?: string;
+
   @ApiPropertyOptional({ type: String })
   @IsOptional()
   @IsString()
   signatureObjectKey?: string;
+
+  @ApiPropertyOptional({ type: String, description: 'Frontend alias for signatureObjectKey.' })
+  @IsOptional()
+  @IsString()
+  signatureUrl?: string;
 
   @ApiPropertyOptional({ type: String })
   @IsOptional()
@@ -150,17 +284,37 @@ export class DeliveryProofDto {
   @IsString()
   packageScanCode?: string;
 
+  @ApiPropertyOptional({ type: String, description: 'Frontend alias for packageScanCode.' })
+  @IsOptional()
+  @IsString()
+  barcode?: string;
+
+  @ApiPropertyOptional({ type: String, description: 'Frontend alias for packageScanCode.' })
+  @IsOptional()
+  @IsString()
+  scanCode?: string;
+
   @ApiPropertyOptional({ type: String })
   @IsOptional()
   @IsString()
   disponentOverrideApprovalId?: string;
 }
 
-export class PickupProofDto {
+export class PickupProofDto extends FrontendWorkflowPayloadDto {
   @ApiPropertyOptional({ type: String })
   @IsOptional()
   @IsString()
   packageScanCode?: string;
+
+  @ApiPropertyOptional({ type: String, description: 'Frontend alias for packageScanCode.' })
+  @IsOptional()
+  @IsString()
+  barcode?: string;
+
+  @ApiPropertyOptional({ type: String, description: 'Frontend alias for packageScanCode.' })
+  @IsOptional()
+  @IsString()
+  scanCode?: string;
 
   @ApiPropertyOptional({ type: String })
   @IsOptional()
@@ -171,18 +325,26 @@ export class PickupProofDto {
   @IsOptional()
   @IsString()
   photoObjectKey?: string;
+
+  @ApiPropertyOptional({ type: String, description: 'Frontend alias for photoObjectKey.' })
+  @IsOptional()
+  @IsString()
+  photoUrl?: string;
 }
 
-export class EscrowReleaseDto {
+export class EscrowReleaseDto extends FrontendWorkflowPayloadDto {
   @ApiProperty({ type: String })
+  @IsOptional()
   @IsString()
   accountId!: string;
 
   @ApiProperty({ type: String })
+  @IsOptional()
   @IsString()
   shipmentId!: string;
 
   @ApiProperty({ type: Number })
+  @Type(() => Number)
   @IsNumber()
   amount!: number;
 
@@ -191,6 +353,7 @@ export class EscrowReleaseDto {
   currency!: string;
 
   @ApiProperty({ type: Boolean })
+  @Type(() => Boolean)
   @IsBoolean()
   proofAccepted!: boolean;
 
@@ -199,6 +362,7 @@ export class EscrowReleaseDto {
   disputeStatus!: DisputeStatus;
 
   @ApiProperty({ type: Boolean })
+  @Type(() => Boolean)
   @IsBoolean()
   settlementWindowPassed!: boolean;
 
@@ -211,7 +375,7 @@ export class EscrowReleaseDto {
   actorRoles!: RoleCode[];
 }
 
-export class AiActionDto {
+export class AiActionDto extends FrontendWorkflowPayloadDto {
   @ApiProperty({ type: String })
   @IsString()
   agentCode!: string;
@@ -240,13 +404,13 @@ export class AiActionDto {
   l2AutoPolicyEnabled?: boolean;
 }
 
-export class GenericCreateDto {
+export class GenericCreateDto extends FrontendWorkflowPayloadDto {
   @ApiProperty({ type: Object })
   @IsObject()
   data!: Record<string, unknown>;
 }
 
-export class WarehousePackageDto {
+export class WarehousePackageDto extends FrontendWorkflowPayloadDto {
   @ApiPropertyOptional({ type: String })
   @IsOptional()
   @IsString()
@@ -263,7 +427,7 @@ export class WarehousePackageDto {
   barcode?: string;
 }
 
-export class RefundDto {
+export class RefundDto extends FrontendWorkflowPayloadDto {
   @ApiProperty({ type: String })
   @IsString()
   paymentId!: string;
@@ -273,6 +437,7 @@ export class RefundDto {
   accountId!: string;
 
   @ApiProperty({ type: Number })
+  @Type(() => Number)
   @IsNumber()
   amount!: number;
 
@@ -334,7 +499,7 @@ export class TrackingEventDto {
   metadata?: Record<string, unknown>;
 }
 
-export class CreateReturnDto {
+export class CreateReturnDto extends FrontendWorkflowPayloadDto {
   @ApiProperty({ type: String })
   @IsString()
   orderId!: string;
@@ -345,6 +510,7 @@ export class CreateReturnDto {
   shipmentId?: string;
 
   @ApiProperty({ type: String })
+  @IsOptional()
   @IsString()
   customerId!: string;
 
@@ -353,7 +519,7 @@ export class CreateReturnDto {
   reason!: string;
 }
 
-export class UpdateReturnStatusDto {
+export class UpdateReturnStatusDto extends FrontendWorkflowPayloadDto {
   @ApiProperty({
     enum: ['return_requested', 'return_approved', 'return_rejected', 'return_pickup_planned', 'return_picked_up', 'return_received', 'inspection_pending', 'refund_pending', 'refund_completed', 'restocked', 'discarded', 'closed']
   })
@@ -369,12 +535,23 @@ export class UpdateReturnStatusDto {
   @IsOptional()
   @IsString()
   refundId?: string;
+
+  @ApiPropertyOptional({ type: String })
+  @IsOptional()
+  @IsString()
+  comment?: string;
 }
 
-export class ApprovalRequestDto {
+export class ApprovalRequestDto extends FrontendWorkflowPayloadDto {
   @ApiProperty({ type: String })
+  @IsOptional()
   @IsString()
   actionCode!: string;
+
+  @ApiPropertyOptional({ type: String, description: 'Frontend alias for actionCode.' })
+  @IsOptional()
+  @IsString()
+  requestedAction?: string;
 
   @ApiPropertyOptional({ enum: AiRiskLevel })
   @IsOptional()
@@ -382,12 +559,14 @@ export class ApprovalRequestDto {
   riskLevel?: AiRiskLevel;
 
   @ApiProperty({ type: Object })
+  @IsOptional()
   @IsObject()
   context!: Record<string, unknown>;
 }
 
-export class ApprovalDecisionDto {
+export class ApprovalDecisionDto extends FrontendWorkflowPayloadDto {
   @ApiProperty({ enum: ['approved', 'rejected'] })
+  @IsOptional()
   @IsString()
   decision!: string;
 
@@ -397,24 +576,36 @@ export class ApprovalDecisionDto {
   comment?: string;
 }
 
-export class CommentDto {
+export class CommentDto extends FrontendWorkflowPayloadDto {
   @ApiPropertyOptional({ type: String })
   @IsOptional()
   @IsString()
   comment?: string;
 }
 
-export class AiProviderCreateDto {
+export class AiProviderCreateDto extends FrontendWorkflowPayloadDto {
   @ApiProperty({ type: String })
+  @IsOptional()
   @IsString()
   apiKey!: string;
 
+  @ApiPropertyOptional({ type: String, description: 'Frontend alias for apiKey.' })
+  @IsOptional()
+  @IsString()
+  key?: string;
+
   @ApiProperty({ type: String })
+  @IsOptional()
   @IsString()
   providerName!: string;
+
+  @ApiPropertyOptional({ type: String, description: 'Frontend alias for providerName.' })
+  @IsOptional()
+  @IsString()
+  name?: string;
 }
 
-export class AiProviderTestDto {
+export class AiProviderTestDto extends FrontendWorkflowPayloadDto {
   @ApiPropertyOptional({ type: String })
   @IsOptional()
   @IsString()
@@ -426,7 +617,7 @@ export class AiProviderTestDto {
   prompt?: string;
 }
 
-export class LoginDto {
+export class LoginDto extends FrontendWorkflowPayloadDto {
   @ApiProperty({ type: String })
   @IsString()
   email!: string;
@@ -441,19 +632,19 @@ export class LoginDto {
   twoFactorCode?: string;
 }
 
-export class RefreshTokenDto {
+export class RefreshTokenDto extends FrontendWorkflowPayloadDto {
   @ApiProperty({ type: String })
   @IsString()
   refreshToken!: string;
 }
 
-export class PasswordResetRequestDto {
+export class PasswordResetRequestDto extends FrontendWorkflowPayloadDto {
   @ApiProperty({ type: String })
   @IsString()
   email!: string;
 }
 
-export class PasswordResetCompleteDto {
+export class PasswordResetCompleteDto extends FrontendWorkflowPayloadDto {
   @ApiProperty({ type: String })
   @IsString()
   token!: string;
@@ -463,7 +654,7 @@ export class PasswordResetCompleteDto {
   newPassword!: string;
 }
 
-export class TwoFactorVerifyDto {
+export class TwoFactorVerifyDto extends FrontendWorkflowPayloadDto {
   @ApiProperty({ type: String })
   @IsString()
   challengeId!: string;

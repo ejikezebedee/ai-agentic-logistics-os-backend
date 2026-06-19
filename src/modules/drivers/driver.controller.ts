@@ -41,7 +41,7 @@ export class DriverController {
   @Post('pickup/:shipmentId/complete')
   @ApiBody({ type: PickupProofDto })
   pickup(@Actor() actor: RequestActor, @Param('shipmentId') shipmentId: string, @Body() dto: PickupProofDto) {
-    return this.operations.completePickup(actor.id, shipmentId, dto);
+    return this.operations.completePickup(actor.id, shipmentId, this.normalizedPickup(dto));
   }
 
   @Post('delivery/:shipmentId/attempt')
@@ -70,16 +70,26 @@ export class DriverController {
   }
 
   private normalizedProof(dto: DeliveryProofDto): DeliveryProofDto {
+    dto.gps = dto.gps ?? dto.location ?? ({ latitude: dto.latitude, longitude: dto.longitude } as any);
     if (dto.gps && (dto.gps.latitude === undefined || dto.gps.longitude === undefined)) {
       dto.gps.latitude = dto.gps.latitude ?? dto.gps.lat;
       dto.gps.longitude = dto.gps.longitude ?? dto.gps.lng;
     }
+    dto.packageScanCode = dto.packageScanCode ?? dto.barcode ?? dto.scanCode;
+    dto.photoObjectKey = dto.photoObjectKey ?? dto.photoUrl;
+    dto.signatureObjectKey = dto.signatureObjectKey ?? dto.signatureUrl;
     if (dto.gps && (dto.gps.latitude === undefined || dto.gps.longitude === undefined)) {
       throw new BadRequestException({
         message: 'Delivery GPS requires latitude/longitude or lat/lng.',
         error: 'ContractMismatch'
       });
     }
+    return dto;
+  }
+
+  private normalizedPickup(dto: PickupProofDto): PickupProofDto {
+    dto.packageScanCode = dto.packageScanCode ?? dto.barcode ?? dto.scanCode;
+    dto.photoObjectKey = dto.photoObjectKey ?? dto.photoUrl;
     return dto;
   }
 
@@ -101,16 +111,22 @@ export class DriversController {
   @Post('pickup/:shipmentId/complete')
   @ApiBody({ type: PickupProofDto })
   pickup(@Actor() actor: RequestActor, @Param('shipmentId') shipmentId: string, @Body() dto: PickupProofDto) {
+    dto.packageScanCode = dto.packageScanCode ?? dto.barcode ?? dto.scanCode;
+    dto.photoObjectKey = dto.photoObjectKey ?? dto.photoUrl;
     return this.operations.completePickup(actor.id, shipmentId, dto);
   }
 
   @Post('delivery/:shipmentId/complete')
   @ApiBody({ type: DeliveryProofDto })
   complete(@Actor() actor: RequestActor, @Param('shipmentId') shipmentId: string, @Body() dto: DeliveryProofDto) {
+    dto.gps = dto.gps ?? dto.location ?? ({ latitude: dto.latitude, longitude: dto.longitude } as any);
     if (dto.gps && (dto.gps.latitude === undefined || dto.gps.longitude === undefined)) {
       dto.gps.latitude = dto.gps.latitude ?? dto.gps.lat;
       dto.gps.longitude = dto.gps.longitude ?? dto.gps.lng;
     }
+    dto.packageScanCode = dto.packageScanCode ?? dto.barcode ?? dto.scanCode;
+    dto.photoObjectKey = dto.photoObjectKey ?? dto.photoUrl;
+    dto.signatureObjectKey = dto.signatureObjectKey ?? dto.signatureUrl;
     if (dto.gps && (dto.gps.latitude === undefined || dto.gps.longitude === undefined)) {
       throw new BadRequestException({
         message: 'Delivery GPS requires latitude/longitude or lat/lng.',
