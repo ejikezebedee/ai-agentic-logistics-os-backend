@@ -52,7 +52,7 @@ export class DriverController {
   @Post('delivery/:shipmentId/complete')
   @ApiBody({ type: DeliveryProofDto })
   complete(@Actor() actor: RequestActor, @Param('shipmentId') shipmentId: string, @Body() dto: DeliveryProofDto) {
-    return this.operations.completeDelivery(actor.id, shipmentId, dto.tier, dto);
+    return this.operations.completeDelivery(actor.id, shipmentId, dto.tier, this.normalizedProof(dto));
   }
 
   @Post('location')
@@ -67,6 +67,20 @@ export class DriverController {
 
   private hasPrisma() {
     return Boolean(this.prisma && typeof (this.prisma as any).dispatchAssignment?.findMany === 'function');
+  }
+
+  private normalizedProof(dto: DeliveryProofDto): DeliveryProofDto {
+    if (dto.gps && (dto.gps.latitude === undefined || dto.gps.longitude === undefined)) {
+      dto.gps.latitude = dto.gps.latitude ?? dto.gps.lat;
+      dto.gps.longitude = dto.gps.longitude ?? dto.gps.lng;
+    }
+    if (dto.gps && (dto.gps.latitude === undefined || dto.gps.longitude === undefined)) {
+      throw new BadRequestException({
+        message: 'Delivery GPS requires latitude/longitude or lat/lng.',
+        error: 'ContractMismatch'
+      });
+    }
+    return dto;
   }
 
   private assignmentError(id: string, error: unknown): never {
@@ -93,6 +107,16 @@ export class DriversController {
   @Post('delivery/:shipmentId/complete')
   @ApiBody({ type: DeliveryProofDto })
   complete(@Actor() actor: RequestActor, @Param('shipmentId') shipmentId: string, @Body() dto: DeliveryProofDto) {
+    if (dto.gps && (dto.gps.latitude === undefined || dto.gps.longitude === undefined)) {
+      dto.gps.latitude = dto.gps.latitude ?? dto.gps.lat;
+      dto.gps.longitude = dto.gps.longitude ?? dto.gps.lng;
+    }
+    if (dto.gps && (dto.gps.latitude === undefined || dto.gps.longitude === undefined)) {
+      throw new BadRequestException({
+        message: 'Delivery GPS requires latitude/longitude or lat/lng.',
+        error: 'ContractMismatch'
+      });
+    }
     return this.operations.completeDelivery(actor.id, shipmentId, dto.tier, dto);
   }
 }

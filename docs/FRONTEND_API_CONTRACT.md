@@ -20,6 +20,8 @@ Development auth accepts actor headers for integration testing:
 
 Integration tests may use either Bearer JWT auth from `POST /auth/login` or dev actor headers. Dev actor headers are accepted only as a development/mock integration mechanism and must not be enabled as a production identity boundary without a separate gateway control.
 
+`x-actor-roles` may be sent as a comma-separated string such as `merchant,warehouse_staff` or as a JSON array string such as `["merchant"]`. The backend normalizes documented development aliases including `admin`, `disponent`, `warehouse`, `finance`, `compliance`, and `ai`.
+
 ## CORS For Frontend Dev
 
 The safe dev/mock API allows browser preflight for frontend development origins configured through `CORS_ORIGIN`.
@@ -118,6 +120,23 @@ The Logistic Disponent cannot edit ledgers, release disputed escrow, change role
 
 Package readiness requires scan, pack, label generation, and staging.
 
+Warehouse package payloads accept any one of `packageId`, `id`, or `barcode`; `packageId` remains the preferred field.
+
+## Shipment Creation
+
+`POST /shipments` requires an existing `orderId`. Valid payload:
+
+```json
+{
+  "orderId": "order_id",
+  "packageBarcode": "PKG-100",
+  "origin": { "city": "Duisburg" },
+  "destination": { "city": "Dusseldorf" }
+}
+```
+
+`barcode` is accepted as a frontend alias for `packageBarcode`. Unknown order references return the standard `400 ContractMismatch` error; they must not return `500`.
+
 ## Tracking and Proof
 
 - `GET /tracking/:shipmentId`
@@ -211,6 +230,13 @@ npm run openapi:export
 - Prisma reference mismatches on order, return, dispatch assignment, and driver job mutation are converted to clean `400 ContractMismatch` responses instead of leaking database exceptions.
 - CORS preflight is explicit for the frontend dev headers listed above.
 - Endpoint intentionally unavailable: none in the 7C workflow scope. Live external provider calls, live payments, live logistics bookings, production queue workers, and production deployment remain unavailable by mock/dev policy.
+
+## Integration 7D Contract Repair Notes
+
+- `POST /shipments` now has a DTO-backed OpenAPI request schema and returns `400 ContractMismatch` for order/package reference failures instead of `500`.
+- Delivery GPS accepts `latitude`/`longitude` and frontend aliases `lat`/`lng`; the backend normalizes aliases before proof policy checks.
+- Warehouse package flow accepts `packageId`, `id`, or `barcode` and still rejects payloads where no package identifier is present.
+- Development actor roles accept comma-separated or JSON-array header values and normalize documented aliases without disabling RBAC.
 
 ## Milestone 6 Frontend Support Docs
 

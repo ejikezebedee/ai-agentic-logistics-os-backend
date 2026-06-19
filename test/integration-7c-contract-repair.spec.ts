@@ -72,6 +72,30 @@ describe('Integration 7C backend contract repair', () => {
       .expect(({ body }) => expect(body.error.code).toBe('VALIDATION_FAILED'));
   });
 
+  it('returns ContractMismatch instead of 500 for shipment creation reference failures', async () => {
+    const prismaFailure = {
+      shipment: {
+        create: jest.fn().mockRejectedValue(new Error('Foreign key constraint failed on the field: orderId'))
+      }
+    };
+    const moduleRef = await Test.createTestingModule({ imports: [AppModule] })
+      .overrideProvider(PrismaService)
+      .useValue(prismaFailure)
+      .compile();
+    const failingApp = moduleRef.createNestApplication();
+    failingApp.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }));
+    await failingApp.init();
+
+    await request(failingApp.getHttpServer())
+      .post('/shipments')
+      .set(actor('merchant_7d', [RoleCode.MERCHANT]))
+      .send({ orderId: 'ord_missing_7d', barcode: 'PKG-7D' })
+      .expect(400)
+      .expect(({ body }) => expect(body.error.code).toBe('CONTRACTMISMATCH'));
+
+    await failingApp.close();
+  });
+
   it('keeps repaired workflow endpoints available with dev actor headers', async () => {
     await request(app.getHttpServer())
       .post('/orders/ord_7c/confirm')
@@ -111,6 +135,12 @@ describe('Integration 7C backend contract repair', () => {
       .post('/shipments/ship_7c/deliver')
       .set(actor('driver_7c', [RoleCode.DRIVER]))
       .send({ tier: ProofTier.LOW_VALUE, gps: { latitude: 51.43, longitude: 6.76, withinTolerance: true }, otp: '123456' })
+      .expect(201);
+
+    await request(app.getHttpServer())
+      .post('/drivers/delivery/ship_7c/complete')
+      .set({ 'x-actor-id': 'driver_7c', 'x-actor-roles': '["driver"]' })
+      .send({ tier: ProofTier.LOW_VALUE, gps: { lat: 51.43, lng: 6.76, withinTolerance: true }, otp: '123456' })
       .expect(201);
   });
 

@@ -1,6 +1,6 @@
-import { Controller, Get, Optional, Param, Post, Body } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Optional, Param, Post } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
-import { DeliveryProofDto } from '../../common/dto';
+import { CreateShipmentDto, DeliveryProofDto } from '../../common/dto';
 import { ProofTier, RoleCode, ShipmentStatus } from '../../common/domain.enums';
 import { Actor, RequestActor, Roles } from '../../common/auth.decorators';
 import { StateMachineService } from './state-machine.service';
@@ -18,20 +18,31 @@ export class ShipmentsController {
 
   @Post()
   @Roles(RoleCode.MERCHANT, RoleCode.LOGISTIC_DISPONENT, RoleCode.SUPER_ADMIN)
-  async create(@Body() body: { orderId: string; packageBarcode?: string }) {
+  @ApiBody({ type: CreateShipmentDto })
+  async create(@Body() body: CreateShipmentDto) {
+    const packageBarcode = body.packageBarcode ?? body.barcode;
     if (this.hasPrisma()) {
-      return (this.prisma as any).shipment.create({
-        data: {
-          orderId: body.orderId,
-          status: ShipmentStatus.AWAITING_DISPATCH,
-          custodyType: 'warehouse',
-          responsibility: 'warehouse_staff',
-          packages: { create: [{ barcode: body.packageBarcode, status: 'created' }] }
-        },
-        include: { packages: true }
-      });
+      return (this.prisma as any).shipment
+        .create({
+          data: {
+            orderId: body.orderId,
+            status: ShipmentStatus.AWAITING_DISPATCH,
+            custodyType: 'warehouse',
+            responsibility: 'warehouse_staff',
+            currentLocation: body.origin ?? undefined,
+            packages: packageBarcode ? { create: [{ barcode: packageBarcode, status: 'created' }] } : undefined
+          },
+          include: { packages: true }
+        })
+        .catch((error: unknown) => {
+          throw new BadRequestException({
+            message: 'Shipment could not be created from the supplied order or package references.',
+            error: 'ContractMismatch',
+            details: this.errorMessage(error)
+          });
+        });
     }
-    return { id: 'ship_development', orderId: body.orderId, status: ShipmentStatus.AWAITING_DISPATCH };
+    return { id: 'ship_development', orderId: body.orderId, packageBarcode, status: ShipmentStatus.AWAITING_DISPATCH };
   }
 
   @Get(':id/next-states')
@@ -51,10 +62,28 @@ export class ShipmentsController {
   @Roles(RoleCode.DRIVER, RoleCode.LOGISTIC_DISPONENT, RoleCode.SUPER_ADMIN)
   @ApiBody({ type: DeliveryProofDto })
   deliver(@Actor() actor: RequestActor, @Param('id') id: string, @Body() dto: DeliveryProofDto) {
-    return this.operations.completeDelivery(actor.id, id, dto.tier ?? ProofTier.LOW_VALUE, dto);
+    return this.operations.completeDelivery(actor.id, id, dto.tier ?? ProofTier.LOW_VALUE, this.normalizedProof(dto));
   }
 
   private hasPrisma() {
     return Boolean(this.prisma && typeof (this.prisma as any).shipment?.create === 'function');
+  }
+
+  private normalizedProof(dto: DeliveryProofDto): DeliveryProofDto {
+    if (dto.gps && (dto.gps.latitude === undefined || dto.gps.longitude === undefined)) {
+      dto.gps.latitude = dto.gps.latitude ?? dto.gps.lat;
+      dto.gps.longitude = dto.gps.longitude ?? dto.gps.lng;
+    }
+    if (dto.gps && (dto.gps.latitude === undefined || dto.gps.longitude === undefined)) {
+      throw new BadRequestException({
+        message: 'Delivery GPS requires latitude/longitude or lat/lng.',
+        error: 'ContractMismatch'
+      });
+    }
+    return dto;
+  }
+
+  private errorMessage(error: unknown) {
+    return error instanceof Error ? error.message : String(error);
   }
 }

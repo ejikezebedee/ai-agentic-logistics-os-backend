@@ -26,10 +26,29 @@ Refresh:
 
 Confirm with `POST /orders/:id/confirm`.
 
+## Shipment Creation
+
+```json
+{
+  "orderId": "order_id",
+  "packageBarcode": "PKG-100",
+  "origin": { "city": "Duisburg" },
+  "destination": { "city": "Dusseldorf" }
+}
+```
+
+`barcode` is also accepted as a frontend alias for `packageBarcode`. Unknown `orderId` values return `400 ContractMismatch`.
+
 ## Warehouse Flow
 
 ```json
 { "packageId": "package_id", "barcode": "PKG-100" }
+```
+
+Frontend aliases are also accepted:
+
+```json
+{ "id": "package_id" }
 ```
 
 Call order:
@@ -84,6 +103,16 @@ Delivery:
   "gps": { "latitude": 51.4344, "longitude": 6.7623, "withinTolerance": true },
   "otp": "123456",
   "photoObjectKey": "proof/delivery.jpg"
+}
+```
+
+GPS aliases are accepted when browser/device APIs emit shorter keys:
+
+```json
+{
+  "tier": "low_value",
+  "gps": { "lat": 51.4344, "lng": 6.7623, "withinTolerance": true },
+  "otp": "123456"
 }
 ```
 

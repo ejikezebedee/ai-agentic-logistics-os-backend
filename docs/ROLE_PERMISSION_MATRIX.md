@@ -45,6 +45,16 @@ Status: Milestone 6 frontend reference.
 
 For Codex integration, either send a Bearer JWT from `POST /auth/login` or send development actor headers with a role listed above. Missing or mismatched roles intentionally return `403`.
 
+Development actor header behavior:
+
+| Header | Accepted format | Notes |
+| --- | --- | --- |
+| `x-actor-id` | string | Required with dev actor headers. |
+| `x-actor-roles` | comma string or JSON array string | Examples: `merchant`, `warehouse_staff,warehouse_manager`, `["driver"]`. |
+| `x-actor-permissions` | comma string or JSON array string | Parsed and exposed to request context; route access still requires the role matrix above. |
+
+Documented development aliases normalize as follows: `admin` and `superadmin` to `super_admin`; `disponent` and `logistics_disponent` to `logistic_disponent`; `warehouse`, `warehouse_worker`, and `warehouse_operator` to `warehouse_staff`; `finance` to `finance_admin`; `compliance` to `compliance_admin`; `ai` to `ai_agent`.
+
 ## Status Enums
 
 Frontend should treat these values as closed enums for Milestone 6:

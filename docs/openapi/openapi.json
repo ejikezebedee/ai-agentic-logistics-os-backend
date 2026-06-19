@@ -353,6 +353,16 @@
       "post": {
         "operationId": "ShipmentsController_create",
         "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateShipmentDto"
+              }
+            }
+          }
+        },
         "responses": {
           "201": {
             "description": ""
@@ -2180,6 +2190,34 @@
           "items"
         ]
       },
+      "CreateShipmentDto": {
+        "type": "object",
+        "properties": {
+          "orderId": {
+            "type": "string",
+            "description": "Existing order id returned by POST /orders or seeded dev order id."
+          },
+          "packageBarcode": {
+            "type": "string"
+          },
+          "barcode": {
+            "type": "string",
+            "description": "Frontend alias for packageBarcode."
+          },
+          "origin": {
+            "type": "object"
+          },
+          "destination": {
+            "type": "object"
+          },
+          "metadata": {
+            "type": "object"
+          }
+        },
+        "required": [
+          "orderId"
+        ]
+      },
       "GpsDto": {
         "type": "object",
         "properties": {
@@ -2191,12 +2229,16 @@
           },
           "withinTolerance": {
             "type": "boolean"
+          },
+          "lat": {
+            "type": "number",
+            "description": "Frontend alias for latitude."
+          },
+          "lng": {
+            "type": "number",
+            "description": "Frontend alias for longitude."
           }
-        },
-        "required": [
-          "latitude",
-          "longitude"
-        ]
+        }
       },
       "DeliveryProofDto": {
         "type": "object",
@@ -2208,7 +2250,8 @@
               "medium_value",
               "high_value",
               "disputed"
-            ]
+            ],
+            "default": "low_value"
           },
           "gps": {
             "$ref": "#/components/schemas/GpsDto"
@@ -2233,7 +2276,6 @@
           }
         },
         "required": [
-          "tier",
           "gps"
         ]
       },
@@ -2243,13 +2285,14 @@
           "packageId": {
             "type": "string"
           },
+          "id": {
+            "type": "string",
+            "description": "Frontend alias for packageId."
+          },
           "barcode": {
             "type": "string"
           }
-        },
-        "required": [
-          "packageId"
-        ]
+        }
       },
       "AssignDriverDto": {
         "type": "object",

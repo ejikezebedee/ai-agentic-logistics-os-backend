@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { Actor, Roles } from '../../common/auth.decorators';
 import { WarehousePackageDto } from '../../common/dto';
@@ -20,36 +20,48 @@ export class WarehouseController {
   @Post('pick/start')
   @ApiBody({ type: WarehousePackageDto })
   startPick(@Actor() actor: RequestActor, @Body() dto: WarehousePackageDto) {
-    return this.warehouse.startPick(actor.id, dto.packageId);
+    return this.warehouse.startPick(actor.id, this.packageId(dto));
   }
 
   @Post('scan')
   @ApiBody({ type: WarehousePackageDto })
   scan(@Actor() actor: RequestActor, @Body() dto: WarehousePackageDto) {
-    return this.warehouse.scanItem(actor.id, dto.packageId, dto.barcode ?? dto.packageId);
+    const packageId = this.packageId(dto);
+    return this.warehouse.scanItem(actor.id, packageId, dto.barcode ?? packageId);
   }
 
   @Post('pack')
   @ApiBody({ type: WarehousePackageDto })
   pack(@Actor() actor: RequestActor, @Body() dto: WarehousePackageDto) {
-    return this.warehouse.pack(actor.id, dto.packageId);
+    return this.warehouse.pack(actor.id, this.packageId(dto));
   }
 
   @Post('label')
   @ApiBody({ type: WarehousePackageDto })
   label(@Actor() actor: RequestActor, @Body() dto: WarehousePackageDto) {
-    return this.warehouse.generateLabel(actor.id, dto.packageId);
+    return this.warehouse.generateLabel(actor.id, this.packageId(dto));
   }
 
   @Post('stage')
   @ApiBody({ type: WarehousePackageDto })
   stage(@Actor() actor: RequestActor, @Body() dto: WarehousePackageDto) {
-    return this.warehouse.stage(actor.id, dto.packageId);
+    return this.warehouse.stage(actor.id, this.packageId(dto));
   }
 
   @Post('ready-for-dispatch')
   @ApiBody({ type: WarehousePackageDto })
   ready(@Actor() actor: RequestActor, @Body() dto: WarehousePackageDto) {
-    return this.warehouse.markReady(actor.id, dto.packageId);
+    return this.warehouse.markReady(actor.id, this.packageId(dto));
+  }
+
+  private packageId(dto: WarehousePackageDto) {
+    const packageId = dto.packageId ?? dto.id ?? dto.barcode;
+    if (!packageId) {
+      throw new BadRequestException({
+        message: 'packageId, id, or barcode is required.',
+        error: 'ContractMismatch'
+      });
+    }
+    return packageId;
   }
 }

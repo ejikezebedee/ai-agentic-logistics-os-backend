@@ -18,20 +18,20 @@ export class JwtAuthGuard implements CanActivate {
     ]);
     if (isPublic) return true;
 
-    const request = context.switchToHttp().getRequest<{ headers: Record<string, string | undefined>; user?: RequestActor }>();
-    const actorId = request.headers['x-actor-id'];
+    const request = context.switchToHttp().getRequest<{ headers: Record<string, string | string[] | undefined>; user?: RequestActor }>();
+    const actorId = this.firstHeader(request.headers['x-actor-id']);
     const rolesHeader = request.headers['x-actor-roles'];
 
     if (actorId && rolesHeader) {
       request.user = {
         id: actorId,
-        roles: rolesHeader.split(',').map((role) => role.trim()) as RoleCode[],
-        permissions: request.headers['x-actor-permissions']?.split(',').map((permission) => permission.trim()) ?? []
+        roles: this.parseRoles(rolesHeader),
+        permissions: this.parseList(request.headers['x-actor-permissions'])
       };
       return true;
     }
 
-    const token = request.headers.authorization?.replace(/^Bearer\s+/i, '');
+    const token = this.firstHeader(request.headers.authorization)?.replace(/^Bearer\s+/i, '');
     if (!token || !this.jwt) return false;
     try {
       const payload = await this.jwt.verifyAsync<{ sub: string; roles?: RoleCode[]; permissions?: string[] }>(token, {
@@ -42,5 +42,49 @@ export class JwtAuthGuard implements CanActivate {
     } catch {
       return false;
     }
+  }
+
+  private parseRoles(value: string | string[] | undefined): RoleCode[] {
+    return this.parseList(value)
+      .map((role) => this.normalizeRole(role))
+      .filter((role): role is RoleCode => Boolean(role));
+  }
+
+  private firstHeader(value: string | string[] | undefined): string | undefined {
+    return Array.isArray(value) ? value[0] : value;
+  }
+
+  private parseList(value: string | string[] | undefined): string[] {
+    if (!value) return [];
+    if (Array.isArray(value)) return value.flatMap((item) => this.parseList(item));
+    const trimmed = value.trim();
+    if (!trimmed) return [];
+    if (trimmed.startsWith('[')) {
+      try {
+        const parsed = JSON.parse(trimmed) as unknown;
+        if (Array.isArray(parsed)) return parsed.map(String).map((item) => item.trim()).filter(Boolean);
+      } catch {
+        return [];
+      }
+    }
+    return trimmed.split(',').map((item) => item.trim()).filter(Boolean);
+  }
+
+  private normalizeRole(role: string): RoleCode | undefined {
+    const normalized = role.trim().toLowerCase().replace(/[\s-]+/g, '_');
+    const aliases: Record<string, RoleCode> = {
+      admin: RoleCode.SUPER_ADMIN,
+      superadmin: RoleCode.SUPER_ADMIN,
+      logistics_disponent: RoleCode.LOGISTIC_DISPONENT,
+      disponent: RoleCode.LOGISTIC_DISPONENT,
+      warehouse: RoleCode.WAREHOUSE_STAFF,
+      warehouse_worker: RoleCode.WAREHOUSE_STAFF,
+      warehouse_operator: RoleCode.WAREHOUSE_STAFF,
+      compliance: RoleCode.COMPLIANCE_ADMIN,
+      finance: RoleCode.FINANCE_ADMIN,
+      ai: RoleCode.AI_AGENT
+    };
+    if (aliases[normalized]) return aliases[normalized];
+    return Object.values(RoleCode).includes(normalized as RoleCode) ? normalized as RoleCode : undefined;
   }
 }

@@ -56,12 +56,45 @@ export class AssignDriverDto {
   packageStatus?: PackageStatus;
 }
 
+export class CreateShipmentDto {
+  @ApiProperty({ type: String, description: 'Existing order id returned by POST /orders or seeded dev order id.' })
+  @IsString()
+  orderId!: string;
+
+  @ApiPropertyOptional({ type: String })
+  @IsOptional()
+  @IsString()
+  packageBarcode?: string;
+
+  @ApiPropertyOptional({ type: String, description: 'Frontend alias for packageBarcode.' })
+  @IsOptional()
+  @IsString()
+  barcode?: string;
+
+  @ApiPropertyOptional({ type: Object })
+  @IsOptional()
+  @IsObject()
+  origin?: Record<string, unknown>;
+
+  @ApiPropertyOptional({ type: Object })
+  @IsOptional()
+  @IsObject()
+  destination?: Record<string, unknown>;
+
+  @ApiPropertyOptional({ type: Object })
+  @IsOptional()
+  @IsObject()
+  metadata?: Record<string, unknown>;
+}
+
 export class GpsDto {
-  @ApiProperty({ type: Number })
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
   @IsNumber()
   latitude!: number;
 
-  @ApiProperty({ type: Number })
+  @ApiPropertyOptional({ type: Number })
+  @IsOptional()
   @IsNumber()
   longitude!: number;
 
@@ -69,10 +102,21 @@ export class GpsDto {
   @IsOptional()
   @IsBoolean()
   withinTolerance?: boolean;
+
+  @ApiPropertyOptional({ type: Number, description: 'Frontend alias for latitude.' })
+  @IsOptional()
+  @IsNumber()
+  lat?: number;
+
+  @ApiPropertyOptional({ type: Number, description: 'Frontend alias for longitude.' })
+  @IsOptional()
+  @IsNumber()
+  lng?: number;
 }
 
 export class DeliveryProofDto {
-  @ApiProperty({ enum: ProofTier })
+  @ApiPropertyOptional({ enum: ProofTier, default: ProofTier.LOW_VALUE })
+  @IsOptional()
   @IsEnum(ProofTier)
   tier!: ProofTier;
 
@@ -203,9 +247,15 @@ export class GenericCreateDto {
 }
 
 export class WarehousePackageDto {
-  @ApiProperty({ type: String })
+  @ApiPropertyOptional({ type: String })
+  @IsOptional()
   @IsString()
-  packageId!: string;
+  packageId?: string;
+
+  @ApiPropertyOptional({ type: String, description: 'Frontend alias for packageId.' })
+  @IsOptional()
+  @IsString()
+  id?: string;
 
   @ApiPropertyOptional({ type: String })
   @IsOptional()
