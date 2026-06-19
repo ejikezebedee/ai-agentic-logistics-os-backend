@@ -48,6 +48,16 @@ export class OrdersController {
     return { id, status: OrderStatus.DRAFT };
   }
 
+  @Post(':id/confirm')
+  @Roles(RoleCode.CUSTOMER, RoleCode.MERCHANT, RoleCode.SUPER_ADMIN)
+  async confirm(@Actor() actor: RequestActor, @Param('id') id: string) {
+    const order = this.hasPrisma()
+      ? await (this.prisma as any).order.update({ where: { id }, data: { status: OrderStatus.BOOKED }, include: { items: true, shipments: true, payments: true } })
+      : { id, status: OrderStatus.BOOKED };
+    this.audit.create({ actorId: actor.id, actorType: 'user', action: 'order.confirmed', targetType: 'order', targetId: id });
+    return order;
+  }
+
   private total(items: Array<Record<string, unknown>>) {
     return items.reduce((sum, item) => sum + Number(item.unitPrice ?? 0) * Number(item.quantity ?? 1), 0);
   }

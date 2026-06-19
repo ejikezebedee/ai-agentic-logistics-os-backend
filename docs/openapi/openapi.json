@@ -265,6 +265,20 @@
         ]
       }
     },
+    "/orders/{id}/confirm": {
+      "post": {
+        "operationId": "OrdersController_confirm",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "orders"
+        ]
+      }
+    },
     "/shipments": {
       "post": {
         "operationId": "ShipmentsController_create",
@@ -299,6 +313,20 @@
         "parameters": [],
         "responses": {
           "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "shipments"
+        ]
+      }
+    },
+    "/shipments/{id}/deliver": {
+      "post": {
+        "operationId": "ShipmentsController_deliver",
+        "parameters": [],
+        "responses": {
+          "201": {
             "description": ""
           }
         },
@@ -464,6 +492,20 @@
     "/disponent/tour-plans/{id}/approve": {
       "post": {
         "operationId": "DisponentController_approveTourPlan",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "disponent"
+        ]
+      }
+    },
+    "/disponent/tours/{id}/approve": {
+      "post": {
+        "operationId": "DisponentController_approveTour",
         "parameters": [],
         "responses": {
           "201": {
@@ -657,6 +699,34 @@
         ]
       }
     },
+    "/drivers/pickup/{shipmentId}/complete": {
+      "post": {
+        "operationId": "DriversController_pickup",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "drivers"
+        ]
+      }
+    },
+    "/drivers/delivery/{shipmentId}/complete": {
+      "post": {
+        "operationId": "DriversController_complete",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "drivers"
+        ]
+      }
+    },
     "/payments/refunds": {
       "post": {
         "operationId": "PaymentsController_refund",
@@ -786,6 +856,34 @@
     "/ai/providers": {
       "post": {
         "operationId": "AiController_createProvider",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ai"
+        ]
+      }
+    },
+    "/ai/providers/{id}/test": {
+      "post": {
+        "operationId": "AiController_testProvider",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "ai"
+        ]
+      }
+    },
+    "/ai/approvals/{id}/approve": {
+      "post": {
+        "operationId": "AiController_approveAiAction",
         "parameters": [],
         "responses": {
           "201": {
@@ -1073,6 +1171,20 @@
         ]
       }
     },
+    "/approvals/refunds/{id}/approve": {
+      "post": {
+        "operationId": "ApprovalsController_approveRefund",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "approvals"
+        ]
+      }
+    },
     "/packages": {
       "post": {
         "operationId": "PackagesController_create",
@@ -1104,6 +1216,20 @@
     "/dispatch/assignments": {
       "post": {
         "operationId": "DispatchController_create",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "dispatch"
+        ]
+      }
+    },
+    "/dispatch/assign-driver": {
+      "post": {
+        "operationId": "DispatchController_assignDriver",
         "parameters": [],
         "responses": {
           "201": {

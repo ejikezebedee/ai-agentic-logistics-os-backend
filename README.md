@@ -52,6 +52,12 @@ Exported OpenAPI contract:
 docs/openapi/openapi.json
 ```
 
+Required frontend API environment variable:
+
+```text
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3000
+```
+
 Seed/dev login users all use this local-only password:
 
 ```text

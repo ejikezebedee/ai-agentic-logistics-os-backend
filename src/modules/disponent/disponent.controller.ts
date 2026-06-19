@@ -52,6 +52,11 @@ export class DisponentController {
     return { id, status: 'approved' };
   }
 
+  @Post('tours/:id/approve')
+  async approveTour(@Param('id') id: string) {
+    return this.approveTourPlan(id);
+  }
+
   @Post('tour-plans/:id/reject')
   async rejectTourPlan(@Param('id') id: string) {
     if (this.hasPrisma()) return (this.prisma as any).tourPlan.update({ where: { id }, data: { status: 'rejected' } });

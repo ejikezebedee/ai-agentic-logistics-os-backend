@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { Roles } from '../../common/auth.decorators';
 import { AiActionDto } from '../../common/dto';
@@ -47,6 +47,18 @@ export class AiController {
   @Roles(RoleCode.SUPER_ADMIN, RoleCode.COMPLIANCE_ADMIN)
   createProvider(@Body() body: { apiKey: string; providerName: string }) {
     return { providerName: body.providerName, encryptedApiKey: this.governance.encryptProviderKey(body.apiKey), frontendApiKey: this.governance.maskProviderKey() };
+  }
+
+  @Post('providers/:id/test')
+  @Roles(RoleCode.SUPER_ADMIN, RoleCode.COMPLIANCE_ADMIN)
+  testProvider(@Param('id') id: string) {
+    return { providerId: id, status: 'mock_ready', liveConnection: false, reason: 'Safe dev/mock provider test only; no external provider call was made.' };
+  }
+
+  @Post('approvals/:id/approve')
+  @Roles(RoleCode.COMPLIANCE_ADMIN, RoleCode.FINANCE_ADMIN, RoleCode.SUPER_ADMIN)
+  approveAiAction(@Param('id') id: string, @Body() body: Record<string, unknown>) {
+    return { id, status: 'approved', approved: true, approvalGate: 'human_required', liveActionExecuted: false, ...body };
   }
 
   @Post('order/validate')

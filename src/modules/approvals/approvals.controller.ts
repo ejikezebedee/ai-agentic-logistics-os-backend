@@ -46,6 +46,12 @@ export class ApprovalsController {
     return { id, approverId: actor.id, decision: body.decision };
   }
 
+  @Post('refunds/:id/approve')
+  @Roles(RoleCode.FINANCE_ADMIN, RoleCode.COMPLIANCE_ADMIN, RoleCode.SUPER_ADMIN)
+  async approveRefund(@Actor() actor: RequestActor, @Param('id') id: string, @Body() body: { comment?: string }) {
+    return this.decide(actor, id, { decision: ApprovalStatus.APPROVED, comment: body?.comment ?? 'Refund approved through industrial MVP approval endpoint.' });
+  }
+
   private hasPrisma() {
     return Boolean(this.prisma && typeof (this.prisma as any).approvalRequest?.create === 'function');
   }

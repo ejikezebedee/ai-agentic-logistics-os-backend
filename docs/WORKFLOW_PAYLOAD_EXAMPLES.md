@@ -24,6 +24,8 @@ Refresh:
 }
 ```
 
+Confirm with `POST /orders/:id/confirm`.
+
 ## Warehouse Flow
 
 ```json
@@ -49,7 +51,7 @@ Call order:
 }
 ```
 
-Approve with `POST /disponent/tour-plans/:id/approve`.
+Approve with `POST /disponent/tour-plans/:id/approve` or the frontend-compatible alias `POST /disponent/tours/:id/approve`.
 
 Assign driver:
 
@@ -61,6 +63,8 @@ Assign driver:
 }
 ```
 
+Use `POST /dispatch/assign-driver` for the industrial MVP dispatch path. `POST /disponent/assign-driver` remains available for existing Disponent console flows.
+
 ## Driver Proof
 
 Pickup:
@@ -68,6 +72,8 @@ Pickup:
 ```json
 { "packageScanCode": "PKG-100", "photoObjectKey": "proof/pickup.jpg" }
 ```
+
+Use `POST /drivers/pickup/:shipmentId/complete`. The legacy singular path `POST /driver/pickup/:shipmentId/complete` remains available.
 
 Delivery:
 
@@ -79,6 +85,8 @@ Delivery:
   "photoObjectKey": "proof/delivery.jpg"
 }
 ```
+
+Use `POST /shipments/:id/deliver` or `POST /drivers/delivery/:shipmentId/complete`. The legacy singular path `POST /driver/delivery/:shipmentId/complete` remains available.
 
 ## Tracking
 

@@ -46,6 +46,7 @@ customer, merchant, shipper, warehouse_staff, warehouse_manager, driver, fleet_m
 - `/routes`
 - `/tracking`
 - `/driver`
+- `/drivers`
 - `/fleet`
 - `/carriers`
 - `/payments`
@@ -69,8 +70,10 @@ customer, merchant, shipper, warehouse_staff, warehouse_manager, driver, fleet_m
 - `GET /disponent/exceptions`
 - `POST /disponent/tour-plans`
 - `POST /disponent/tour-plans/:id/approve`
+- `POST /disponent/tours/:id/approve`
 - `POST /disponent/tour-plans/:id/reject`
 - `POST /disponent/assign-driver`
+- `POST /dispatch/assign-driver`
 - `POST /disponent/reassign-driver`
 - `POST /disponent/assign-carrier`
 - `POST /disponent/exceptions/:id/resolve`
@@ -83,8 +86,11 @@ The Logistic Disponent cannot edit ledgers, release disputed escrow, change role
 - `POST /driver/jobs/:id/accept`
 - `POST /driver/jobs/:id/reject`
 - `POST /driver/pickup/:shipmentId/complete`
+- `POST /drivers/pickup/:shipmentId/complete`
 - `POST /driver/delivery/:shipmentId/attempt`
 - `POST /driver/delivery/:shipmentId/complete`
+- `POST /drivers/delivery/:shipmentId/complete`
+- `POST /shipments/:id/deliver`
 - `POST /driver/location`
 - `GET /driver/earnings`
 
@@ -142,6 +148,9 @@ Base AI action authorization:
 
 AI workflow endpoints:
 
+- `POST /ai/actions/authorize`
+- `POST /ai/approvals/:id/approve`
+- `POST /ai/providers/:id/test`
 - `POST /ai/order/validate`
 - `POST /ai/warehouse/readiness-check`
 - `POST /ai/disponent/tour-recommendations`

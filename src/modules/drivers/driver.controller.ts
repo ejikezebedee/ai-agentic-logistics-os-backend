@@ -67,3 +67,20 @@ export class DriverController {
     return Boolean(this.prisma && typeof (this.prisma as any).dispatchAssignment?.findMany === 'function');
   }
 }
+
+@ApiTags('drivers')
+@Controller('drivers')
+@Roles(RoleCode.DRIVER, RoleCode.SUPER_ADMIN)
+export class DriversController {
+  constructor(private readonly operations: OperationsService) {}
+
+  @Post('pickup/:shipmentId/complete')
+  pickup(@Actor() actor: RequestActor, @Param('shipmentId') shipmentId: string, @Body() dto: PickupProofDto) {
+    return this.operations.completePickup(actor.id, shipmentId, dto);
+  }
+
+  @Post('delivery/:shipmentId/complete')
+  complete(@Actor() actor: RequestActor, @Param('shipmentId') shipmentId: string, @Body() dto: DeliveryProofDto) {
+    return this.operations.completeDelivery(actor.id, shipmentId, dto.tier, dto);
+  }
+}

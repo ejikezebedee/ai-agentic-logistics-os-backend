@@ -19,7 +19,7 @@ import { OrdersController } from './modules/orders/orders.controller';
 import { ShipmentsController } from './modules/shipments/shipments.controller';
 import { WarehouseController } from './modules/warehouse/warehouse.controller';
 import { DisponentController } from './modules/disponent/disponent.controller';
-import { DriverController } from './modules/drivers/driver.controller';
+import { DriverController, DriversController } from './modules/drivers/driver.controller';
 import { PaymentsController } from './modules/payments/payments.controller';
 import { EscrowController } from './modules/escrow/escrow.controller';
 import { DisputesController } from './modules/disputes/disputes.controller';
@@ -63,6 +63,7 @@ import { MetaController } from './modules/meta/meta.controller';
     WarehouseController,
     DisponentController,
     DriverController,
+    DriversController,
     PaymentsController,
     EscrowController,
     DisputesController,

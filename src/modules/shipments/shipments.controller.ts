@@ -1,8 +1,10 @@
 import { Controller, Get, Optional, Param, Post, Body } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { RoleCode, ShipmentStatus } from '../../common/domain.enums';
-import { Roles } from '../../common/auth.decorators';
+import { DeliveryProofDto } from '../../common/dto';
+import { ProofTier, RoleCode, ShipmentStatus } from '../../common/domain.enums';
+import { Actor, RequestActor, Roles } from '../../common/auth.decorators';
 import { StateMachineService } from './state-machine.service';
+import { OperationsService } from './operations.service';
 import { PrismaService } from '../../prisma/prisma.service';
 
 @ApiTags('shipments')
@@ -10,6 +12,7 @@ import { PrismaService } from '../../prisma/prisma.service';
 export class ShipmentsController {
   constructor(
     private readonly stateMachine: StateMachineService,
+    private readonly operations: OperationsService,
     @Optional() private readonly prisma?: PrismaService
   ) {}
 
@@ -42,6 +45,12 @@ export class ShipmentsController {
   async get(@Param('id') id: string) {
     if (this.hasPrisma()) return (this.prisma as any).shipment.findUnique({ where: { id }, include: { packages: true, trackingEvents: true, dispatches: true } });
     return { id, status: ShipmentStatus.AWAITING_DISPATCH };
+  }
+
+  @Post(':id/deliver')
+  @Roles(RoleCode.DRIVER, RoleCode.LOGISTIC_DISPONENT, RoleCode.SUPER_ADMIN)
+  deliver(@Actor() actor: RequestActor, @Param('id') id: string, @Body() dto: DeliveryProofDto) {
+    return this.operations.completeDelivery(actor.id, id, dto.tier ?? ProofTier.LOW_VALUE, dto);
   }
 
   private hasPrisma() {
