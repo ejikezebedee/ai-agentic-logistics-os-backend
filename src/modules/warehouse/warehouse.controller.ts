@@ -37,6 +37,7 @@ export class WarehouseController {
   }
 
   @Post('label')
+  @Roles(RoleCode.MERCHANT, RoleCode.WAREHOUSE_STAFF, RoleCode.WAREHOUSE_MANAGER, RoleCode.SUPER_ADMIN)
   @ApiBody({ type: WarehousePackageDto })
   label(@Actor() actor: RequestActor, @Body() dto: WarehousePackageDto) {
     return this.warehouse.generateLabel(actor.id, this.packageId(dto));

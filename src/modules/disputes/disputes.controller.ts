@@ -11,8 +11,10 @@ export class DisputesController {
   constructor(private readonly disputes: DisputeWorkflowService) {}
 
   @Post('evidence')
-  @Roles(RoleCode.SUPPORT_AGENT, RoleCode.COMPLIANCE_ADMIN, RoleCode.SUPER_ADMIN)
+  @Roles(RoleCode.CUSTOMER, RoleCode.SUPPORT_AGENT, RoleCode.COMPLIANCE_ADMIN, RoleCode.SUPER_ADMIN)
   addEvidence(@Body() dto: DisputeEvidenceDto) {
+    dto.evidenceType = dto.evidenceType ?? 'document';
+    dto.metadata = typeof dto.note === 'string' ? { ...(dto.metadata ?? {}), note: dto.note } : dto.metadata;
     return this.disputes.addEvidence(dto);
   }
 

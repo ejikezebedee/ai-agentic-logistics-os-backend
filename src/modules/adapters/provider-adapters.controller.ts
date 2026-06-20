@@ -26,7 +26,7 @@ export class ProviderAdaptersController {
   }
 
   @Post('payments/authorize')
-  @Roles(RoleCode.FINANCE_ADMIN, RoleCode.SUPER_ADMIN)
+  @Roles(RoleCode.CUSTOMER, RoleCode.FINANCE_ADMIN, RoleCode.SUPER_ADMIN)
   payment(@Body() body: { amount: number; currency: string; orderId: string }) {
     return this.adapters.payment.authorize(body);
   }

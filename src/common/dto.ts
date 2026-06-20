@@ -430,9 +430,30 @@ export class AiActionDto extends FrontendWorkflowPayloadDto {
 }
 
 export class GenericCreateDto extends FrontendWorkflowPayloadDto {
-  @ApiProperty({ type: Object })
+  @ApiPropertyOptional({ type: Object })
+  @IsOptional()
   @IsObject()
   data!: Record<string, unknown>;
+
+  @ApiPropertyOptional({ type: String, description: 'Flat dev/mock resource id alias.' })
+  @IsOptional()
+  @IsString()
+  id?: string;
+
+  @ApiPropertyOptional({ type: String, description: 'Flat dev/mock merchant id alias.' })
+  @IsOptional()
+  @IsString()
+  merchantId?: string;
+
+  @ApiPropertyOptional({ type: String, description: 'Flat dev/mock customer id alias.' })
+  @IsOptional()
+  @IsString()
+  customerId?: string;
+
+  @ApiPropertyOptional({ type: String, description: 'Flat dev/mock display name alias.' })
+  @IsOptional()
+  @IsString()
+  name?: string;
 }
 
 export class WarehousePackageDto extends FrontendWorkflowPayloadDto {
@@ -475,12 +496,13 @@ export class RefundDto extends FrontendWorkflowPayloadDto {
   reason!: string;
 }
 
-export class DisputeEvidenceDto {
+export class DisputeEvidenceDto extends FrontendWorkflowPayloadDto {
   @ApiProperty({ type: String })
   @IsString()
   disputeId!: string;
 
-  @ApiProperty({ type: String })
+  @ApiPropertyOptional({ type: String, default: 'document' })
+  @IsOptional()
   @IsString()
   evidenceType!: string;
 
@@ -493,6 +515,7 @@ export class DisputeEvidenceDto {
   @IsOptional()
   @IsObject()
   metadata?: Record<string, unknown>;
+
 }
 
 export class TrackingEventDto {

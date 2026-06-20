@@ -1,0 +1,1290 @@
+{
+  "generatedAt": "2026-06-20T18:17:07.441Z",
+  "apiBaseUrl": "https://short-clowns-bathe.loca.lt",
+  "totalFailedCalls": 17,
+  "counts": {
+    "DTO/body mismatch": 10,
+    "RBAC/dev actor mismatch": 7,
+    "backend 500": 0,
+    "timeout/network": 0,
+    "frontend bug": 0,
+    "mock/dev limitation": 0
+  },
+  "topPriorityFixes": [
+    {
+      "index": 1,
+      "workflowPath": "Customer order to dispute",
+      "roleUser": "customer",
+      "method": "POST",
+      "endpoint": "/orders",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/orders",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "customer@example.local",
+        "x-actor-roles": "customer"
+      },
+      "requestBody": {
+        "source": "frontend",
+        "role": "customer",
+        "merchantId": "dev-merchant-001",
+        "customerId": "dev-customer-001",
+        "items": [
+          {
+            "skuId": "dev-sku-001",
+            "quantity": 1
+          }
+        ]
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 400,
+      "responseBody": {
+        "error": {
+          "code": "CONTRACTMISMATCH",
+          "message": "Order could not be created from the supplied customer, merchant, or item references.",
+          "details": {
+            "messages": [
+              "Order could not be created from the supplied customer, merchant, or item references."
+            ]
+          },
+          "status": 400,
+          "path": "/orders",
+          "correlationId": "ed5e991b-0980-4f22-857b-c62229257afa",
+          "timestamp": "2026-06-20T18:16:08.389Z"
+        }
+      },
+      "frontendActionButtonComponent": "Create order",
+      "openApiOperationId": "OrdersController_create",
+      "failureCategory": "DTO/body mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Align frontend request payload with the OpenAPI request schema, or relax/fix backend validation if the documented workflow payload should be accepted."
+    },
+    {
+      "index": 3,
+      "workflowPath": "Customer order to dispute",
+      "roleUser": "customer",
+      "method": "POST",
+      "endpoint": "/returns",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/returns",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "customer@example.local",
+        "x-actor-roles": "customer"
+      },
+      "requestBody": {
+        "source": "frontend",
+        "role": "customer",
+        "orderId": "dev-order-001",
+        "customerId": "dev-customer-001",
+        "reason": "Automated contract-safe dev verification."
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 400,
+      "responseBody": {
+        "error": {
+          "code": "CONTRACTMISMATCH",
+          "message": "Return request could not be created from the supplied order, shipment, or customer references.",
+          "details": {
+            "messages": [
+              "Return request could not be created from the supplied order, shipment, or customer references."
+            ]
+          },
+          "status": 400,
+          "path": "/returns",
+          "correlationId": "94a817dc-af49-4a8b-bf47-712b14bfc852",
+          "timestamp": "2026-06-20T18:16:11.184Z"
+        }
+      },
+      "frontendActionButtonComponent": "Request return",
+      "openApiOperationId": "ReturnsController_request",
+      "failureCategory": "DTO/body mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Align frontend request payload with the OpenAPI request schema, or relax/fix backend validation if the documented workflow payload should be accepted."
+    },
+    {
+      "index": 6,
+      "workflowPath": "Merchant catalog and shipment",
+      "roleUser": "merchant",
+      "method": "POST",
+      "endpoint": "/shipments",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/shipments",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "merchant@example.local",
+        "x-actor-roles": "merchant"
+      },
+      "requestBody": {
+        "source": "frontend",
+        "role": "merchant",
+        "orderId": "dev-order-001"
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 400,
+      "responseBody": {
+        "error": {
+          "code": "CONTRACTMISMATCH",
+          "message": "Shipment could not be created from the supplied order or package references.",
+          "details": {
+            "messages": [
+              "Shipment could not be created from the supplied order or package references."
+            ]
+          },
+          "status": 400,
+          "path": "/shipments",
+          "correlationId": "e0dc0a44-14fc-40cb-94aa-a6bd9edf0e28",
+          "timestamp": "2026-06-20T18:16:15.489Z"
+        }
+      },
+      "frontendActionButtonComponent": "Prepare shipment",
+      "openApiOperationId": "ShipmentsController_create",
+      "failureCategory": "DTO/body mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Align frontend request payload with the OpenAPI request schema, or relax/fix backend validation if the documented workflow payload should be accepted."
+    },
+    {
+      "index": 9,
+      "workflowPath": "Warehouse pick pack dispatch return",
+      "roleUser": "warehouse_manager",
+      "method": "POST",
+      "endpoint": "/warehouse/ready-for-dispatch",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/warehouse/ready-for-dispatch",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "warehouse@example.local",
+        "x-actor-roles": "warehouse_manager"
+      },
+      "requestBody": {
+        "source": "frontend",
+        "role": "warehouse_manager",
+        "packageId": "dev-package-001"
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 400,
+      "responseBody": {
+        "error": {
+          "code": "BAD_REQUEST",
+          "message": "Package must be scanned, packed, labeled, and staged before ready for dispatch.",
+          "details": {
+            "messages": [
+              "Package must be scanned, packed, labeled, and staged before ready for dispatch."
+            ]
+          },
+          "status": 400,
+          "path": "/warehouse/ready-for-dispatch",
+          "correlationId": "73a1bb6e-e785-42b9-9479-6cfe37a9cdec",
+          "timestamp": "2026-06-20T18:16:20.914Z"
+        }
+      },
+      "frontendActionButtonComponent": "Mark package ready for dispatch",
+      "openApiOperationId": "WarehouseController_ready",
+      "failureCategory": "DTO/body mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Align frontend request payload with the OpenAPI request schema, or relax/fix backend validation if the documented workflow payload should be accepted."
+    },
+    {
+      "index": 10,
+      "workflowPath": "Warehouse pick pack dispatch return",
+      "roleUser": "warehouse_manager",
+      "method": "POST",
+      "endpoint": "/returns/dev-return-001/status",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/returns/dev-return-001/status",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "warehouse@example.local",
+        "x-actor-roles": "warehouse_manager"
+      },
+      "requestBody": {
+        "source": "frontend",
+        "status": "return_requested"
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 400,
+      "responseBody": {
+        "error": {
+          "code": "CONTRACTMISMATCH",
+          "message": "Return status could not be updated for the supplied return id.",
+          "details": {
+            "messages": [
+              "Return status could not be updated for the supplied return id."
+            ]
+          },
+          "status": 400,
+          "path": "/returns/dev-return-001/status",
+          "correlationId": "6d11a4d5-30ad-427c-b791-0a9ed19e40b1",
+          "timestamp": "2026-06-20T18:16:21.788Z"
+        }
+      },
+      "frontendActionButtonComponent": "Inspect return",
+      "openApiOperationId": "ReturnsController_updateStatus",
+      "failureCategory": "DTO/body mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Align frontend request payload with the OpenAPI request schema, or relax/fix backend validation if the documented workflow payload should be accepted."
+    },
+    {
+      "index": 11,
+      "workflowPath": "Warehouse pick pack dispatch return",
+      "roleUser": "warehouse_manager",
+      "method": "POST",
+      "endpoint": "/returns/dev-return-001/status",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/returns/dev-return-001/status",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "warehouse@example.local",
+        "x-actor-roles": "warehouse_manager"
+      },
+      "requestBody": {
+        "source": "frontend",
+        "status": "return_requested"
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 400,
+      "responseBody": {
+        "error": {
+          "code": "CONTRACTMISMATCH",
+          "message": "Return status could not be updated for the supplied return id.",
+          "details": {
+            "messages": [
+              "Return status could not be updated for the supplied return id."
+            ]
+          },
+          "status": 400,
+          "path": "/returns/dev-return-001/status",
+          "correlationId": "6979e174-026f-424f-bd45-75692b680f22",
+          "timestamp": "2026-06-20T18:16:22.212Z"
+        }
+      },
+      "frontendActionButtonComponent": "Mark damaged/quarantined",
+      "openApiOperationId": "ReturnsController_updateStatus",
+      "failureCategory": "DTO/body mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Align frontend request payload with the OpenAPI request schema, or relax/fix backend validation if the documented workflow payload should be accepted."
+    },
+    {
+      "index": 12,
+      "workflowPath": "Disponent planning and exceptions",
+      "roleUser": "logistic_disponent",
+      "method": "POST",
+      "endpoint": "/dispatch/assignments",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/dispatch/assignments",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "disponent@example.local",
+        "x-actor-roles": "logistic_disponent"
+      },
+      "requestBody": {
+        "shipmentId": "dev-shipment-001",
+        "driverId": "dev-driver-001",
+        "vehicleId": "dev-vehicle-001",
+        "carrierId": "dev-carrier-001"
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 400,
+      "responseBody": {
+        "error": {
+          "code": "CONTRACTMISMATCH",
+          "message": "Dispatch assignment could not be created from the supplied shipment, driver, vehicle, carrier, or tour references.",
+          "details": {
+            "messages": [
+              "Dispatch assignment could not be created from the supplied shipment, driver, vehicle, carrier, or tour references."
+            ]
+          },
+          "status": 400,
+          "path": "/dispatch/assignments",
+          "correlationId": "c365dfc3-5354-47f4-9ec3-c0d1c13c757d",
+          "timestamp": "2026-06-20T18:16:25.204Z"
+        }
+      },
+      "frontendActionButtonComponent": "Assign vehicle",
+      "openApiOperationId": "DispatchController_create",
+      "failureCategory": "DTO/body mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Align frontend request payload with the OpenAPI request schema, or relax/fix backend validation if the documented workflow payload should be accepted."
+    },
+    {
+      "index": 13,
+      "workflowPath": "Driver job execution with proof",
+      "roleUser": "driver",
+      "method": "POST",
+      "endpoint": "/driver/jobs/dev-job-001/accept",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/driver/jobs/dev-job-001/accept",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "driver@example.local",
+        "x-actor-roles": "driver"
+      },
+      "requestBody": {
+        "assignmentId": "dev-job-001"
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 400,
+      "responseBody": {
+        "error": {
+          "code": "CONTRACTMISMATCH",
+          "message": "Driver job could not be updated for the supplied assignment id.",
+          "details": {
+            "messages": [
+              "Driver job could not be updated for the supplied assignment id."
+            ]
+          },
+          "status": 400,
+          "path": "/driver/jobs/dev-job-001/accept",
+          "correlationId": "46009582-1d82-4bb8-9d22-66b08165e02a",
+          "timestamp": "2026-06-20T18:16:30.902Z"
+        }
+      },
+      "frontendActionButtonComponent": "Accept driver job",
+      "openApiOperationId": "DriverController_accept",
+      "failureCategory": "DTO/body mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Align frontend request payload with the OpenAPI request schema, or relax/fix backend validation if the documented workflow payload should be accepted."
+    },
+    {
+      "index": 14,
+      "workflowPath": "Driver job execution with proof",
+      "roleUser": "driver",
+      "method": "POST",
+      "endpoint": "/driver/jobs/dev-job-001/reject",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/driver/jobs/dev-job-001/reject",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "driver@example.local",
+        "x-actor-roles": "driver"
+      },
+      "requestBody": {
+        "assignmentId": "dev-job-001",
+        "reason": "Automated contract-safe driver rejection."
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 400,
+      "responseBody": {
+        "error": {
+          "code": "CONTRACTMISMATCH",
+          "message": "Driver job could not be updated for the supplied assignment id.",
+          "details": {
+            "messages": [
+              "Driver job could not be updated for the supplied assignment id."
+            ]
+          },
+          "status": 400,
+          "path": "/driver/jobs/dev-job-001/reject",
+          "correlationId": "e3bb3f29-c69e-46ef-a7da-fa4aeffeffaf",
+          "timestamp": "2026-06-20T18:16:31.797Z"
+        }
+      },
+      "frontendActionButtonComponent": "Reject driver job",
+      "openApiOperationId": "DriverController_reject",
+      "failureCategory": "DTO/body mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Align frontend request payload with the OpenAPI request schema, or relax/fix backend validation if the documented workflow payload should be accepted."
+    },
+    {
+      "index": 16,
+      "workflowPath": "Finance approvals and ledger",
+      "roleUser": "finance_admin",
+      "method": "POST",
+      "endpoint": "/escrow/release",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/escrow/release",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "finance@example.local",
+        "x-actor-roles": "finance_admin"
+      },
+      "requestBody": {
+        "source": "frontend",
+        "accountId": "dev-accountId",
+        "shipmentId": "dev-shipment-001",
+        "amount": 1000,
+        "currency": "EUR",
+        "proofAccepted": true,
+        "disputeStatus": "none",
+        "settlementWindowPassed": true,
+        "paymentStatus": "not_required",
+        "actorRoles": [
+          "finance_admin"
+        ]
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 400,
+      "responseBody": {
+        "error": {
+          "code": "BAD_REQUEST",
+          "message": "Payment is not currently releasable from escrow.",
+          "details": {
+            "messages": [
+              "Payment is not currently releasable from escrow."
+            ]
+          },
+          "status": 400,
+          "path": "/escrow/release",
+          "correlationId": "87667220-a918-4f8f-a158-6b9b9263f24e",
+          "timestamp": "2026-06-20T18:16:37.516Z"
+        }
+      },
+      "frontendActionButtonComponent": "Approve disputed escrow release",
+      "openApiOperationId": "EscrowController_release",
+      "failureCategory": "DTO/body mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Align frontend request payload with the OpenAPI request schema, or relax/fix backend validation if the documented workflow payload should be accepted."
+    }
+  ],
+  "failedCalls": [
+    {
+      "index": 1,
+      "workflowPath": "Customer order to dispute",
+      "roleUser": "customer",
+      "method": "POST",
+      "endpoint": "/orders",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/orders",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "customer@example.local",
+        "x-actor-roles": "customer"
+      },
+      "requestBody": {
+        "source": "frontend",
+        "role": "customer",
+        "merchantId": "dev-merchant-001",
+        "customerId": "dev-customer-001",
+        "items": [
+          {
+            "skuId": "dev-sku-001",
+            "quantity": 1
+          }
+        ]
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 400,
+      "responseBody": {
+        "error": {
+          "code": "CONTRACTMISMATCH",
+          "message": "Order could not be created from the supplied customer, merchant, or item references.",
+          "details": {
+            "messages": [
+              "Order could not be created from the supplied customer, merchant, or item references."
+            ]
+          },
+          "status": 400,
+          "path": "/orders",
+          "correlationId": "ed5e991b-0980-4f22-857b-c62229257afa",
+          "timestamp": "2026-06-20T18:16:08.389Z"
+        }
+      },
+      "frontendActionButtonComponent": "Create order",
+      "openApiOperationId": "OrdersController_create",
+      "failureCategory": "DTO/body mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Align frontend request payload with the OpenAPI request schema, or relax/fix backend validation if the documented workflow payload should be accepted."
+    },
+    {
+      "index": 2,
+      "workflowPath": "Customer order to dispute",
+      "roleUser": "customer",
+      "method": "POST",
+      "endpoint": "/provider-adapters/payments/authorize",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/provider-adapters/payments/authorize",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "customer@example.local",
+        "x-actor-roles": "customer"
+      },
+      "requestBody": {
+        "orderId": "dev-order-001",
+        "amount": 1000,
+        "currency": "EUR"
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 403,
+      "responseBody": {
+        "error": {
+          "code": "RBAC_PERMISSION_DENIED",
+          "message": "Forbidden resource",
+          "details": {
+            "messages": [
+              "Forbidden resource"
+            ]
+          },
+          "status": 403,
+          "path": "/provider-adapters/payments/authorize",
+          "correlationId": "2d5f4116-3725-4d54-9c80-943842d85247",
+          "timestamp": "2026-06-20T18:16:10.341Z"
+        }
+      },
+      "frontendActionButtonComponent": "Pay / View escrow status",
+      "openApiOperationId": "ProviderAdaptersController_payment",
+      "failureCategory": "RBAC/dev actor mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Update the dev actor role/permission matrix or endpoint guard so the seeded/dev role for this workflow is authorized."
+    },
+    {
+      "index": 3,
+      "workflowPath": "Customer order to dispute",
+      "roleUser": "customer",
+      "method": "POST",
+      "endpoint": "/returns",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/returns",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "customer@example.local",
+        "x-actor-roles": "customer"
+      },
+      "requestBody": {
+        "source": "frontend",
+        "role": "customer",
+        "orderId": "dev-order-001",
+        "customerId": "dev-customer-001",
+        "reason": "Automated contract-safe dev verification."
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 400,
+      "responseBody": {
+        "error": {
+          "code": "CONTRACTMISMATCH",
+          "message": "Return request could not be created from the supplied order, shipment, or customer references.",
+          "details": {
+            "messages": [
+              "Return request could not be created from the supplied order, shipment, or customer references."
+            ]
+          },
+          "status": 400,
+          "path": "/returns",
+          "correlationId": "94a817dc-af49-4a8b-bf47-712b14bfc852",
+          "timestamp": "2026-06-20T18:16:11.184Z"
+        }
+      },
+      "frontendActionButtonComponent": "Request return",
+      "openApiOperationId": "ReturnsController_request",
+      "failureCategory": "DTO/body mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Align frontend request payload with the OpenAPI request schema, or relax/fix backend validation if the documented workflow payload should be accepted."
+    },
+    {
+      "index": 4,
+      "workflowPath": "Customer order to dispute",
+      "roleUser": "customer",
+      "method": "POST",
+      "endpoint": "/disputes/evidence",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/disputes/evidence",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "customer@example.local",
+        "x-actor-roles": "customer"
+      },
+      "requestBody": {
+        "disputeId": "dev-dispute-001",
+        "objectKey": "evidence/dev-proof.png",
+        "note": "Automated contract-safe dispute evidence."
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 403,
+      "responseBody": {
+        "error": {
+          "code": "RBAC_PERMISSION_DENIED",
+          "message": "Forbidden resource",
+          "details": {
+            "messages": [
+              "Forbidden resource"
+            ]
+          },
+          "status": 403,
+          "path": "/disputes/evidence",
+          "correlationId": "ce2954cf-6072-4302-8dfb-0a14c97cbc24",
+          "timestamp": "2026-06-20T18:16:12.112Z"
+        }
+      },
+      "frontendActionButtonComponent": "Open dispute",
+      "openApiOperationId": "DisputesController_addEvidence",
+      "failureCategory": "RBAC/dev actor mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Update the dev actor role/permission matrix or endpoint guard so the seeded/dev role for this workflow is authorized."
+    },
+    {
+      "index": 5,
+      "workflowPath": "Merchant catalog and shipment",
+      "roleUser": "merchant",
+      "method": "POST",
+      "endpoint": "/merchants",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/merchants",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "merchant@example.local",
+        "x-actor-roles": "merchant"
+      },
+      "requestBody": {
+        "merchantId": "dev-merchant-001",
+        "name": "Dev Merchant"
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 403,
+      "responseBody": {
+        "error": {
+          "code": "RBAC_PERMISSION_DENIED",
+          "message": "Forbidden resource",
+          "details": {
+            "messages": [
+              "Forbidden resource"
+            ]
+          },
+          "status": 403,
+          "path": "/merchants",
+          "correlationId": "e272e9ba-187e-445d-8263-f65855efeddd",
+          "timestamp": "2026-06-20T18:16:13.252Z"
+        }
+      },
+      "frontendActionButtonComponent": "Create product/SKU",
+      "openApiOperationId": "GenericResourceController_create[0]",
+      "failureCategory": "RBAC/dev actor mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Update the dev actor role/permission matrix or endpoint guard so the seeded/dev role for this workflow is authorized."
+    },
+    {
+      "index": 6,
+      "workflowPath": "Merchant catalog and shipment",
+      "roleUser": "merchant",
+      "method": "POST",
+      "endpoint": "/shipments",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/shipments",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "merchant@example.local",
+        "x-actor-roles": "merchant"
+      },
+      "requestBody": {
+        "source": "frontend",
+        "role": "merchant",
+        "orderId": "dev-order-001"
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 400,
+      "responseBody": {
+        "error": {
+          "code": "CONTRACTMISMATCH",
+          "message": "Shipment could not be created from the supplied order or package references.",
+          "details": {
+            "messages": [
+              "Shipment could not be created from the supplied order or package references."
+            ]
+          },
+          "status": 400,
+          "path": "/shipments",
+          "correlationId": "e0dc0a44-14fc-40cb-94aa-a6bd9edf0e28",
+          "timestamp": "2026-06-20T18:16:15.489Z"
+        }
+      },
+      "frontendActionButtonComponent": "Prepare shipment",
+      "openApiOperationId": "ShipmentsController_create",
+      "failureCategory": "DTO/body mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Align frontend request payload with the OpenAPI request schema, or relax/fix backend validation if the documented workflow payload should be accepted."
+    },
+    {
+      "index": 7,
+      "workflowPath": "Merchant catalog and shipment",
+      "roleUser": "merchant",
+      "method": "POST",
+      "endpoint": "/dispatch/assignments",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/dispatch/assignments",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "merchant@example.local",
+        "x-actor-roles": "merchant"
+      },
+      "requestBody": {
+        "shipmentId": "dev-shipment-001",
+        "driverId": "dev-driver-001",
+        "vehicleId": "dev-vehicle-001",
+        "carrierId": "dev-carrier-001"
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 403,
+      "responseBody": {
+        "error": {
+          "code": "RBAC_PERMISSION_DENIED",
+          "message": "Forbidden resource",
+          "details": {
+            "messages": [
+              "Forbidden resource"
+            ]
+          },
+          "status": 403,
+          "path": "/dispatch/assignments",
+          "correlationId": "4dae6b54-8667-4b4d-a4fc-51a2ead10702",
+          "timestamp": "2026-06-20T18:16:16.369Z"
+        }
+      },
+      "frontendActionButtonComponent": "Request pickup",
+      "openApiOperationId": "DispatchController_create",
+      "failureCategory": "RBAC/dev actor mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Update the dev actor role/permission matrix or endpoint guard so the seeded/dev role for this workflow is authorized."
+    },
+    {
+      "index": 8,
+      "workflowPath": "Merchant catalog and shipment",
+      "roleUser": "merchant",
+      "method": "POST",
+      "endpoint": "/warehouse/label",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/warehouse/label",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "merchant@example.local",
+        "x-actor-roles": "merchant"
+      },
+      "requestBody": {
+        "source": "frontend",
+        "role": "merchant",
+        "packageId": "dev-package-001"
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 403,
+      "responseBody": {
+        "error": {
+          "code": "RBAC_PERMISSION_DENIED",
+          "message": "Forbidden resource",
+          "details": {
+            "messages": [
+              "Forbidden resource"
+            ]
+          },
+          "status": 403,
+          "path": "/warehouse/label",
+          "correlationId": "d9f8ea8f-4060-4311-a368-cf23628b8229",
+          "timestamp": "2026-06-20T18:16:17.223Z"
+        }
+      },
+      "frontendActionButtonComponent": "Prepare label",
+      "openApiOperationId": "WarehouseController_label",
+      "failureCategory": "RBAC/dev actor mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Update the dev actor role/permission matrix or endpoint guard so the seeded/dev role for this workflow is authorized."
+    },
+    {
+      "index": 9,
+      "workflowPath": "Warehouse pick pack dispatch return",
+      "roleUser": "warehouse_manager",
+      "method": "POST",
+      "endpoint": "/warehouse/ready-for-dispatch",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/warehouse/ready-for-dispatch",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "warehouse@example.local",
+        "x-actor-roles": "warehouse_manager"
+      },
+      "requestBody": {
+        "source": "frontend",
+        "role": "warehouse_manager",
+        "packageId": "dev-package-001"
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 400,
+      "responseBody": {
+        "error": {
+          "code": "BAD_REQUEST",
+          "message": "Package must be scanned, packed, labeled, and staged before ready for dispatch.",
+          "details": {
+            "messages": [
+              "Package must be scanned, packed, labeled, and staged before ready for dispatch."
+            ]
+          },
+          "status": 400,
+          "path": "/warehouse/ready-for-dispatch",
+          "correlationId": "73a1bb6e-e785-42b9-9479-6cfe37a9cdec",
+          "timestamp": "2026-06-20T18:16:20.914Z"
+        }
+      },
+      "frontendActionButtonComponent": "Mark package ready for dispatch",
+      "openApiOperationId": "WarehouseController_ready",
+      "failureCategory": "DTO/body mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Align frontend request payload with the OpenAPI request schema, or relax/fix backend validation if the documented workflow payload should be accepted."
+    },
+    {
+      "index": 10,
+      "workflowPath": "Warehouse pick pack dispatch return",
+      "roleUser": "warehouse_manager",
+      "method": "POST",
+      "endpoint": "/returns/dev-return-001/status",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/returns/dev-return-001/status",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "warehouse@example.local",
+        "x-actor-roles": "warehouse_manager"
+      },
+      "requestBody": {
+        "source": "frontend",
+        "status": "return_requested"
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 400,
+      "responseBody": {
+        "error": {
+          "code": "CONTRACTMISMATCH",
+          "message": "Return status could not be updated for the supplied return id.",
+          "details": {
+            "messages": [
+              "Return status could not be updated for the supplied return id."
+            ]
+          },
+          "status": 400,
+          "path": "/returns/dev-return-001/status",
+          "correlationId": "6d11a4d5-30ad-427c-b791-0a9ed19e40b1",
+          "timestamp": "2026-06-20T18:16:21.788Z"
+        }
+      },
+      "frontendActionButtonComponent": "Inspect return",
+      "openApiOperationId": "ReturnsController_updateStatus",
+      "failureCategory": "DTO/body mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Align frontend request payload with the OpenAPI request schema, or relax/fix backend validation if the documented workflow payload should be accepted."
+    },
+    {
+      "index": 11,
+      "workflowPath": "Warehouse pick pack dispatch return",
+      "roleUser": "warehouse_manager",
+      "method": "POST",
+      "endpoint": "/returns/dev-return-001/status",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/returns/dev-return-001/status",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "warehouse@example.local",
+        "x-actor-roles": "warehouse_manager"
+      },
+      "requestBody": {
+        "source": "frontend",
+        "status": "return_requested"
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 400,
+      "responseBody": {
+        "error": {
+          "code": "CONTRACTMISMATCH",
+          "message": "Return status could not be updated for the supplied return id.",
+          "details": {
+            "messages": [
+              "Return status could not be updated for the supplied return id."
+            ]
+          },
+          "status": 400,
+          "path": "/returns/dev-return-001/status",
+          "correlationId": "6979e174-026f-424f-bd45-75692b680f22",
+          "timestamp": "2026-06-20T18:16:22.212Z"
+        }
+      },
+      "frontendActionButtonComponent": "Mark damaged/quarantined",
+      "openApiOperationId": "ReturnsController_updateStatus",
+      "failureCategory": "DTO/body mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Align frontend request payload with the OpenAPI request schema, or relax/fix backend validation if the documented workflow payload should be accepted."
+    },
+    {
+      "index": 12,
+      "workflowPath": "Disponent planning and exceptions",
+      "roleUser": "logistic_disponent",
+      "method": "POST",
+      "endpoint": "/dispatch/assignments",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/dispatch/assignments",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "disponent@example.local",
+        "x-actor-roles": "logistic_disponent"
+      },
+      "requestBody": {
+        "shipmentId": "dev-shipment-001",
+        "driverId": "dev-driver-001",
+        "vehicleId": "dev-vehicle-001",
+        "carrierId": "dev-carrier-001"
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 400,
+      "responseBody": {
+        "error": {
+          "code": "CONTRACTMISMATCH",
+          "message": "Dispatch assignment could not be created from the supplied shipment, driver, vehicle, carrier, or tour references.",
+          "details": {
+            "messages": [
+              "Dispatch assignment could not be created from the supplied shipment, driver, vehicle, carrier, or tour references."
+            ]
+          },
+          "status": 400,
+          "path": "/dispatch/assignments",
+          "correlationId": "c365dfc3-5354-47f4-9ec3-c0d1c13c757d",
+          "timestamp": "2026-06-20T18:16:25.204Z"
+        }
+      },
+      "frontendActionButtonComponent": "Assign vehicle",
+      "openApiOperationId": "DispatchController_create",
+      "failureCategory": "DTO/body mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Align frontend request payload with the OpenAPI request schema, or relax/fix backend validation if the documented workflow payload should be accepted."
+    },
+    {
+      "index": 13,
+      "workflowPath": "Driver job execution with proof",
+      "roleUser": "driver",
+      "method": "POST",
+      "endpoint": "/driver/jobs/dev-job-001/accept",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/driver/jobs/dev-job-001/accept",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "driver@example.local",
+        "x-actor-roles": "driver"
+      },
+      "requestBody": {
+        "assignmentId": "dev-job-001"
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 400,
+      "responseBody": {
+        "error": {
+          "code": "CONTRACTMISMATCH",
+          "message": "Driver job could not be updated for the supplied assignment id.",
+          "details": {
+            "messages": [
+              "Driver job could not be updated for the supplied assignment id."
+            ]
+          },
+          "status": 400,
+          "path": "/driver/jobs/dev-job-001/accept",
+          "correlationId": "46009582-1d82-4bb8-9d22-66b08165e02a",
+          "timestamp": "2026-06-20T18:16:30.902Z"
+        }
+      },
+      "frontendActionButtonComponent": "Accept driver job",
+      "openApiOperationId": "DriverController_accept",
+      "failureCategory": "DTO/body mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Align frontend request payload with the OpenAPI request schema, or relax/fix backend validation if the documented workflow payload should be accepted."
+    },
+    {
+      "index": 14,
+      "workflowPath": "Driver job execution with proof",
+      "roleUser": "driver",
+      "method": "POST",
+      "endpoint": "/driver/jobs/dev-job-001/reject",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/driver/jobs/dev-job-001/reject",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "driver@example.local",
+        "x-actor-roles": "driver"
+      },
+      "requestBody": {
+        "assignmentId": "dev-job-001",
+        "reason": "Automated contract-safe driver rejection."
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 400,
+      "responseBody": {
+        "error": {
+          "code": "CONTRACTMISMATCH",
+          "message": "Driver job could not be updated for the supplied assignment id.",
+          "details": {
+            "messages": [
+              "Driver job could not be updated for the supplied assignment id."
+            ]
+          },
+          "status": 400,
+          "path": "/driver/jobs/dev-job-001/reject",
+          "correlationId": "e3bb3f29-c69e-46ef-a7da-fa4aeffeffaf",
+          "timestamp": "2026-06-20T18:16:31.797Z"
+        }
+      },
+      "frontendActionButtonComponent": "Reject driver job",
+      "openApiOperationId": "DriverController_reject",
+      "failureCategory": "DTO/body mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Align frontend request payload with the OpenAPI request schema, or relax/fix backend validation if the documented workflow payload should be accepted."
+    },
+    {
+      "index": 15,
+      "workflowPath": "Driver job execution with proof",
+      "roleUser": "driver",
+      "method": "POST",
+      "endpoint": "/shipments/dev-shipment-001/deliver",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/shipments/dev-shipment-001/deliver",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "driver@example.local",
+        "x-actor-roles": "driver"
+      },
+      "requestBody": {
+        "source": "frontend",
+        "gps": {
+          "latitude": 52.52,
+          "longitude": 13.405
+        }
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 403,
+      "responseBody": {
+        "error": {
+          "code": "RBAC_PERMISSION_DENIED",
+          "message": "Driver cannot complete delivery outside GPS tolerance without Disponent approval.",
+          "details": {
+            "messages": [
+              "Driver cannot complete delivery outside GPS tolerance without Disponent approval."
+            ]
+          },
+          "status": 403,
+          "path": "/shipments/dev-shipment-001/deliver",
+          "correlationId": "16d5ae57-48ad-430d-8bc0-0eb1964faf19",
+          "timestamp": "2026-06-20T18:16:33.574Z"
+        }
+      },
+      "frontendActionButtonComponent": "Complete delivery",
+      "openApiOperationId": "ShipmentsController_deliver",
+      "failureCategory": "RBAC/dev actor mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Update the dev actor role/permission matrix or endpoint guard so the seeded/dev role for this workflow is authorized."
+    },
+    {
+      "index": 16,
+      "workflowPath": "Finance approvals and ledger",
+      "roleUser": "finance_admin",
+      "method": "POST",
+      "endpoint": "/escrow/release",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/escrow/release",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "finance@example.local",
+        "x-actor-roles": "finance_admin"
+      },
+      "requestBody": {
+        "source": "frontend",
+        "accountId": "dev-accountId",
+        "shipmentId": "dev-shipment-001",
+        "amount": 1000,
+        "currency": "EUR",
+        "proofAccepted": true,
+        "disputeStatus": "none",
+        "settlementWindowPassed": true,
+        "paymentStatus": "not_required",
+        "actorRoles": [
+          "finance_admin"
+        ]
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 400,
+      "responseBody": {
+        "error": {
+          "code": "BAD_REQUEST",
+          "message": "Payment is not currently releasable from escrow.",
+          "details": {
+            "messages": [
+              "Payment is not currently releasable from escrow."
+            ]
+          },
+          "status": 400,
+          "path": "/escrow/release",
+          "correlationId": "87667220-a918-4f8f-a158-6b9b9263f24e",
+          "timestamp": "2026-06-20T18:16:37.516Z"
+        }
+      },
+      "frontendActionButtonComponent": "Approve disputed escrow release",
+      "openApiOperationId": "EscrowController_release",
+      "failureCategory": "DTO/body mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Align frontend request payload with the OpenAPI request schema, or relax/fix backend validation if the documented workflow payload should be accepted."
+    },
+    {
+      "index": 17,
+      "workflowPath": "Session management",
+      "roleUser": "super_admin",
+      "method": "POST",
+      "endpoint": "/auth/2fa/verify",
+      "fullUrl": "https://short-clowns-bathe.loca.lt/auth/2fa/verify",
+      "requestHeadersRedacted": {
+        "authorization": "[redacted]",
+        "content-type": "application/json",
+        "referer": "http://localhost:3000/",
+        "sec-ch-ua": "\"HeadlessChrome\";v=\"143\", \"Chromium\";v=\"143\", \"Not A(Brand\";v=\"24\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\"",
+        "user-agent": "CodexIntegration7C/1.0",
+        "x-actor-id": "superadmin@example.local",
+        "x-actor-roles": "super_admin"
+      },
+      "requestBody": {
+        "source": "frontend",
+        "role": "super_admin",
+        "challengeId": "dev-challenge-001",
+        "code": "123456"
+      },
+      "expectedStatus": "2xx success",
+      "actualStatus": 401,
+      "responseBody": {
+        "error": {
+          "code": "AUTH_UNAUTHORIZED",
+          "message": "Two-factor code is invalid.",
+          "details": {
+            "messages": [
+              "Two-factor code is invalid."
+            ]
+          },
+          "status": 401,
+          "path": "/auth/2fa/verify",
+          "correlationId": "2ef01098-c01c-429f-971f-19d8e24bb1aa",
+          "timestamp": "2026-06-20T18:16:56.372Z"
+        }
+      },
+      "frontendActionButtonComponent": "Verify 2FA code",
+      "openApiOperationId": "AuthController_verifyTwoFactor",
+      "failureCategory": "RBAC/dev actor mismatch",
+      "recommendedOwner": "both",
+      "recommendedFix": "Update the dev actor role/permission matrix or endpoint guard so the seeded/dev role for this workflow is authorized."
+    }
+  ]
+}

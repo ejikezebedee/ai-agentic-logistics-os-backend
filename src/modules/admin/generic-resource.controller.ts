@@ -26,8 +26,9 @@ export class GenericResourceController {
   }
 
   @Post(endpointGroups)
-  @Roles(RoleCode.SUPER_ADMIN, RoleCode.LOGISTIC_DISPONENT, RoleCode.WAREHOUSE_MANAGER, RoleCode.FINANCE_ADMIN, RoleCode.COMPLIANCE_ADMIN)
+  @Roles(RoleCode.SUPER_ADMIN, RoleCode.LOGISTIC_DISPONENT, RoleCode.MERCHANT, RoleCode.WAREHOUSE_MANAGER, RoleCode.FINANCE_ADMIN, RoleCode.COMPLIANCE_ADMIN)
   create(@Body() dto: GenericCreateDto) {
-    return { id: 'resource_development', ...dto.data };
+    const { data, ...flat } = dto;
+    return { id: dto.id ?? 'resource_development', ...(data ?? flat) };
   }
 }
