@@ -15,10 +15,12 @@ Status: Milestone 6 release-candidate contract frozen for Codey/frontend integra
 Development auth accepts actor headers for integration testing:
 
 - `x-actor-id`
-- `x-actor-roles`
+- optional `x-actor-roles`
 - optional `x-actor-permissions`
 
 Integration tests may use either Bearer JWT auth from `POST /auth/login` or dev actor headers. Dev actor headers are accepted only as a development/mock integration mechanism and must not be enabled as a production identity boundary without a separate gateway control.
+
+For routes that require only authentication and no role metadata, `x-actor-id` alone is sufficient in the mock/dev backend. Routes protected with `@Roles(...)` still require a matching normalized role or mapped permission; an actor id with no matching role receives `403 RBAC_PERMISSION_DENIED`.
 
 `x-actor-roles` may be sent as a comma-separated string such as `merchant,warehouse_staff` or as a JSON array string such as `["merchant"]`. The backend normalizes documented development aliases including `admin`, `superadmin`, `dispatcher`, `disponent`, `logistics_dispatcher`, `warehouse`, `warehouse_operator`, `warehouse_supervisor`, `support`, `finance`, `compliance`, and `ai`.
 
@@ -41,6 +43,8 @@ Production auth contract:
 - Bearer JWT access token
 - Refresh-token rotation backed by `sessions.refreshTokenHash`
 - 2FA-ready user flag: `users.twoFactorEnabled`
+
+Integration 7G auth/session repair: `GET /auth/sessions` accepts the mock/dev `x-actor-id` header for authenticated-session inspection. Frontend production calls must continue to send `Authorization: Bearer <accessToken>`.
 
 ## Core Role Codes
 
@@ -140,6 +144,8 @@ Workflow DTOs also accept non-semantic frontend trace fields including `workflow
 ```
 
 `barcode` is accepted as a frontend alias for `packageBarcode`. `referenceId` or `id` are accepted as frontend aliases for `orderId`. Unknown order references return the standard `400 ContractMismatch` error; they must not return `500`.
+
+The seed script includes deterministic Integration 7G development records for `cust_7f`, `merchant_7f`, `ord_7f`, `ship_7f`, `driver_7f`, `ret_7f`, `apr_7f`, `apr_refund_7f`, `PKG-7F-WF`, `PKG-7F-RBAC-002`, and `dev-provider-001`. These records exist only to make the public safe dev/mock backend replayable with frontend fixture IDs.
 
 ## Tracking and Proof
 

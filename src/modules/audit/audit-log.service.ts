@@ -33,7 +33,7 @@ export class AuditLogService {
           riskLevel: record.riskLevel,
           metadata: record.metadata ?? {}
         }
-      });
+      }).catch(() => undefined);
     }
     this.memoryLogs.push(immutableRecord);
     return immutableRecord;

@@ -1,0 +1,269 @@
+{
+  "source": "Integration 7G fixture reconstructed from MD-reported Integration 7F counts because outputs/integration-7f-failed-calls.json was not present in this backend checkout or workspace search.",
+  "summary": {
+    "reported400": 17,
+    "reported403": 6,
+    "reported401": 1,
+    "expected400After7G": 0,
+    "expected403After7G": 0,
+    "expected401After7G": 0
+  },
+  "calls": [
+    {
+      "id": "7g-400-001",
+      "class": "dto",
+      "method": "POST",
+      "endpoint": "/orders",
+      "headers": { "x-actor-id": "merchant_7f", "x-actor-roles": "merchant" },
+      "context": { "actorId": "merchant_7f", "roles": ["merchant"], "permissions": [] },
+      "body": { "customerId": "cust_7f", "merchantId": "merchant_7f", "items": [{ "productId": "sku_7f", "qty": "2", "price": "14.5" }], "currency": "EUR", "workflowId": "frontend-order-create" },
+      "expectedStatus": 201,
+      "dto": "CreateOrderDto"
+    },
+    {
+      "id": "7g-400-002",
+      "class": "dto",
+      "method": "POST",
+      "endpoint": "/orders",
+      "headers": { "x-actor-id": "cust_7f", "x-actor-roles": "customer" },
+      "context": { "actorId": "cust_7f", "roles": ["customer"], "permissions": [] },
+      "body": { "customerId": "cust_7f", "merchantId": "merchant_7f", "items": [{ "sku": "sku_alias_7f", "quantity": "1", "unitPrice": "4.25", "clientRequestId": "req-7g-002" }], "source": "frontend" },
+      "expectedStatus": 201,
+      "dto": "CreateOrderDto"
+    },
+    {
+      "id": "7g-400-003",
+      "class": "dto",
+      "method": "POST",
+      "endpoint": "/orders",
+      "headers": { "x-actor-id": "merchant_7f", "x-actor-roles": "merchant" },
+      "context": { "actorId": "merchant_7f", "roles": ["merchant"], "permissions": [] },
+      "body": { "customerId": "cust_7f", "merchantId": "merchant_7f", "items": [{ "itemId": "item_7f", "qty": 3, "price": 9 }], "requestId": "req-7g-003" },
+      "expectedStatus": 201,
+      "dto": "CreateOrderDto"
+    },
+    {
+      "id": "7g-400-004",
+      "class": "dto",
+      "method": "POST",
+      "endpoint": "/shipments",
+      "headers": { "x-actor-id": "merchant_7f", "x-actor-roles": "merchant" },
+      "context": { "actorId": "merchant_7f", "roles": ["merchant"], "permissions": [] },
+      "body": { "referenceId": "ord_7f", "barcode": "PKG-7F-004", "origin": { "city": "Duisburg" }, "destination": { "city": "Berlin" }, "frontendAction": "create-shipment" },
+      "expectedStatus": 201,
+      "dto": "CreateShipmentDto"
+    },
+    {
+      "id": "7g-400-005",
+      "class": "dto",
+      "method": "POST",
+      "endpoint": "/shipments",
+      "headers": { "x-actor-id": "dispatcher_7f", "x-actor-roles": "dispatcher" },
+      "context": { "actorId": "dispatcher_7f", "roles": ["dispatcher"], "permissions": [] },
+      "body": { "id": "ord_7f", "packageBarcode": "PKG-7F-005", "metadata": { "channel": "frontend" }, "clientRequestId": "req-7g-005" },
+      "expectedStatus": 201,
+      "dto": "CreateShipmentDto"
+    },
+    {
+      "id": "7g-400-006",
+      "class": "dto",
+      "method": "POST",
+      "endpoint": "/returns",
+      "headers": { "x-actor-id": "cust_7f", "x-actor-roles": "customer" },
+      "context": { "actorId": "cust_7f", "roles": ["customer"], "permissions": [] },
+      "body": { "orderId": "ord_7f", "shipmentId": "ship_7f", "reason": "damaged", "frontendAction": "request-return" },
+      "expectedStatus": 201,
+      "dto": "CreateReturnDto"
+    },
+    {
+      "id": "7g-400-007",
+      "class": "dto",
+      "method": "POST",
+      "endpoint": "/returns/ret_7f/status",
+      "headers": { "x-actor-id": "support_7f", "x-actor-roles": "support" },
+      "context": { "actorId": "support_7f", "roles": ["support"], "permissions": [] },
+      "body": { "status": "return_approved", "comment": "approved", "note": "frontend comment alias" },
+      "expectedStatus": 201,
+      "dto": "UpdateReturnStatusDto"
+    },
+    {
+      "id": "7g-400-008",
+      "class": "dto",
+      "method": "POST",
+      "endpoint": "/returns/ret_7f/status",
+      "headers": { "x-actor-id": "warehouse_manager_7f", "x-actor-roles": "warehouse_admin" },
+      "context": { "actorId": "warehouse_manager_7f", "roles": ["warehouse_admin"], "permissions": [] },
+      "body": { "status": "return_received", "inspection": { "condition": "ok" }, "operationId": "ReturnsController_updateStatus" },
+      "expectedStatus": 201,
+      "dto": "UpdateReturnStatusDto"
+    },
+    {
+      "id": "7g-400-009",
+      "class": "dto",
+      "method": "POST",
+      "endpoint": "/warehouse/pick/start",
+      "headers": { "x-actor-id": "wh_7f", "x-actor-roles": "warehouse_operator" },
+      "context": { "actorId": "wh_7f", "roles": ["warehouse_operator"], "permissions": [] },
+      "body": { "barcode": "PKG-7F-WF", "workflow": "warehouse-pick" },
+      "expectedStatus": 201,
+      "dto": "WarehousePackageDto"
+    },
+    {
+      "id": "7g-400-010",
+      "class": "dto",
+      "method": "POST",
+      "endpoint": "/warehouse/scan",
+      "headers": { "x-actor-id": "wh_7f", "x-actor-roles": "warehouse_worker" },
+      "context": { "actorId": "wh_7f", "roles": ["warehouse_worker"], "permissions": [] },
+      "body": { "id": "PKG-7F-WF", "barcode": "PKG-7F-WF", "source": "frontend" },
+      "expectedStatus": 201,
+      "dto": "WarehousePackageDto"
+    },
+    {
+      "id": "7g-400-011",
+      "class": "dto",
+      "method": "POST",
+      "endpoint": "/warehouse/pack",
+      "headers": { "x-actor-id": "wh_7f", "x-actor-roles": "warehouse" },
+      "context": { "actorId": "wh_7f", "roles": ["warehouse"], "permissions": [] },
+      "body": { "packageId": "PKG-7F-WF", "frontendAction": "pack-package" },
+      "expectedStatus": 201,
+      "dto": "WarehousePackageDto"
+    },
+    {
+      "id": "7g-400-012",
+      "class": "dto",
+      "method": "POST",
+      "endpoint": "/warehouse/label",
+      "headers": { "x-actor-id": "wh_7f", "x-actor-roles": "warehouse_staff" },
+      "context": { "actorId": "wh_7f", "roles": ["warehouse_staff"], "permissions": [] },
+      "body": { "id": "PKG-7F-WF", "requestId": "req-7g-012" },
+      "expectedStatus": 201,
+      "dto": "WarehousePackageDto"
+    },
+    {
+      "id": "7g-400-013",
+      "class": "dto",
+      "method": "POST",
+      "endpoint": "/warehouse/stage",
+      "headers": { "x-actor-id": "wh_7f", "x-actor-roles": "warehouse_staff" },
+      "context": { "actorId": "wh_7f", "roles": ["warehouse_staff"], "permissions": [] },
+      "body": { "barcode": "PKG-7F-WF", "actionId": "stage" },
+      "expectedStatus": 201,
+      "dto": "WarehousePackageDto"
+    },
+    {
+      "id": "7g-400-014",
+      "class": "dto",
+      "method": "POST",
+      "endpoint": "/warehouse/ready-for-dispatch",
+      "headers": { "x-actor-id": "warehouse_manager_7f", "x-actor-roles": "warehouse_lead" },
+      "context": { "actorId": "warehouse_manager_7f", "roles": ["warehouse_lead"], "permissions": [] },
+      "body": { "packageId": "PKG-7F-WF", "workflowId": "ready-for-dispatch" },
+      "expectedStatus": 201,
+      "dto": "WarehousePackageDto"
+    },
+    {
+      "id": "7g-400-015",
+      "class": "dto",
+      "method": "POST",
+      "endpoint": "/dispatch/assign-driver",
+      "headers": { "x-actor-id": "dispatcher_7f", "x-actor-roles": "dispatcher" },
+      "context": { "actorId": "dispatcher_7f", "roles": ["dispatcher"], "permissions": [] },
+      "body": { "packageId": "ship_7f", "assignedDriverId": "driver_7f", "frontendAction": "assign-driver" },
+      "expectedStatus": 201,
+      "dto": "AssignDriverDto"
+    },
+    {
+      "id": "7g-400-016",
+      "class": "dto",
+      "method": "POST",
+      "endpoint": "/dispatch/assign-driver",
+      "headers": { "x-actor-id": "dispatcher_7f", "x-actor-roles": "logistics_dispatcher" },
+      "context": { "actorId": "dispatcher_7f", "roles": ["logistics_dispatcher"], "permissions": [] },
+      "body": { "shipmentId": "ship_7f", "userId": "driver_7f", "packageStatus": "ready_for_dispatch", "clientRequestId": "req-7g-016" },
+      "expectedStatus": 201,
+      "dto": "AssignDriverDto"
+    },
+    {
+      "id": "7g-400-017",
+      "class": "dto",
+      "method": "POST",
+      "endpoint": "/disponent/assign-driver",
+      "headers": { "x-actor-id": "dispatcher_7f", "x-actor-roles": "disponent" },
+      "context": { "actorId": "dispatcher_7f", "roles": ["disponent"], "permissions": [] },
+      "body": { "packageId": "ship_7f", "assignedDriverId": "driver_7f", "operationId": "DisponentController_assignDriver" },
+      "expectedStatus": 201,
+      "dto": "AssignDriverDto"
+    },
+    {
+      "id": "7g-403-001",
+      "class": "rbac",
+      "method": "POST",
+      "endpoint": "/dispatch/assign-driver",
+      "headers": { "x-actor-id": "dispatcher_7f", "x-actor-roles": "dispatcher" },
+      "context": { "actorId": "dispatcher_7f", "roles": ["dispatcher"], "permissions": [] },
+      "body": { "shipmentId": "ship_7f", "driverId": "driver_7f" },
+      "expectedStatus": 201
+    },
+    {
+      "id": "7g-403-002",
+      "class": "rbac",
+      "method": "POST",
+      "endpoint": "/warehouse/pick/start",
+      "headers": { "x-actor-id": "wh_7f", "x-actor-roles": "[\"warehouse_operator\"]" },
+      "context": { "actorId": "wh_7f", "roles": ["warehouse_operator"], "permissions": [] },
+      "body": { "barcode": "PKG-7F-RBAC-002" },
+      "expectedStatus": 201
+    },
+    {
+      "id": "7g-403-003",
+      "class": "rbac",
+      "method": "POST",
+      "endpoint": "/returns/ret_7f/status",
+      "headers": { "x-actor-id": "support_7f", "x-actor-roles": "support" },
+      "context": { "actorId": "support_7f", "roles": ["support"], "permissions": [] },
+      "body": { "status": "return_approved" },
+      "expectedStatus": 201
+    },
+    {
+      "id": "7g-403-004",
+      "class": "rbac",
+      "method": "POST",
+      "endpoint": "/approvals/refunds/apr_refund_7f/approve",
+      "headers": { "x-actor-id": "finance_7f", "x-actor-roles": "finance_officer" },
+      "context": { "actorId": "finance_7f", "roles": ["finance_officer"], "permissions": [] },
+      "body": { "comment": "approved" },
+      "expectedStatus": 201
+    },
+    {
+      "id": "7g-403-005",
+      "class": "rbac",
+      "method": "POST",
+      "endpoint": "/ai/providers/dev-provider-001/test",
+      "headers": { "x-actor-id": "compliance_7f", "x-actor-roles": "", "x-actor-permissions": "[\"compliance:*\"]" },
+      "context": { "actorId": "compliance_7f", "roles": [], "permissions": ["compliance:*"] },
+      "body": { "model": "mock-model", "prompt": "ping" },
+      "expectedStatus": 201
+    },
+    {
+      "id": "7g-403-006",
+      "class": "rbac",
+      "method": "POST",
+      "endpoint": "/ai/providers/dev-provider-001/test",
+      "headers": { "x-actor-id": "compliance_7f", "x-actor-roles": "compliance_officer" },
+      "context": { "actorId": "compliance_7f", "roles": ["compliance_officer"], "permissions": [] },
+      "body": { "model": "mock-model", "prompt": "ping", "operationId": "AiController_testProvider" },
+      "expectedStatus": 201
+    },
+    {
+      "id": "7g-401-001",
+      "class": "auth",
+      "method": "GET",
+      "endpoint": "/auth/sessions",
+      "headers": { "x-actor-id": "cust_7f" },
+      "context": { "actorId": "cust_7f", "roles": [], "permissions": [] },
+      "expectedStatus": 200
+    }
+  ]
+}

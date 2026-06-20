@@ -2,6 +2,8 @@
 
 Use these payloads with development actor headers or a Bearer token from `POST /auth/login`.
 
+Integration 7G replay payloads may use deterministic safe dev/mock IDs seeded by `prisma/seed.ts`: `cust_7f`, `merchant_7f`, `ord_7f`, `ship_7f`, `driver_7f`, `ret_7f`, `apr_7f`, `apr_refund_7f`, `PKG-7F-WF`, `PKG-7F-RBAC-002`, and `dev-provider-001`.
+
 ## Auth
 
 ```json
@@ -13,6 +15,15 @@ Refresh:
 ```json
 { "refreshToken": "returned-refresh-token" }
 ```
+
+Mock/dev session inspection may use only an actor id:
+
+```http
+GET /auth/sessions
+x-actor-id: cust_7f
+```
+
+Production callers must use `Authorization: Bearer <accessToken>`.
 
 ## Customer Order
 
@@ -86,6 +97,16 @@ Frontend aliases are also accepted:
 
 ```json
 { "packageId": "shipment_id", "assignedDriverId": "driver_id" }
+```
+
+Integration 7G replay example:
+
+```json
+{
+  "packageId": "ship_7f",
+  "assignedDriverId": "driver_7f",
+  "frontendAction": "assign-driver"
+}
 ```
 
 Use `POST /dispatch/assign-driver` for the industrial MVP dispatch path. `POST /disponent/assign-driver` remains available for existing Disponent console flows.
@@ -210,6 +231,16 @@ Update return status with `POST /returns/:id/status`:
   "inspection": { "condition": "accepted" },
   "refundId": "optional_refund_id",
   "comment": "approved by support"
+}
+```
+
+Integration 7G status alias example:
+
+```json
+{
+  "status": "return_received",
+  "inspection": { "condition": "ok" },
+  "operationId": "ReturnsController_updateStatus"
 }
 ```
 

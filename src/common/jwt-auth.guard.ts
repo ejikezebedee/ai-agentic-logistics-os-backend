@@ -23,7 +23,7 @@ export class JwtAuthGuard implements CanActivate {
     const rolesHeader = request.headers['x-actor-roles'];
     const permissionsHeader = request.headers['x-actor-permissions'];
 
-    if (actorId && (rolesHeader || permissionsHeader)) {
+    if (actorId) {
       request.user = {
         id: actorId,
         roles: this.parseRoles(rolesHeader),

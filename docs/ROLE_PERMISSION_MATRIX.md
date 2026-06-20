@@ -50,7 +50,7 @@ Development actor header behavior:
 | Header | Accepted format | Notes |
 | --- | --- | --- |
 | `x-actor-id` | string | Required with dev actor headers. |
-| `x-actor-roles` | comma string or JSON array string | Examples: `merchant`, `warehouse_staff,warehouse_manager`, `["driver"]`. |
+| `x-actor-roles` | comma string or JSON array string | Optional for auth-only mock/dev routes. Required for role-protected routes unless a mapped permission is supplied. Examples: `merchant`, `warehouse_staff,warehouse_manager`, `["driver"]`. |
 | `x-actor-permissions` | comma string or JSON array string | May satisfy a route only when the permission is explicitly mapped to one of that route's allowed roles, or when `*` is supplied by a trusted dev actor. |
 
 Documented development aliases normalize as follows: `admin`, `super`, `superadmin`, `platform_admin`, and `platformadmin` to `super_admin`; `disponent`, `dispatcher`, `logistics_disponent`, `logistics_dispatcher`, `logistics_manager`, and `logistic_dispatcher` to `logistic_disponent`; `warehouse`, `warehouse_worker`, and `warehouse_operator` to `warehouse_staff`; `warehouse_admin`, `warehouse_supervisor`, and `warehouse_lead` to `warehouse_manager`; `support`, `support_admin`, and `customer_support` to `support_agent`; `finance`, `finance_manager`, and `finance_officer` to `finance_admin`; `compliance` and `compliance_officer` to `compliance_admin`; `ai` to `ai_agent`.
@@ -58,6 +58,10 @@ Documented development aliases normalize as follows: `admin`, `super`, `superadm
 Integration 7E note: permission-based dev access does not bypass RBAC. It only maps explicit permissions from `ROLE_PERMISSIONS` to the same allowed role matrix above. A customer actor still receives `403` for dispatch assignment, refund approval, AI provider testing, and finance/compliance routes.
 
 Integration 7F replay note: `test/fixtures/integration-7e-failed-calls.json` is the backend replay fixture for the reported 28 DTO/body and 5 RBAC/dev-actor failures. The exact Codex files `outputs/integration-7e-failed-calls.json` and `outputs/integration-7e-failed-calls.md` were not present in this backend checkout or local workspace search when 7F was executed, so the fixture is explicitly marked as reconstructed from the reported classes and counts. The replay test asserts that each DTO payload key is represented in the current Swagger/OpenAPI request schema before replaying the call. Development trace fields accepted across DTO-backed workflow bodies are `workflow`, `workflowId`, `operationId`, `frontendAction`, `action`, `actionId`, `requestId`, `correlationId`, `clientRequestId`, `source`, `timestamp`, `actorId`, `userId`, `role`, `notes`, and `note`.
+
+Integration 7G replay note: `test/fixtures/integration-7f-failed-calls.json` contains the reported 17 DTO/runtime, 6 RBAC/dev-actor, and 1 auth/session failure classes for the 7G pass. The exact files requested under `outputs/` were not present locally, so the fixture records that limitation and preserves the MD-reported counts. `test/integration-7g-replay-failed-calls.spec.ts` replays all 24 calls, verifies DTO payload keys against OpenAPI request schemas, confirms the repaired `x-actor-id` auth-only session path, and keeps dispatch denial boundaries for customer/no-role actors.
+
+The seed script now creates deterministic safe dev/mock fixture records for the 7G public replay. This does not change the role matrix; it only ensures that valid frontend fixture IDs are backed by database records on the dev/mock backend.
 
 ## Status Enums
 
